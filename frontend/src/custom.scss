@@ -1,1 +1,38 @@
+:root {
+  --text: #fbe0f4;
+  --background: #210418;
+  --primary: #f081ca;
+  --secondary: #5a8c10;
+  --accent: #46e94b;
+}
+
+body {
+  color: var(--text) !important;
+  background-color: var(--background) !important;
+}
+
+.navbar-brand, .navbar-text, .nav-link {
+  color: var(--text) !important;
+}
+
+.navbar-brand svg {
+  max-height: 1.5rem;
+  margin-right: 0.5rem;
+  fill: var(--text) !important;
+}
+
+.navbar-collapse {
+  margin-left: 1.5rem;
+}
+
+.nav-link {
+  margin-left: 0.5rem;
+}
+
+hr {
+  height: 5px;
+  border: none;
+  color: white;
+}
+
 @import '~bootstrap/scss/bootstrap.scss';
