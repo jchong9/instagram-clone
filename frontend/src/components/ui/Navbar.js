@@ -5,7 +5,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
         <Link to="/">
-          <span className="navbar-brand">
+          <span className="navbar-brand abs">
           <svg xmlns="http://www.w3.org/2000/svg"
                viewBox="0 0 512 512">
             <path
@@ -14,11 +14,17 @@ export default function Navbar() {
           Photogram
           </span>
         </Link>
-        <div className="navbar-collapse collapse-horizontal">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseNavbar">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="navbar-collapse collapse" id="collapseNavbar">
+          <ul className="navbar-nav">
             <li className="nav-item">
-              <Link to="/follow-feed" className="nav-link">Following</Link>
+              <Link to="/explore-feed" className="nav-link">Explore</Link>
             </li>
+          </ul>
+          <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <Link to="/profile" className="nav-link">Profile</Link>
             </li>

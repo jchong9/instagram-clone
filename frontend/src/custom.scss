@@ -1,24 +1,38 @@
-:root {
-  --text: #fbe0f4;
-  --background: #210418;
-  --primary: #f081ca;
-  --secondary: #5a8c10;
-  --accent: #46e94b;
-}
+$text: #a7bfe2;
+$background: #071005;
+$primary: #c81927;
+$secondary: #235658;
+$accent: #6399bb;
+$linearPrimarySecondary: linear-gradient(120deg, #c81927, #235658);
+$linearPrimaryAccent: linear-gradient(120deg, #c81927, #6399bb);
+$linearSecondaryAccent: linear-gradient(120deg, #235658, #6399bb);
+$radialPrimarySecondary: radial-gradient(#c81927, #235658);
+$radialPrimaryAccent: radial-gradient(#c81927, #6399bb);
+$radialSecondaryAccent: radial-gradient(#235658, #6399bb);
 
 body {
-  color: var(--text) !important;
-  background-color: var(--background) !important;
+  color: $text !important;
+  background-color: $background !important;
+}
+
+nav {
+  border-bottom: 4px solid #101c23 !important;
 }
 
 .navbar-brand, .navbar-text, .nav-link {
-  color: var(--text) !important;
+  color: $text !important;
+}
+
+h1 {
+  background: linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44);
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
 }
 
 .navbar-brand svg {
   max-height: 1.5rem;
   margin-right: 0.5rem;
-  fill: var(--text) !important;
+  fill: $text !important;
 }
 
 .navbar-collapse {
@@ -29,10 +43,8 @@ body {
   margin-left: 0.5rem;
 }
 
-hr {
-  height: 5px;
-  border: none;
-  color: white;
+.navbar-toggler {
+  background-color: $accent !important;
 }
 
 @import '~bootstrap/scss/bootstrap.scss';
