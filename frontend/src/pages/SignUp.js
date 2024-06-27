@@ -10,11 +10,12 @@ export default function SignUp() {
   }
 
   return (
-    <div>
+    <div className="container-fluid text-center m-auto">
       <h1>Don't have an account?</h1>
       <h2>Sign up today</h2>
       <input type="text"
              placeholder="Enter your name"
+             className="mb-3"
              required
              value={name || ""}
              onChange={(e) => setName(e.target.value)}
@@ -22,6 +23,7 @@ export default function SignUp() {
       <br />
       <input type="text"
              placeholder="Enter your email"
+             className="mb-3"
              required
              value={email || ""}
              onChange={(e) => setEmail(e.target.value)}
@@ -29,6 +31,7 @@ export default function SignUp() {
       <br />
       <input type="password"
              placeholder="Enter your password"
+             className="mb-3"
              required
              value={password || ""}
              onChange={(e) => setPassword((e.target.value))}
