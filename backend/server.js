@@ -3,7 +3,7 @@ require('./api/config');
 
 const express = require('express');
 const cors = require('cors');
-const User = require('./api/config');
+const User = require('./api/models/User');
 
 const app = express();
 

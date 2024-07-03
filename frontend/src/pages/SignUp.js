@@ -1,18 +1,30 @@
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  function registerUser() {
+  async function registerUser() {
     console.warn(name, email, password);
+    let result = await fetch("http://localhost:5000/register", {
+      method: 'post',
+      body: JSON.stringify({name, email, password}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }); //or http://localhost:5000/register
+    result = result.json();
+    console.warn(result);
+    navigate('/');
   }
 
   return (
     <div className="container-fluid text-center m-auto">
       <h1>Don't have an account?</h1>
-      <h2>Sign up today</h2>
+      <h4>Sign up today</h4>
       <input type="text"
              placeholder="Enter your name"
              className="mb-3"
