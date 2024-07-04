@@ -15,9 +15,10 @@ export default function SignUp() {
       headers: {
         'Content-Type': 'application/json'
       }
-    }); //or http://localhost:5000/register
-    result = result.json();
+    });
+    result = await result.json();
     console.warn(result);
+    localStorage.setItem("user", JSON.stringify(result));
     navigate('/');
   }
 
