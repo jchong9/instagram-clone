@@ -1,6 +1,14 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
+  const auth = localStorage.getItem('user');
+  const navigate = useNavigate();
+
+  function logout() {
+    localStorage.clear();
+    navigate('/signup');
+  }
+
   return (
     <nav className="navbar navbar-expand-lg">
       <div className="container-fluid">
@@ -24,15 +32,23 @@ export default function Navbar() {
               <Link to="/explore-feed" className="nav-link">Explore</Link>
             </li>
           </ul>
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link to="/profile" className="nav-link">Profile</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/signup" className="nav-link">Sign Up</Link>
-            </li>
-          </ul>
-        </div>
+            {!auth ? (
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <Link to="/signup" className="nav-link">Sign Up</Link>
+                </li>
+              </ul>
+            ) : (
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <Link to="/profile" className="nav-link">Profile</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/signup" className="nav-link" onClick={logout}>Log out</Link>
+                </li>
+              </ul>
+            )}
+      </div>
       </div>
     </nav>
   );
