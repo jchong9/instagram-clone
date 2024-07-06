@@ -22,8 +22,8 @@ export default function Navbar() {
           Instaphoto
           </span>
         </Link>
-        <button className="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseNavbar">
+        <button className="navbar-toggler ms-auto" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseNavbar">
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="navbar-collapse collapse" id="collapseNavbar">
