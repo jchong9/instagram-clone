@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function SignUp() {
   const [name, setName] = useState("");
@@ -31,8 +31,8 @@ export default function SignUp() {
 
   return (
     <div className="container-fluid text-center m-auto">
-      <h1>Don't have an account?</h1>
-      <h4>Sign up today</h4>
+      <h1>Create an account</h1>
+      <h4>Start sharing today</h4>
       <input type="text"
              placeholder="Enter your name"
              className="mb-3"
@@ -58,6 +58,8 @@ export default function SignUp() {
       />
       <br />
       <button type="submit" className="signupBtn" onClick={registerUser}>Submit</button>
+      <br />
+      <Link to="/login">Already have an account? Log in</Link>
     </div>
   );
 }

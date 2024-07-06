@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {Link} from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -27,8 +28,10 @@ export default function Login() {
              value={password || ""}
              onChange={(e) => setPassword((e.target.value))}
       />
-      <br/>
+      <br />
       <button type="submit" className="loginBtn" onClick={loginUser}>Submit</button>
+      <br />
+      <Link to="/signup">Don't have an account? Sign up</Link>
     </div>
   );
 }
