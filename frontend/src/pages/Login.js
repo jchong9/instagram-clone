@@ -1,12 +1,35 @@
-import { useState } from 'react';
-import {Link} from "react-router-dom";
+import {useEffect, useState} from 'react';
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  function loginUser() {
-    console.warn(email, password);
+  useEffect(() => {
+    const auth = localStorage.getItem('user');
+    if (auth) {
+      navigate('/');
+    }
+  });
+
+  async function loginUser() {
+    let result = await fetch("http://localhost:5000/login", {
+      method: 'post',
+      body: JSON.stringify({email, password}),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    result = await result.json();
+    console.warn(result);
+    if (result.name) {
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate('/');
+    }
+    else {
+      alert("User does not exist!");
+    }
   }
 
   return (
