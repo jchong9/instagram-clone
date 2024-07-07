@@ -45,7 +45,7 @@ export default function Navbar() {
                 </ul>
                 <ul className="navbar-nav ms-auto">
                   <li className="nav-item">
-                    <Link to="/profile" className="nav-link">Profile</Link>
+                    <Link to="/profile" className="nav-link">{JSON.parse(auth).name}'s Profile</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/signup" className="nav-link" onClick={logout}>Log out</Link>
