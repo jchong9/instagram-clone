@@ -32,7 +32,7 @@ export default function SignUp() {
   return (
     <div className="container-fluid text-center m-auto">
       <h1>Create an account</h1>
-      <h4>Start sharing today</h4>
+      <h4>Start sharing pictures today</h4>
       <input type="text"
              placeholder="Enter your name"
              className="mb-3"
