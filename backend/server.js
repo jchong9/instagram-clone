@@ -4,6 +4,7 @@ require('./api/config');
 const express = require('express');
 const cors = require('cors');
 const User = require('./api/models/User');
+const Post = require('./api/models/Post');
 
 const app = express();
 
@@ -31,6 +32,11 @@ app.post('/login', async (req, res) => {
   else {
     res.send({result: "user not found"});
   }
+});
+
+app.post("add post", async (req, res) => {
+  let post = new Post(req.body);
+  let result = await post.save();
 });
 
 app.listen(5000);
