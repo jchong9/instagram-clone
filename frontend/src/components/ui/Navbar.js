@@ -27,32 +27,32 @@ export default function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="navbar-collapse collapse" id="collapseNavbar">
-            {!auth ? (
-              <ul className="navbar-nav ms-auto">
+          {!auth ? (
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <Link to="/signup" className="nav-link">Sign Up</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/login" className="nav-link">Login</Link>
+              </li>
+            </ul>
+          ) : (
+            <>
+              <ul className="navbar-nav">
                 <li className="nav-item">
-                  <Link to="/signup" className="nav-link">Sign Up</Link>
-                </li>
-                <li className="nav-item">
-                  <Link to="/login" className="nav-link">Login</Link>
+                  <Link to="/explore-feed" className="nav-link">Explore</Link>
                 </li>
               </ul>
-            ) : (
-              <div>
-                <ul className="navbar-nav">
-                  <li className="nav-item">
-                    <Link to="/explore-feed" className="nav-link">Explore</Link>
-                  </li>
-                </ul>
-                <ul className="navbar-nav ms-auto">
-                  <li className="nav-item">
-                    <Link to="/profile" className="nav-link">{JSON.parse(auth).name}'s Profile</Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link to="/signup" className="nav-link" onClick={logout}>Log out</Link>
-                  </li>
-                </ul>
-              </div>
-            )}
+              <ul className="navbar-nav ms-auto">
+                <li className="nav-item">
+                  <Link to="/profile" className="nav-link">{JSON.parse(auth).name}'s Profile</Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/signup" className="nav-link" onClick={logout}>Log out</Link>
+                </li>
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </nav>
