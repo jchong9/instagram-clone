@@ -3,8 +3,8 @@ import {useState} from "react";
 export default function Explore() {
   const [searchQuery, setSearchQuery] = useState('');
 
-  function searchPosts() {
-    console.warn(searchQuery);
+  function searchPost() {
+    console.warn("Searching...");
   }
 
   return (
@@ -16,7 +16,7 @@ export default function Explore() {
              value={searchQuery || ""}
              onChange={(e) => {setSearchQuery(e.target.value)}}
       />
-      <button type="submit" className="exploreBtn" onClick={searchPosts}>Submit</button>
+      <button type="submit" className="exploreBtn" onClick={searchPost}>Submit</button>
     </div>
   );
 }

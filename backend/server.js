@@ -34,7 +34,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post("add post", async (req, res) => {
+app.post("add-post", async (req, res) => {
   let post = new Post(req.body);
   let result = await post.save();
 });
