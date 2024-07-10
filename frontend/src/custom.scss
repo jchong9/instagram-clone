@@ -27,6 +27,7 @@ h1 {
   background: linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44);
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
+  line-height: 1.5 !important;
 }
 
 .navbar-brand svg {
@@ -47,11 +48,23 @@ h1 {
   background-color: $accent !important;
 }
 
-.isVisible {
-  display: contents;
+.modal-container {
+  background-color: red !important;
+  padding: 2rem;
+  margin: auto;
+  width: 50%;
+  border-radius: 10px;
 }
 
-.isNotVisible {
+#isVisible {
+  display: block;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+  position:absolute;
+}
+
+#isNotVisible {
   display: none;
 }
 

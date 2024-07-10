@@ -17,8 +17,21 @@ export default function SharePost() {
       <button onClick={adjustVisibility}>
         Add posts
       </button>
-      <div className={visibility}>
-        <h4>MODAL</h4>
+      <div className="modal-container" id={visibility}>
+        <div className="modal-header">
+          <h4>Start sharing your memories today</h4>
+        </div>
+        <div className="modal-body">
+          <form>
+            <input type="file" accept="image/*"/>
+            <br/>
+            <input type="text" placeholder="Enter a description"/>
+          </form>
+        </div>
+        <div className="modal-footer">
+          <button type="button" onClick={adjustVisibility}>Close</button>
+          <button type="submit">Upload</button>
+        </div>
       </div>
     </div>
   );
