@@ -17,6 +17,7 @@ export default function SharePost() {
       <button onClick={adjustVisibility}>
         Add posts
       </button>
+      <div className="modal-backdrop" id={visibility}></div>
       <div className="modal-container" id={visibility}>
         <div className="modal-header">
           <h4>Start sharing your memories today</h4>

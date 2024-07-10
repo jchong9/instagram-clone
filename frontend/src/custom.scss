@@ -48,12 +48,22 @@ h1 {
   background-color: $accent !important;
 }
 
+.modal-backdrop {
+  background-color: black;
+  opacity: 0.7;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 1 !important;
+}
+
 .modal-container {
   background-color: red !important;
   padding: 2rem;
   margin: auto;
   width: 50%;
   border-radius: 10px;
+  z-index: 2 !important;
 }
 
 #isVisible {
