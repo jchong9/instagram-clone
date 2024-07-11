@@ -1,5 +1,5 @@
 $text: #a7bfe2;
-$background: #071005;
+$background: #161716;
 $primary: #c81927;
 $secondary: #235658;
 $accent: #6399bb;
@@ -23,10 +23,13 @@ nav {
   color: $text !important;
 }
 
-h1 {
+h1, h4 {
   background: linear-gradient(to right, #f32170, #ff6b08,#cf23cf, #eedd44);
   -webkit-text-fill-color: transparent;
   -webkit-background-clip: text;
+}
+
+h1 {
   line-height: 1.5 !important;
 }
 
@@ -58,7 +61,7 @@ h1 {
 }
 
 .modal-container {
-  background-color: red !important;
+  background-color: #161716FF !important;
   padding: 2rem;
   margin: auto;
   width: 50%;

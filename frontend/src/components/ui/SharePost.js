@@ -1,15 +1,24 @@
 import {useState} from "react";
 
 export default function SharePost() {
-  const [visibility, setVisiblity] = useState('isNotVisible');
+  const [visibility, setVisibility] = useState('isNotVisible');
+  const [image, setImage] = useState(null);
+  const user = localStorage.getItem("user");
 
   function adjustVisibility() {
     if (visibility === "isVisible") {
-      setVisiblity("isNotVisible");
+      setVisibility("isNotVisible");
     }
     else {
-      setVisiblity("isVisible")
+      setVisibility("isVisible")
     }
+  }
+
+  function uploadImage(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("image", image);
   }
 
   return (
@@ -23,7 +32,7 @@ export default function SharePost() {
           <h4>Start sharing your memories today</h4>
         </div>
         <div className="modal-body">
-          <form>
+          <form onSubmit={uploadImage}>
             <input type="file" accept="image/*"/>
             <br/>
             <input type="text" placeholder="Enter a description"/>
