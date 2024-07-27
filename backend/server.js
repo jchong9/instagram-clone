@@ -3,6 +3,7 @@ require('./api/config');
 
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const User = require('./api/models/User');
 const Post = require('./api/models/Post');
 
@@ -32,11 +33,27 @@ app.post('/login', async (req, res) => {
   else {
     res.send({result: "user not found"});
   }
+})
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'uploads/')
+  },
+  filename: function(req, file, cb) {
+    const uniquePrefix = Date.now();
+    cb(null, uniquePrefix + '-' + file.originalname);
+  }
 });
 
-app.post("add-post", async (req, res) => {
-  let post = new Post(req.body);
+const upload = multer({storage: storage});
+
+app.post("/upload-image", upload.single("image"),  async (req, res) => {
+  console.log(req.body);
+  const imageName = req.file.filename;
+  let post = new Post({imageURL: imageName});
   let result = await post.save();
+  result = result.toObject();
+  res.send(result);
 });
 
 app.listen(5000);
