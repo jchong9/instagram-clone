@@ -3,9 +3,13 @@ import axios from "axios";
 
 export default function DisplayPost() {
   const [allPosts, setAllPosts] = useState(null);
+  const [loadingMsg, setLoadingMsg] = useState("Loading posts... 😅");
 
   useEffect(() => {
-    setTimeout(getPosts, 2000);
+    setTimeout(() => {
+      setLoadingMsg("");
+      getPosts();
+    }, 2000);
   });
 
   async function getPosts() {
@@ -16,6 +20,7 @@ export default function DisplayPost() {
 
   return (
     <div className="d-flex flex-column align-items-center">
+      <h3>{loadingMsg}</h3>
       {allPosts === null ? "": allPosts.map(data => {
         return (
           <div className="card mb-5">
