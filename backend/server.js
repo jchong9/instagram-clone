@@ -37,7 +37,7 @@ app.post('/login', async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, 'uploads/')
+    cb(null, '../frontend/src/images/userContent');
   },
   filename: function(req, file, cb) {
     const uniquePrefix = Date.now();
@@ -48,12 +48,21 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 app.post("/upload-image", upload.single("image"),  async (req, res) => {
-  console.log(req.body);
-  const imageName = req.file.filename;
-  let post = new Post({imageURL: imageName});
-  let result = await post.save();
-  result = result.toObject();
-  res.send(result);
+  if (req.file != null) {
+    const imageName = req.file.filename;
+    let post = new Post({imageURL: imageName});
+    let result = await post.save();
+    result = result.toObject();
+    res.send(result);
+  }
+});
+
+app.get("/get-image", async (req, res) => {
+  try {
+    Post.find({}).then(data => res.send({data}));
+  } catch(err) {
+    res.json({status: "error"});
+  }
 });
 
 app.listen(5000);

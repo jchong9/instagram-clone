@@ -47,7 +47,8 @@ export default function SharePost() {
           <form onSubmit={uploadImage}>
               <input type="file" accept="image/*" onChange={onInputChange} />
               <br/>
-              <input type="text" placeholder="Enter a description"/>
+              <input type="text" placeholder="Enter a caption"/>
+              <br />
               <button type="button" onClick={adjustVisibility}>Close</button>
               <button type="submit">Upload</button>
           </form>
