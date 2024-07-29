@@ -9,23 +9,28 @@ export default function DisplayPost() {
     setTimeout(() => {
       setLoadingMsg("");
       getPosts();
-    }, 2500);
+    }, 2000);
   });
 
   async function getPosts() {
     const result = await axios.get("http://localhost:5000/get-image");
-    console.log(result);
-    setAllPosts(result.data.data);
+    if (result.data.data.length != 0) {
+      setAllPosts(result.data.data);
+    }
   }
 
   return (
     <div className="d-flex flex-column align-items-center">
       <h3>{loadingMsg}</h3>
-      {allPosts === null ? "": allPosts.map(data => {
+      {!allPosts ?
+        <div>
+          <h3>No posts here... 😔</h3>
+        </div>
+        : allPosts.map(data => {
         return (
           <div className="card mb-5">
             <div className="card-header">
-              <h5>Test</h5>
+              <h5>{data.userID}</h5>
             </div>
             <div className="card-body">
               <img src={require(`../../images/userContent/${data.imageURL}`)}
@@ -33,7 +38,7 @@ export default function DisplayPost() {
                    alt="not loading"
               />
               <p className="card-text">
-                Blah blah blah blah blag
+                {data.caption}
               </p>
             </div>
           </div>

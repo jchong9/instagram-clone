@@ -21,7 +21,7 @@ export default function SharePost() {
 
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("user", user._id);
+    formData.append("userID", user._id);
     formData.append("caption", caption);
 
     const result = await axios.post("http://localhost:5000/upload-image", formData, {

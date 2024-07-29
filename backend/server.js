@@ -49,10 +49,8 @@ const upload = multer({storage: storage});
 
 app.post("/upload-image", upload.single("image"),  async (req, res) => {
   if (req.file != null) {
-    const imageName = req.file.filename;
-    const user = req.body.user;
-    const captionText = req.body.caption;
-    let post = new Post({userID: user, imageURL: imageName, caption: captionText});
+    req.body.imageURL = req.file.filename;
+    let post = new Post(req.body);
     let result = await post.save();
     result = result.toObject();
     res.send(result);
