@@ -15,7 +15,6 @@ export default function SignUp() {
   });
 
   async function registerUser() {
-    console.warn(name, email, password);
     let result = await fetch("http://localhost:5000/register", {
       method: 'post',
       body: JSON.stringify({name, email, password}),
@@ -24,7 +23,6 @@ export default function SignUp() {
       }
     });
     result = await result.json();
-    console.warn(result);
     localStorage.setItem("user", JSON.stringify(result));
     navigate('/');
   }

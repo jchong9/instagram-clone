@@ -4,7 +4,8 @@ import axios from "axios";
 export default function SharePost() {
   const [visibility, setVisibility] = useState('isNotVisible');
   const [image, setImage] = useState(null);
-  const user = localStorage.getItem("user");
+  const [caption, setCaption] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   function adjustVisibility() {
     if (visibility === "isVisible") {
@@ -20,6 +21,8 @@ export default function SharePost() {
 
     const formData = new FormData();
     formData.append("image", image);
+    formData.append("user", user._id);
+    formData.append("caption", caption);
 
     const result = await axios.post("http://localhost:5000/upload-image", formData, {
         headers: {"Content-Type": "multipart/form-data"},
@@ -29,7 +32,6 @@ export default function SharePost() {
   }
 
   function onInputChange(e) {
-    console.warn(e.target.files[0]);
     setImage(e.target.files[0]);
   }
 
@@ -47,7 +49,11 @@ export default function SharePost() {
           <form onSubmit={uploadImage}>
               <input type="file" accept="image/*" onChange={onInputChange} />
               <br/>
-              <input type="text" placeholder="Enter a caption"/>
+              <input type="text"
+                     placeholder="Enter a caption"
+                     value={caption || ""}
+                     onChange={e => setCaption(e.target.value)}
+              />
               <br />
               <button type="button" onClick={adjustVisibility}>Close</button>
               <button type="submit">Upload</button>

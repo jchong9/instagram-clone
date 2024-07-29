@@ -50,7 +50,9 @@ const upload = multer({storage: storage});
 app.post("/upload-image", upload.single("image"),  async (req, res) => {
   if (req.file != null) {
     const imageName = req.file.filename;
-    let post = new Post({imageURL: imageName});
+    const user = req.body.user;
+    const captionText = req.body.caption;
+    let post = new Post({userID: user, imageURL: imageName, caption: captionText});
     let result = await post.save();
     result = result.toObject();
     res.send(result);
@@ -59,7 +61,7 @@ app.post("/upload-image", upload.single("image"),  async (req, res) => {
 
 app.get("/get-image", async (req, res) => {
   try {
-    Post.find({}).then(data => res.send({data}));
+    Post.find({}).sort({$natural: -1}).limit(20).then(data => res.send({data}));
   } catch(err) {
     res.json({status: "error"});
   }

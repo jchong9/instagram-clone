@@ -9,7 +9,7 @@ export default function DisplayPost() {
     setTimeout(() => {
       setLoadingMsg("");
       getPosts();
-    }, 2000);
+    }, 2500);
   });
 
   async function getPosts() {
