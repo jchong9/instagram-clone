@@ -21,6 +21,7 @@ export default function SharePost() {
 
     const formData = new FormData();
     formData.append("image", image);
+    formData.append("username", user.name);
     formData.append("userID", user._id);
     formData.append("caption", caption);
 

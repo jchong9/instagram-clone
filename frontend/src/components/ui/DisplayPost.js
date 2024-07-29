@@ -9,12 +9,12 @@ export default function DisplayPost() {
     setTimeout(() => {
       setLoadingMsg("");
       getPosts();
-    }, 2000);
+    }, 3000);
   });
 
   async function getPosts() {
     const result = await axios.get("http://localhost:5000/get-image");
-    if (result.data.data.length != 0) {
+    if (result.data.data.length !== 0) {
       setAllPosts(result.data.data);
     }
   }
@@ -30,7 +30,7 @@ export default function DisplayPost() {
         return (
           <div className="card mb-5">
             <div className="card-header">
-              <h5>{data.userID}</h5>
+              <h5>@{data.username}</h5>
             </div>
             <div className="card-body">
               <img src={require(`../../images/userContent/${data.imageURL}`)}
