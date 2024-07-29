@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 const postSchema = new mongoose.Schema({
-  imageURL: String
+  userID: mongoose.Schema.Types.ObjectId,
+  imageURL: String,
+  caption: String
 });
 
 module.exports = mongoose.model("posts", postSchema);
