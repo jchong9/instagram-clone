@@ -12,6 +12,14 @@ export default function DisplayPost() {
     }, 3000);
   });
 
+  async function checkImage(path) {
+    try {
+      return require(`${path}`);
+    } catch(err) {
+      return false;
+    }
+  }
+
   async function getPosts() {
     const result = await axios.get("http://localhost:5000/get-image");
     if (result.data.data.length !== 0) {
@@ -26,9 +34,9 @@ export default function DisplayPost() {
         <div>
           <h3>No posts here... 😔</h3>
         </div>
-        : allPosts.map(data => {
+        : allPosts.filter(checkImage).map(data => {
         return (
-          <div className="card mb-5">
+          <div key={data._id} className="card mb-5">
             <div className="card-header">
               <h5>@{data.username}</h5>
             </div>
