@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
-  const auth = localStorage.getItem('user');
+  const auth = JSON.parse(localStorage.getItem('user'));
   const navigate = useNavigate();
 
   function logout() {
@@ -45,7 +45,11 @@ export default function Navbar() {
               </ul>
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
-                  <Link to="/profile" className="nav-link">Profile</Link>
+                  <Link to="/profile"
+                        state={{userID: auth._id}}
+                        className="nav-link">
+                    Profile
+                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/signup" className="nav-link" onClick={logout}>Log out</Link>

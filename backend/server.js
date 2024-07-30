@@ -33,7 +33,15 @@ app.post('/login', async (req, res) => {
   else {
     res.send({result: "user not found"});
   }
-})
+});
+
+app.post('/get-user', async (req, res) => {
+  console.log(req.body);
+  let user = await User.findOne(req.body);
+  if (user) {
+    res.send(user);
+  }
+});
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {

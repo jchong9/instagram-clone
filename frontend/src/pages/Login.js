@@ -11,7 +11,7 @@ export default function Login() {
     if (auth) {
       navigate('/');
     }
-  });
+  }, [email, password]);
 
   async function loginUser() {
     let result = await fetch("http://localhost:5000/login", {

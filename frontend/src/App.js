@@ -6,6 +6,7 @@ import PrivateComponent from "./components/ui/PrivateComponent";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -16,7 +17,7 @@ function App() {
           <Route element={<PrivateComponent />}>
             <Route path="/" element={ <Home /> } />
             <Route path="/explore-feed" element={ <Explore /> } />
-            <Route path="/profile" element={<h1>Profile component</h1>} />
+            <Route path="/profile" element={ <Profile /> } />
           </Route>
           <Route path="/signup" element={ <SignUp /> } />
           <Route path="/login" element={ <Login /> } />

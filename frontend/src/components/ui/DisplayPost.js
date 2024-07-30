@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export default function DisplayPost() {
   const [allPosts, setAllPosts] = useState(null);
@@ -10,7 +11,7 @@ export default function DisplayPost() {
       setLoadingMsg("");
       getPosts();
     }, 3000);
-  });
+  }, [allPosts]);
 
   async function checkImage(path) {
     try {
@@ -19,6 +20,8 @@ export default function DisplayPost() {
       return false;
     }
   }
+
+  //console.warn(checkImage("../../custom.scss"));
 
   async function getPosts() {
     const result = await axios.get("http://localhost:5000/get-image");
@@ -38,7 +41,9 @@ export default function DisplayPost() {
         return (
           <div key={data._id} className="card mb-5">
             <div className="card-header">
-              <h5>@{data.username}</h5>
+              <Link to="/profile" state={{userID: data.userID}}>
+                <h5>@{data.username}</h5>
+              </Link>
             </div>
             <div className="card-body">
               <img src={require(`../../images/userContent/${data.imageURL}`)}
