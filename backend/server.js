@@ -35,14 +35,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.post('/get-user', async (req, res) => {
-  console.log(req.body);
-  let user = await User.findOne(req.body);
-  if (user) {
-    res.send(user);
-  }
-});
-
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, '../frontend/src/images/userContent');
@@ -67,7 +59,15 @@ app.post("/upload-image", upload.single("image"),  async (req, res) => {
 
 app.get("/get-image", async (req, res) => {
   try {
-    Post.find({}).sort({$natural: -1}).limit(20).then(data => res.send({data}));
+    Post.find({}).sort({$natural: -1}).limit(20).then(data => res.send(data));
+  } catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get('/get-user', async (req, res) => {
+  try {
+    User.findOne(req.query).then(data => res.send(data));
   } catch(err) {
     res.json({status: "error"});
   }

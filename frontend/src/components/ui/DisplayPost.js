@@ -15,8 +15,8 @@ export default function DisplayPost() {
 
   async function getPosts() {
     const result = await axios.get("http://localhost:5000/get-image");
-    if (result.data.data.length !== 0) {
-      setAllPosts(result.data.data);
+    if (result.data.length !== 0) {
+      setAllPosts(result.data);
     }
   }
 
