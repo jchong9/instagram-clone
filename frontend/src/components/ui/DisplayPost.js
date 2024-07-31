@@ -28,7 +28,7 @@ export default function DisplayPost() {
           <h3>No posts here... 😔</h3>
         </div>
         : allPosts.filter((data) => {
-          return true;
+          return true; //check if image path exists
         }).map(data => {
         return (
           <div key={data._id} className="card mb-5">
