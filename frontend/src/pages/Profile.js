@@ -16,9 +16,22 @@ export default function Profile() {
     setUser(result.data);
   }
 
+  function editUserProfile() {
+
+  }
+
   return (
     <div>
-      <h1>{user.name}</h1>
+      <div className="container text-center">
+        <h1>{user.name}</h1>
+        <button type="button"
+                className="btn btn-outline-primary"
+                onClick={editUserProfile}
+        >
+          Edit profile
+        </button>
+        <p>{user.bio}</p>
+      </div>
     </div>
   );
 }

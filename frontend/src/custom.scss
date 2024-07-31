@@ -87,8 +87,8 @@ h1 {
   width: 40% !important;
 }
 
-input[type=button], input[type=submit] {
-  font-weight: bolder !important;
+button, input[type=button], input[type=submit] {
+  font-weight: bold !important;
 }
 
 @import '~bootstrap/scss/bootstrap.scss';
