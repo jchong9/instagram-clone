@@ -1,6 +1,7 @@
 import {useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import EditProfile from "../components/ui/EditProfile";
 
 export default function Profile() {
   const location = useLocation();
@@ -16,22 +17,13 @@ export default function Profile() {
     setUser(result.data);
   }
 
-  function editUserProfile() {
-
-  }
-
   return (
-    <div>
-      <div className="container text-center">
+    <>
+      <div className="container-fluid w-50 text-center">
         <h1>{user.name}</h1>
-        <button type="button"
-                className="btn btn-outline-primary"
-                onClick={editUserProfile}
-        >
-          Edit profile
-        </button>
+        <EditProfile />
         <p>{user.bio}</p>
       </div>
-    </div>
+    </>
   );
 }
