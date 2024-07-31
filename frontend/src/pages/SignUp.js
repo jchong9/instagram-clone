@@ -5,6 +5,7 @@ export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const bio = "";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +18,7 @@ export default function SignUp() {
   async function registerUser() {
     let result = await fetch("http://localhost:5000/register", {
       method: 'post',
-      body: JSON.stringify({name, email, password}),
+      body: JSON.stringify({name, email, password, bio}),
       headers: {
         'Content-Type': 'application/json'
       }

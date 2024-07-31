@@ -11,17 +11,7 @@ export default function DisplayPost() {
       setLoadingMsg("");
       getPosts();
     }, 3000);
-  }, [allPosts]);
-
-  async function checkImage(path) {
-    try {
-      return require(`${path}`);
-    } catch(err) {
-      return false;
-    }
-  }
-
-  //console.warn(checkImage("../../custom.scss"));
+  });
 
   async function getPosts() {
     const result = await axios.get("http://localhost:5000/get-image");
@@ -37,7 +27,9 @@ export default function DisplayPost() {
         <div>
           <h3>No posts here... 😔</h3>
         </div>
-        : allPosts.filter(checkImage).map(data => {
+        : allPosts.filter((data) => {
+          return true;
+        }).map(data => {
         return (
           <div key={data._id} className="card mb-5">
             <div className="card-header">
