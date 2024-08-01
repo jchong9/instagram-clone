@@ -56,7 +56,7 @@ export default function SignUp() {
              onChange={(e) => setPassword((e.target.value))}
       />
       <br />
-      <button type="submit" className="signupBtn" onClick={registerUser}>Submit</button>
+      <button className="signupBtn" onClick={registerUser}>Submit</button>
       <br />
       <span>Already have an account? </span>
       <Link to="/login">Log in</Link>
