@@ -36,7 +36,7 @@ export default function Login() {
       <h1>Welcome back</h1>
       <h4>Login</h4>
       <input type="text"
-             placeholder="Enter your email"
+             placeholder="Email*"
              className="mb-3"
              required
              value={email || ""}
@@ -44,7 +44,7 @@ export default function Login() {
       />
       <br/>
       <input type="password"
-             placeholder="Enter your password"
+             placeholder="Password*"
              className="mb-3"
              required
              value={password || ""}
@@ -53,7 +53,8 @@ export default function Login() {
       <br />
       <button type="submit" className="loginBtn" onClick={loginUser}>Submit</button>
       <br />
-      <Link to="/signup">Don't have an account? Sign up</Link>
+      <span>Don't have an account? </span>
+      <Link to="/signup">Sign up</Link>
     </div>
   );
 }

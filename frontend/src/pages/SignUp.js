@@ -33,7 +33,7 @@ export default function SignUp() {
       <h1>Create an account</h1>
       <h4>Start sharing pictures today</h4>
       <input type="text"
-             placeholder="Enter your name"
+             placeholder="Username*"
              className="mb-3"
              required
              value={name || ""}
@@ -41,7 +41,7 @@ export default function SignUp() {
       />
       <br />
       <input type="text"
-             placeholder="Enter your email"
+             placeholder="Email*"
              className="mb-3"
              required
              value={email || ""}
@@ -49,7 +49,7 @@ export default function SignUp() {
       />
       <br />
       <input type="password"
-             placeholder="Enter your password"
+             placeholder="Password*"
              className="mb-3"
              required
              value={password || ""}
@@ -58,7 +58,8 @@ export default function SignUp() {
       <br />
       <button type="submit" className="signupBtn" onClick={registerUser}>Submit</button>
       <br />
-      <Link to="/login">Already have an account? Log in</Link>
+      <span>Already have an account? </span>
+      <Link to="/login">Log in</Link>
     </div>
   );
 }

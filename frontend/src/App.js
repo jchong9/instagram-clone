@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Profile from "./pages/Profile";
+import EditProfile from "./pages/EditProfile";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" element={ <Home /> } />
             <Route path="/explore-feed" element={ <Explore /> } />
             <Route path="/profile" element={ <Profile /> } />
+            <Route path="/edit-profile" element={ <EditProfile /> } />
           </Route>
           <Route path="/signup" element={ <SignUp /> } />
           <Route path="/login" element={ <Login /> } />
