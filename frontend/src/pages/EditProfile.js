@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export default function EditProfile() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -8,38 +9,42 @@ export default function EditProfile() {
   const navigate = useNavigate();
 
 
-  function updateUser() {
+  async function updateUser() {
+    const result = await axios.patch("http://localhost:5000/update-user", {
+      name: username ? username : user.name,
+      bio: bio ? bio : user.bio
+    }, {
+      params: {id: user._id}
+    });
+    localStorage.setItem("user", JSON.stringify(result.data));
     navigate("/profile", {state: {userID: user._id}});
   }
 
   return (
     <div>
       <h1>Edit your profile</h1>
-      <form onSubmit={updateUser}>
-        <label>New username: </label>
-        <br />
-        <input type="text"
-               value={username || user.name}
-               placeholder="Username*"
-               maxLength="20"
-               minLength="4"
-               required
-               onChange={(e) => setUsername(e.target.value)}
-        />
-        <br />
-        <label>Edit your description: </label>
-        <br />
-        <textarea placeholder="Enter a caption (optional)"
+      <label>New username: </label>
+      <br />
+      <input type="text"
+             value={username || ''}
+             placeholder={user.name}
+             maxLength="20"
+             minLength="4"
+             onChange={(e) => setUsername(e.target.value)}
+      />
+      <br />
+      <label>Edit your description: </label>
+      <br />
+      <textarea placeholder={user.bio ? user.bio : "Enter a description (optional)"}
                   rows="5"
                   cols="30"
-                  value={bio || user.bio}
+                  value={bio || ''}
                   onChange={(e) => setBio(e.target.value)}
         >
-          {user.bio}
-        </textarea>
-        <br />
-        <button type="submit">Save</button>
-      </form>
+        {user.bio}
+      </textarea>
+      <br />
+      <button onClick={updateUser}>Save</button>
     </div>
   );
 }

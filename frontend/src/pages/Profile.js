@@ -13,7 +13,9 @@ export default function Profile() {
   }, []);
 
   async function getUser() {
-    let result = await axios.get("http://localhost:5000/get-user", {params: {_id: userID}})
+    let result = await axios.get("http://localhost:5000/get-user", {
+      params: {id: userID}
+    });
     setUser(result.data);
   }
 

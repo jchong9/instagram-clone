@@ -13,7 +13,7 @@ export default function SignUp() {
     if (auth) {
       navigate('/');
     }
-  }, [name, email, password]);
+  }, []);
 
   async function registerUser() {
     let result = await fetch("http://localhost:5000/register", {

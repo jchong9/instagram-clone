@@ -12,6 +12,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+//POST METHODS
+
 app.post('/register', async (req, res) => {
   let user = new User(req.body);
   let result = await user.save();
@@ -57,19 +59,38 @@ app.post("/upload-image", upload.single("image"),  async (req, res) => {
   }
 });
 
+//GET METHODS
+
 app.get("/get-image", async (req, res) => {
   try {
     Post.find({}).sort({$natural: -1}).limit(20).then(data => res.send(data));
-  } catch(err) {
+  }
+  catch(err) {
     res.json({status: "error"});
   }
 });
 
 app.get('/get-user', async (req, res) => {
   try {
-    User.findOne(req.query).then(data => res.send(data));
-  } catch(err) {
+    const userID = req.query.id;
+    User.findOne({_id: userID}).then(data => res.send(data));
+  }
+  catch(err) {
     res.json({status: "error"});
+  }
+});
+
+// PUT AND PATCH METHODS
+
+app.patch("/update-user", async (req, res) => {
+  try {
+    const userID = req.query.id;
+    let user = await User.findByIdAndUpdate({_id: userID}, req.body, {new: true});
+    res.send(user);
+  }
+  catch (err) {
+    console.log(err.message);
+    res.status(500).json({error: "something went wrong"});
   }
 });
 
