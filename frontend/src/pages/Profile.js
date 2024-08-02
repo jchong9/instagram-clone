@@ -25,12 +25,12 @@ export default function Profile() {
         <h1>{user.name}</h1>
         {currUser._id === user._id && (
           <Link to="/edit-profile">
-            <button className="btn btn-outline-primary">
+            <button className="btn btn-outline-primary m-2">
               Edit profile
             </button>
           </Link>
         )}
-        <p>{user.bio}</p>
+        <p className="m-2">{user.bio}</p>
       </div>
     </>
   );
