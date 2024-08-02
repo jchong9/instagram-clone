@@ -38,7 +38,7 @@ export default function SharePost() {
 
   return (
     <>
-      <button className="btn btn-primary btn-large" onClick={adjustVisibility}>
+      <button className="btn btn-outline-primary btn-large" onClick={adjustVisibility}>
         + Add posts
       </button>
       <div className="modal-backdrop" id={visibility}></div>
