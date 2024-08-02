@@ -70,6 +70,16 @@ app.get("/get-image", async (req, res) => {
   }
 });
 
+app.get("/get-image-user", async (req, res) => {
+  try {
+    const userID = req.query.id;
+    Post.find({userID: userID}).sort({$natural: -1}).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
 app.get('/get-user', async (req, res) => {
   try {
     const userID = req.query.id;
@@ -89,7 +99,6 @@ app.patch("/update-user", async (req, res) => {
     res.send(user);
   }
   catch (err) {
-    console.log(err.message);
     res.status(500).json({error: "something went wrong"});
   }
 });
