@@ -91,4 +91,8 @@ button, input[type=button], input[type=submit] {
   font-weight: bold !important;
 }
 
+textarea {
+  resize: none !important;
+}
+
 @import '~bootstrap/scss/bootstrap.scss';
