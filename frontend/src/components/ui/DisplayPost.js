@@ -26,8 +26,8 @@ export default function DisplayPost(requestProps) {
     <div className="d-flex flex-column align-items-center">
       <h3>{loadingMsg}</h3>
       {!allPosts ?
-        <div>
-          <h3>No posts here... 😔</h3>
+        <div className="m-2">
+          <h5>No posts here... 😔</h5>
         </div>
         : allPosts.filter((data) => {
           return true; //check if image path exists
