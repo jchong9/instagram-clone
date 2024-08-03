@@ -1,6 +1,7 @@
 import {Link, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import DisplayPost from "../components/ui/DisplayPost";
 
 export default function Profile() {
   const location = useLocation();
@@ -32,6 +33,7 @@ export default function Profile() {
         )}
         <p className="m-2">{user.bio}</p>
       </div>
+      <DisplayPost requestURL="get-image-user" id={user._id} />
     </>
   );
 }

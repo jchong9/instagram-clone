@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
-export default function DisplayPost() {
+export default function DisplayPost(requestProps) {
   const [allPosts, setAllPosts] = useState(null);
   const [loadingMsg, setLoadingMsg] = useState("Loading posts... 😅");
 
@@ -14,7 +14,9 @@ export default function DisplayPost() {
   });
 
   async function getPosts() {
-    const result = await axios.get("http://localhost:5000/get-image");
+    const result = await axios.get(`http://localhost:5000/${requestProps.requestURL}`, {
+      params: {id: requestProps.id}
+    });
     if (result.data.length !== 0) {
       setAllPosts(result.data);
     }
