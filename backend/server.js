@@ -70,10 +70,31 @@ app.get("/get-image", async (req, res) => {
   }
 });
 
+app.get("/get-image-search", async (req, res) => {
+  try {
+    const searchQuery = req.query.search;
+    Post.find({
+      $or:[
+        {username: searchQuery},
+        {caption: searchQuery}
+      ]
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
 app.get("/get-image-user", async (req, res) => {
   try {
     const userID = req.query.id;
-    Post.find({userID: userID}).sort({$natural: -1}).limit(20).then(data => res.send(data));
+    Post.find({
+      userID: userID
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
   }
   catch(err) {
     res.json({status: "error"});
@@ -83,7 +104,9 @@ app.get("/get-image-user", async (req, res) => {
 app.get('/get-user', async (req, res) => {
   try {
     const userID = req.query.id;
-    User.findOne({_id: userID}).then(data => res.send(data));
+    User.findOne({
+      _id: userID
+    }).then(data => res.send(data));
   }
   catch(err) {
     res.json({status: "error"});
@@ -95,7 +118,11 @@ app.get('/get-user', async (req, res) => {
 app.patch("/update-user", async (req, res) => {
   try {
     const userID = req.query.id;
-    let user = await User.findByIdAndUpdate({_id: userID}, req.body, {new: true});
+    const user = await User.findByIdAndUpdate({
+      _id: userID
+    }, req.body, {
+      new: true
+    });
     res.send(user);
   }
   catch (err) {

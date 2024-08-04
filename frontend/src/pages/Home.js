@@ -9,7 +9,7 @@ export default function Home() {
       <h1>Homepage</h1>
       <h2>Welcome</h2>
       <SharePost />
-      <DisplayPost requestURL="get-image" id={user._id} />
+      <DisplayPost requestURL="get-image" id={user._id} search="" />
     </div>
   );
 }

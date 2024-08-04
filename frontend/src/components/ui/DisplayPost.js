@@ -15,7 +15,7 @@ export default function DisplayPost(requestProps) {
 
   async function getPosts() {
     const result = await axios.get(`http://localhost:5000/${requestProps.requestURL}`, {
-      params: {id: requestProps.id}
+      params: {id: requestProps.id, search: requestProps.search}
     });
     if (result.data.length !== 0) {
       setAllPosts(result.data);

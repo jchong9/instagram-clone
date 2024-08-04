@@ -33,7 +33,7 @@ export default function Profile() {
         )}
         <p className="m-2">{user.bio}</p>
       </div>
-      <DisplayPost requestURL="get-image-user" id={user._id} />
+      <DisplayPost requestURL="get-image-user" id={user._id} search="" />
     </>
   );
 }
