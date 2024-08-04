@@ -2,6 +2,7 @@ import {useState} from "react";
 import DisplayPost from "../components/ui/DisplayPost";
 
 export default function Explore() {
+  const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [formSubmitted, setFormSubmitted] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
@@ -9,6 +10,7 @@ export default function Explore() {
   function searchPost(e) {
     e.preventDefault();
     setFormSubmitted(true);
+    setSearchQuery(searchInput);
   }
 
   return (
@@ -18,8 +20,8 @@ export default function Explore() {
         <input type="text"
                placeholder="Enter a search query"
                className="exploreSearch"
-               value={searchQuery || ""}
-               onChange={(e) => setSearchQuery(e.target.value)}
+               value={searchInput || ""}
+               onChange={(e) => setSearchInput(e.target.value)}
         />
       </form>
       {formSubmitted && searchQuery ? (
