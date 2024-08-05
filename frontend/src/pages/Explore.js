@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import DisplayPost from "../components/ui/DisplayPost";
 
 export default function Explore() {
