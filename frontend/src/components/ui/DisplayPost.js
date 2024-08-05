@@ -17,15 +17,13 @@ export default function DisplayPost(requestProps) {
     const result = await axios.get(`http://localhost:5000/${requestProps.requestURL}`, {
       params: {id: requestProps.id, search: requestProps.search}
     });
-    if (result.data.length !== 0) {
-      setAllPosts(result.data);
-    }
+    setAllPosts(result.data);
   }
 
   return (
     <div className="d-flex flex-column align-items-center">
       <h3>{loadingMsg}</h3>
-      {!allPosts ?
+      {!allPosts || allPosts.length === 0 ?
         <div className="m-2">
           <h5>No posts here... 😔</h5>
         </div>
