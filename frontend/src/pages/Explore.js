@@ -32,6 +32,7 @@ export default function Explore() {
       ) : (
         <div>
           <h2>Start by giving a search</h2>
+          <DisplayPost requestURL="get-image" id={user._id} search="" />
         </div>
       )}
     </div>
