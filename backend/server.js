@@ -130,4 +130,25 @@ app.patch("/update-user", async (req, res) => {
   }
 });
 
+app.patch("/update-follow", async (req, res) => {
+  try {
+    const followerID = req.body.follower;
+    const followeeID = req.body.followee;
+    const user = await User.findOneAndUpdate({
+      _id: followeeID
+    }, {$addToSet: {followers: followerID}}, {
+      new: true
+    });
+    await User.findOneAndUpdate({
+      _id: followerID
+    }, {$addToSet: {following: followeeID}}, {
+      new: true
+    });
+    res.send(user);
+  }
+  catch (err) {
+    res.status(500).json({error: "something went wrong"});
+  }
+})
+
 app.listen(5000);

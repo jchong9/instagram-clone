@@ -13,6 +13,8 @@ export default function Explore() {
     setSearchQuery(searchInput);
   }
 
+  //MAKE DISPLAYPOSTS GET RECALLED
+
   return (
     <div>
       <h1>Start Exploring the Community</h1>

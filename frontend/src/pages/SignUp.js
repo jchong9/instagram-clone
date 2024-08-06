@@ -18,7 +18,7 @@ export default function SignUp() {
   async function registerUser() {
     let result = await fetch("http://localhost:5000/register", {
       method: 'post',
-      body: JSON.stringify({name, email, password, bio}),
+      body: JSON.stringify({name, email, password, bio, following: [], followers: []}),
       headers: {
         'Content-Type': 'application/json'
       }

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
+import axios, {all} from "axios";
 import {Link} from "react-router-dom";
 
 export default function DisplayPost(requestProps) {
@@ -11,7 +11,7 @@ export default function DisplayPost(requestProps) {
       setLoadingMsg("");
       getPosts();
     }, 3000);
-  }, []);
+  });
 
   async function getPosts() {
     const result = await axios.get(`http://localhost:5000/${requestProps.requestURL}`, {
