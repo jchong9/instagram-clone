@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import {useEffect} from "react";
 
 export default function Navbar() {
   const auth = JSON.parse(localStorage.getItem('user'));
@@ -47,7 +48,8 @@ export default function Navbar() {
                 <li className="nav-item">
                   <Link to="/profile"
                         state={{userID: auth._id}}
-                        className="nav-link">
+                        className="nav-link"
+                  >
                     Profile
                   </Link>
                 </li>

@@ -11,7 +11,7 @@ export default function Profile() {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [userID]);
 
   async function getUser() {
     let result = await axios.get("http://localhost:5000/get-user", {
