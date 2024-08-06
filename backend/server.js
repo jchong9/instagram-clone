@@ -130,25 +130,46 @@ app.patch("/update-user", async (req, res) => {
   }
 });
 
-app.patch("/update-follow", async (req, res) => {
+app.patch("/add-follow", async (req, res) => {
   try {
     const followerID = req.body.follower;
     const followeeID = req.body.followee;
-    const user = await User.findOneAndUpdate({
+    const updatedFollowee = await User.findOneAndUpdate({
       _id: followeeID
     }, {$addToSet: {followers: followerID}}, {
       new: true
     });
-    await User.findOneAndUpdate({
+    const updatedFollower = await User.findOneAndUpdate({
       _id: followerID
     }, {$addToSet: {following: followeeID}}, {
       new: true
     });
-    res.send(user);
+    res.send({followee: updatedFollowee, follower: updatedFollower});
   }
   catch (err) {
     res.status(500).json({error: "something went wrong"});
   }
-})
+});
+
+app.patch("/remove-follow", async (req, res) => {
+  try {
+    const followerID = req.body.follower;
+    const followeeID = req.body.followee;
+    const updatedFollowee = await User.findOneAndUpdate({
+      _id: followeeID
+    }, {$pull: {followers: followerID}}, {
+      new: true
+    });
+    const updatedFollower = await User.findOneAndUpdate({
+      _id: followerID
+    }, {$pull: {following: followeeID}}, {
+      new: true
+    });
+    res.send({followee: updatedFollowee, follower: updatedFollower});
+  }
+  catch (err) {
+    res.status(500).json({error: "something went wrong"});
+  }
+});
 
 app.listen(5000);

@@ -16,22 +16,28 @@ export default function Profile() {
   }, [userID]);
 
   async function getUser() {
-    let result = await axios.get("http://localhost:5000/get-user", {
+    const result = await axios.get("http://localhost:5000/get-user", {
       params: {id: userID}
     });
     setUser(result.data);
   }
 
   async function followUser() {
-    let result = await axios.patch("http://localhost:5000/update-follow", {
+    const result = await axios.patch("http://localhost:5000/add-follow", {
       follower: loggedUser._id,
       followee: userID
     });
-    setUser(result.data);
+    setUser(result.data.followee);
+    localStorage.setItem("user", JSON.stringify(result.data.follower));
   }
 
   async function unfollowUser() {
-    console.warn("unfollowing!");
+    const result = await axios.patch("http://localhost:5000/remove-follow", {
+      follower: loggedUser._id,
+      followee: userID
+    });
+    setUser(result.data.followee);
+    localStorage.setItem("user", JSON.stringify(result.data.follower));
   }
 
   return (
