@@ -7,7 +7,7 @@ export default function Profile() {
   const location = useLocation();
   const { userID } = location.state;
   const [user, setUser] = useState({following: [], followers: []});
-  const currUser = JSON.parse(localStorage.getItem("user"));
+  const loggedUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     getUser();
@@ -22,10 +22,14 @@ export default function Profile() {
 
   async function followUser() {
     let result = await axios.patch("http://localhost:5000/update-follow", {
-      follower: currUser._id,
+      follower: loggedUser._id,
       followee: userID
     });
     setUser(result.data);
+  }
+
+  async function unfollowUser() {
+    console.warn("unfollowing!");
   }
 
   return (
@@ -36,16 +40,24 @@ export default function Profile() {
           <h6 className="col">Following: {user.following.length}</h6>
           <h6 className="col">Followers: {user.followers.length}</h6>
         </div>
-        {currUser._id === user._id ? (
+        {loggedUser._id === userID ? (
           <Link to="/edit-profile">
             <button className="btn btn-outline-primary m-2">
               Edit profile
             </button>
           </Link>
         ) : (
-          <button className="btn btn-primary" onClick={followUser}>
-            Follow
-          </button>
+          <div>
+            {loggedUser.following.includes(userID) ? (
+              <button className="btn btn-secondary" onClick={unfollowUser}>
+                Unfollow
+              </button>
+            ) : (
+              <button className="btn btn-primary" onClick={followUser}>
+                Follow
+              </button>
+            )}
+          </div>
         )}
         <p className="m-2">{user.bio}</p>
       </div>
