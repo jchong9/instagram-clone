@@ -22,7 +22,7 @@ export default function DisplayPost(requestProps) {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <h3>{loadingMsg}</h3>
+      <h3 className="m-3">{loadingMsg}</h3>
       {!allPosts || allPosts.length === 0 ?
         <div className="m-2">
           <h5>No posts here... 😔</h5>

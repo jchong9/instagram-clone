@@ -16,27 +16,28 @@ export default function Explore() {
   }
 
   return (
-    <div>
-      <h1>Start Exploring the Community</h1>
-      <form onSubmit={searchPost}>
-        <input type="text"
-               placeholder="Enter a search query"
-               className="exploreSearch"
-               value={searchInput || ""}
-               onChange={(e) => setSearchInput(e.target.value)}
-        />
-      </form>
+    <>
+      <div className="m-auto text-center w-50">
+        <h1>Start Exploring the Community</h1>
+        <form onSubmit={searchPost}>
+          <input type="text"
+                 placeholder="Enter a search..."
+                 className="form-control m-3"
+                 value={searchInput || ""}
+                 onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </form>
+      </div>
       {formSubmitted && searchQuery ? (
         <div>
           <h2>Results for: {searchQuery}</h2>
-          <DisplayPost requestURL="get-image-search" id={user._id} search={searchQuery} key={seed} />
+          <DisplayPost requestURL="get-image-search" id={user._id} search={searchQuery} key={seed}/>
         </div>
       ) : (
         <div>
-          <h2>Start by giving a search</h2>
           <DisplayPost requestURL="get-image" id={user._id} search="" key={seed} />
         </div>
       )}
-    </div>
+    </>
   );
 }
