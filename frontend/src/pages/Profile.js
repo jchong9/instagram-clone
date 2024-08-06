@@ -8,9 +8,11 @@ export default function Profile() {
   const { userID } = location.state;
   const [user, setUser] = useState({following: [], followers: []});
   const loggedUser = JSON.parse(localStorage.getItem("user"));
+  const [seed, setSeed] = useState(1);
 
   useEffect(() => {
     getUser();
+    setSeed(Math.random());
   }, [userID]);
 
   async function getUser() {
@@ -61,7 +63,7 @@ export default function Profile() {
         )}
         <p className="m-2">{user.bio}</p>
       </div>
-      <DisplayPost requestURL="get-image-user" id={user._id} search="" />
+      <DisplayPost requestURL="get-image-user" id={user._id} search="" key={seed} />
     </>
   );
 }
