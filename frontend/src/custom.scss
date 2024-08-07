@@ -71,6 +71,18 @@ h1 {
   overflow: hidden !important;
 }
 
+.modal-header svg {
+  max-width: 0.9rem;
+  fill: $accent !important;
+  margin-left: auto !important;
+  margin-top: -3rem;
+  margin-right: -0.75rem;
+}
+
+.modal-header svg:hover {
+  cursor: pointer;
+}
+
 #isVisible {
   display: block;
   left:50%;
