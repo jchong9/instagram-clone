@@ -1,5 +1,5 @@
 $text: #a7bfe2;
-$background: #161716;
+$background: #212321;
 $primary: #c81927;
 $secondary: #235658;
 $accent: #6399bb;
@@ -16,7 +16,7 @@ body {
 }
 
 nav {
-  border-bottom: 4px solid #101c23 !important;
+  border-bottom: 2px solid #101c23 !important;
 }
 
 .navbar-brand, .navbar-text, .nav-link {
@@ -84,7 +84,28 @@ h1 {
 }
 
 .card {
-  width: 40% !important;
+  width: 36% !important;
+  color: $text !important;
+  border: none !important;
+}
+
+.card-header {
+  background-color: #262826 !important;
+}
+
+.card-body, .card-footer {
+  background-color: #272a27 !important;
+}
+
+.card svg {
+  max-height: 1.5rem;
+  fill: $text !important;
+  margin-right: 0.75rem;
+  margin-top: 0.65rem;
+}
+
+#likedHeart {
+  fill: $primary !important;
 }
 
 button, input[type=button], input[type=submit] {
