@@ -5,11 +5,10 @@ export default function Home() {
   const user = JSON.parse(localStorage.getItem("user"));
 
   return (
-    <div>
+    <>
       <h1>Homepage</h1>
-      <h2>Welcome</h2>
       <SharePost />
       <DisplayPost requestURL="get-image" id={user._id} search="" />
-    </div>
+    </>
   );
 }

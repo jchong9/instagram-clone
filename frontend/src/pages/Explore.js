@@ -30,7 +30,7 @@ export default function Explore() {
       </div>
       {formSubmitted && searchQuery ? (
         <div>
-          <h2>Results for: {searchQuery}</h2>
+          <h6 className="text-center">Results for: {searchQuery}</h6>
           <DisplayPost requestURL="get-image-search" id={user._id} search={searchQuery} key={seed}/>
         </div>
       ) : (
