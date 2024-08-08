@@ -52,6 +52,7 @@ const upload = multer({storage: storage});
 app.post("/upload-image", upload.single("image"),  async (req, res) => {
   if (req.file != null) {
     req.body.imageURL = req.file.filename;
+    req.body.likedBy = [];
     let post = new Post(req.body);
     let result = await post.save();
     result = result.toObject();
@@ -166,6 +167,38 @@ app.patch("/remove-follow", async (req, res) => {
       new: true
     });
     res.send({followee: updatedFollowee, follower: updatedFollower});
+  }
+  catch (err) {
+    res.status(500).json({error: "something went wrong"});
+  }
+});
+
+app.patch("/add-like", async (req, res) => {
+  try {
+    const postID = req.body.imageID;
+    const userID = req.body.userID;
+    const post = await Post.findOneAndUpdate({
+      _id: postID
+    }, {$addToSet: {likedBy: userID}}, {
+      new: true
+    });
+    res.send(post);
+  }
+  catch (err) {
+    res.status(500).json({error: "something went wrong"});
+  }
+});
+
+app.patch("/remove-like", async (req, res) => {
+  try {
+    const postID = req.body.imageID;
+    const userID = req.body.userID;
+    const post = await Post.findOneAndUpdate({
+      _id: postID
+    }, {$pull: {likedBy: userID}}, {
+      new: true
+    });
+    res.send(post);
   }
   catch (err) {
     res.status(500).json({error: "something went wrong"});

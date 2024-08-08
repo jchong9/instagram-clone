@@ -116,6 +116,10 @@ h1 {
   margin-top: 0.65rem;
 }
 
+.card svg:hover {
+  cursor: pointer;
+}
+
 #likedHeart {
   fill: $primary !important;
 }
