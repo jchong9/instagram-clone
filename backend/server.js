@@ -6,6 +6,7 @@ const cors = require('cors');
 const multer = require('multer');
 const User = require('./api/models/User');
 const Post = require('./api/models/Post');
+const Comment = require('./api/models/Comment')
 
 const app = express();
 
