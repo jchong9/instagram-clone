@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import axios, {all} from "axios";
+import axios from "axios";
 import {Link} from "react-router-dom";
 
 export default function DisplayPost(requestProps) {
@@ -47,7 +47,12 @@ export default function DisplayPost(requestProps) {
           <h5>No posts here... 😔</h5>
         </div>
         : allPosts.filter((data) => {
-          return true; //check if image path exists
+          try {
+            return require(`../../images/userContent/${data.imageURL}`);
+          }
+          catch(err) {
+            return null;
+          }
         }).map((data, index) => {
         return (
           <div key={data._id} className="card mb-5">
