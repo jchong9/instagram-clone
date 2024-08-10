@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import SharePost from "./SharePost";
 
 export default function Navbar() {
   const auth = JSON.parse(localStorage.getItem('user'));
@@ -44,6 +45,7 @@ export default function Navbar() {
                 </li>
               </ul>
               <ul className="navbar-nav ms-auto">
+                <SharePost />
                 <li className="nav-item">
                   <Link to="/profile"
                         state={{userID: auth._id}}

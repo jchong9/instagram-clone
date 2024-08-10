@@ -61,6 +61,13 @@ app.post("/upload-image", upload.single("image"),  async (req, res) => {
   }
 });
 
+app.post('/add-comment', async (req, res) => {
+  let comment = new Comment(req.body);
+  let result = await comment.save();
+  result = result.toObject();
+  res.send(result);
+});
+
 //GET METHODS
 
 app.get("/get-image", async (req, res) => {

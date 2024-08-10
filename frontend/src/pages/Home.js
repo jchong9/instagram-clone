@@ -7,7 +7,6 @@ export default function Home() {
   return (
     <>
       <h1>Homepage</h1>
-      <SharePost />
       <DisplayPost requestURL="get-image" id={user._id} search="" />
     </>
   );
