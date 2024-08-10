@@ -72,7 +72,9 @@ app.post('/add-comment', async (req, res) => {
 
 app.get("/get-image", async (req, res) => {
   try {
-    Post.find({}).sort({$natural: -1}).limit(20).then(data => res.send(data));
+    Post.find({}).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
   }
   catch(err) {
     res.json({status: "error"});
@@ -116,6 +118,20 @@ app.get('/get-user', async (req, res) => {
     User.findOne({
       _id: userID
     }).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get('/get-comments', async (req, res) => {
+  try {
+    const postID = req.query.id;
+    Comment.find({
+      postID: postID
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
   }
   catch(err) {
     res.json({status: "error"});
