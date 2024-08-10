@@ -22,7 +22,7 @@ export default function Explore() {
         <form onSubmit={searchPost}>
           <input type="text"
                  placeholder="Enter a search..."
-                 className="form-control m-3"
+                 className="form-control my-3"
                  value={searchInput || ""}
                  onChange={(e) => setSearchInput(e.target.value)}
           />
