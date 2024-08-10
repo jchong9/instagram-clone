@@ -61,10 +61,13 @@ h1 {
 }
 
 .modal-container {
+  display: block;
+  left:50%;
+  top:50%;
+  transform: translate(-50%, -50%);
   position: fixed !important;
   background-color: #161716FF !important;
   padding: 2rem;
-  margin: auto;
   width: 50%;
   border-radius: 10px;
   z-index: 2 !important;
@@ -81,18 +84,6 @@ h1 {
 
 .modal-header svg:hover {
   cursor: pointer;
-}
-
-#isVisible {
-  display: block;
-  left:50%;
-  top:50%;
-  transform: translate(-50%, -50%);
-  position:absolute;
-}
-
-#isNotVisible {
-  display: none;
 }
 
 .card {

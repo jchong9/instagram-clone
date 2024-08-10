@@ -1,4 +1,3 @@
-import SharePost from "../components/ui/SharePost";
 import DisplayPost from "../components/ui/DisplayPost";
 
 export default function Home() {
