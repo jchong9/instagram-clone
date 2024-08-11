@@ -128,7 +128,7 @@ app.get('/get-comments', async (req, res) => {
   try {
     const postID = req.query.id;
     Comment.find({
-      postID: postID
+      postID
     }).sort({
       $natural: -1
     }).limit(20).then(data => res.send(data));

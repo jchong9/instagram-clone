@@ -69,6 +69,7 @@ h1 {
   background-color: #161716FF !important;
   padding: 2rem;
   width: 50%;
+  max-height: 100% !important;
   border-radius: 10px;
   z-index: 2 !important;
   overflow: hidden !important;
@@ -86,10 +87,17 @@ h1 {
   cursor: pointer;
 }
 
+.comment-section {
+  max-height: 20rem !important;
+  overflow-y: auto !important;
+  margin-bottom: 0.75rem;
+}
+
 .card {
   width: 36% !important;
   color: $text !important;
   border: none !important;
+  box-shadow: 4px 4px 15px 5px rgba(0,0,0,0.5) !important;
 }
 
 .card-header {

@@ -45,9 +45,7 @@ export default function Navbar() {
                 </li>
               </ul>
               <ul className="navbar-nav ms-auto">
-                <li className="nav-item">
-                  <SharePost />
-                </li>
+                <SharePost />
                 <li className="nav-item">
                   <Link to="/profile"
                         state={{userID: auth._id}}
