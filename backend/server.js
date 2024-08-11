@@ -16,11 +16,22 @@ app.use(cors());
 //POST METHODS
 
 app.post('/register', async (req, res) => {
-  let user = new User(req.body);
-  let result = await user.save();
-  result = result.toObject();
-  delete result.password;
-  res.send(result);
+  let registeredUser = await User.findOne({
+    $or: [
+      {name: req.body.name},
+      {email: req.body.email}
+    ]
+  });
+  if (registeredUser) {
+    res.send({result: "user already exists"});
+  }
+  else {
+    let user = new User(req.body);
+    let result = await user.save();
+    result = result.toObject();
+    delete result.password;
+    res.send(result);
+  }
 });
 
 app.post('/login', async (req, res) => {

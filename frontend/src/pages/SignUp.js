@@ -24,8 +24,14 @@ export default function SignUp() {
       }
     });
     result = await result.json();
-    localStorage.setItem("user", JSON.stringify(result));
-    navigate('/');
+    console.warn(result)
+    if (result.name) {
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate('/');
+    }
+    else {
+      alert("Already exists");
+    }
   }
 
   return (

@@ -5,18 +5,20 @@ import DisplayPost from "../components/ui/DisplayPost";
 
 export default function Profile() {
   const location = useLocation();
-  const { userID } = location.state;
+  const { userID } = location.state ? location.state : {};
   const [user, setUser] = useState({following: [], followers: []});
   const loggedUser = JSON.parse(localStorage.getItem("user"));
   const [seed, setSeed] = useState(1);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     getUser();
-    if (!user) {
+    if (!user || !userID) {
       navigate("/");
     }
     setSeed(Math.random());
+    console.warn(userID);
   }, [userID]);
 
   async function getUser() {
