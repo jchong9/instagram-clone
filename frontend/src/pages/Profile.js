@@ -1,4 +1,4 @@
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import DisplayPost from "../components/ui/DisplayPost";
@@ -9,9 +9,13 @@ export default function Profile() {
   const [user, setUser] = useState({following: [], followers: []});
   const loggedUser = JSON.parse(localStorage.getItem("user"));
   const [seed, setSeed] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser();
+    if (!user) {
+      navigate("/");
+    }
     setSeed(Math.random());
   }, [userID]);
 
