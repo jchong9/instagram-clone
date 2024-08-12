@@ -75,7 +75,11 @@ export default function Profile() {
         )}
         <p className="m-2">{user.bio}</p>
       </div>
-      <DisplayPost requestURL="get-image-user" id={user._id} search="" key={seed} />
+      <DisplayPost requestURL="get-image-user"
+                   id={user._id}
+                   search=""
+                   following={user.following}
+                   key={seed} />
     </>
   );
 }

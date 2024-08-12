@@ -123,6 +123,35 @@ app.get("/get-image-user", async (req, res) => {
   }
 });
 
+app.get("/get-image-following", async (req, res) => {
+  try {
+    const loggedUser = req.query.id;
+    const followingList = req.query.following;
+    Post.find({
+      userID: {$in: [...followingList, loggedUser]}
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get("/get-image-recommendation", async (req, res) => {
+  try {
+    const followingList = req.query.following;
+    Post.find({
+      likedBy: {$in: followingList}
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
 app.get('/get-user', async (req, res) => {
   try {
     const userID = req.query.id;
