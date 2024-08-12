@@ -7,7 +7,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Profile from "./pages/Profile";
-import EditProfile from "./pages/EditProfile";
+import EditProfile from "./components/form/EditProfile";
 
 function App() {
   return (

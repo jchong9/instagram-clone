@@ -8,7 +8,6 @@ export default function EditProfile() {
   const [bio, setBio] = useState("");
   const navigate = useNavigate();
 
-
   async function updateUser() {
     const result = await axios.patch("http://localhost:5000/update-user", {
       name: username ? username : user.name,
@@ -21,21 +20,22 @@ export default function EditProfile() {
   }
 
   return (
-    <div>
-      <h1>Edit your profile</h1>
-      <label>New username: </label>
-      <br />
-      <input type="text"
-             value={username || ''}
-             placeholder={user.name}
-             maxLength="20"
-             minLength="4"
-             onChange={(e) => setUsername(e.target.value)}
-      />
-      <br />
-      <label>Edit your description: </label>
-      <br />
-      <textarea placeholder={user.bio ? user.bio : "Enter a description (optional)"}
+    <div className="container-fluid text-center m-auto">
+      <form onSubmit={updateUser}>
+        <h1>Edit your profile</h1>
+        <label>New username: </label>
+        <br/>
+        <input type="text"
+               value={username || ''}
+               placeholder={user.name}
+               maxLength="20"
+               minLength="4"
+               onChange={(e) => setUsername(e.target.value)}
+        />
+        <br/>
+        <label>Edit your description: </label>
+        <br/>
+        <textarea placeholder={user.bio ? user.bio : "Enter a description (optional)"}
                   rows="5"
                   cols="30"
                   value={bio || ''}
@@ -43,8 +43,9 @@ export default function EditProfile() {
         >
         {user.bio}
       </textarea>
-      <br />
-      <button onClick={updateUser}>Save</button>
+        <br/>
+        <button type="submit">Save</button>
+      </form>
     </div>
   );
 }
