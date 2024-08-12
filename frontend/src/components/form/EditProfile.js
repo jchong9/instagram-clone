@@ -44,7 +44,7 @@ export default function EditProfile() {
         {user.bio}
       </textarea>
         <br/>
-        <button type="submit">Save</button>
+        <button type="submit" className="btn btn-primary">Save</button>
       </form>
     </div>
   );
