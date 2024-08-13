@@ -48,7 +48,7 @@ export default function ImageForm(props) {
       </div>
       <div>
         <button type="submit" className="btn btn-primary me-2">Upload</button>
-        <button className="btn btn-outline-primary" onClick={props.onClose}>
+        <button className="btn btn-outline-light" onClick={props.onClose}>
           Close
         </button>
       </div>

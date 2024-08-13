@@ -44,7 +44,11 @@ export default function EditProfile() {
             {user.bio}
           </textarea>
         </div>
-        <button type="submit" className="btn btn-primary">Save</button>
+        <button type="submit" className="btn btn-primary me-2">Save</button>
+        <button className="btn btn-outline-light"
+                onClick={() => navigate("/profile", {state: {userID: user._id}})}>
+          Close
+        </button>
       </form>
     </div>
   );

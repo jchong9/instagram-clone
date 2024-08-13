@@ -17,15 +17,14 @@ export default function Explore() {
 
   return (
     <>
-      <div className="m-auto text-center w-50">
+      <div className="container-fluid m-auto text-center w-50">
         <h1>Start Exploring the Community</h1>
         <form onSubmit={searchPost}>
           <input type="text"
                  placeholder="Enter a search..."
                  className="form-control my-3"
                  value={searchInput || ""}
-                 onChange={(e) => setSearchInput(e.target.value)}
-          />
+                 onChange={(e) => setSearchInput(e.target.value)}/>
         </form>
       </div>
       {formSubmitted && searchQuery ? (
