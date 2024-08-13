@@ -11,7 +11,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="navbar navbar-expand-lg">
+    <nav className="navbar navbar-expand-lg mb-4">
       <div className="container-fluid">
         <Link to="/">
           <span className="navbar-brand abs">
