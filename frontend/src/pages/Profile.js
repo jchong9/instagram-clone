@@ -49,7 +49,7 @@ export default function Profile() {
   return (
     <>
       <div className="container-fluid w-50 text-center">
-        <h1>{user.name}</h1>
+        <h1>{user.username}</h1>
         <div className="row text-center mb-3">
           <h6 className="col">Following: {user.following.length}</h6>
           <h6 className="col">Followers: {user.followers.length}</h6>

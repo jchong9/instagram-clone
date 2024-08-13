@@ -18,7 +18,7 @@ app.use(cors());
 app.post('/register', async (req, res) => {
   let registeredUser = await User.findOne({
     $or: [
-      {name: req.body.name},
+      {name: req.body.username},
       {email: req.body.email}
     ]
   });

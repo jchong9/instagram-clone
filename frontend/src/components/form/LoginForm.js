@@ -1,39 +1,38 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {useFormik} from "formik";
+import axios from "axios";
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  async function loginUser() {
-    let result = await fetch("http://localhost:5000/login", {
-      method: 'post',
-      body: JSON.stringify({email, password}),
-      headers: {
-        'Content-Type': 'application/json'
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: async (values) => {
+      let result = await axios.post("http://localhost:5000/login", values);
+      if (result.data.username) {
+        localStorage.setItem("user", JSON.stringify(result.data));
+        navigate('/');
       }
-    });
-    result = await result.json();
-    if (result.name) {
-      localStorage.setItem("user", JSON.stringify(result));
-      navigate('/');
-    }
-    else {
-      alert("User does not exist!");
-    }
-  }
+      else {
+        alert("User does not exist");
+      }
+    },
+  })
 
   return (
-    <form onSubmit={loginUser}>
+    <form onSubmit={formik.handleSubmit}>
       <div className="form-group">
         <label>Enter your email: </label>
         <input type="text"
                placeholder="Email*"
                className="form-control"
-               required
-               value={email || ""}
-               onChange={(e) => setEmail(e.target.value)}
+               id="email"
+               name="email"
+               onChange={formik.handleChange}
+               value={formik.values.email}
         />
       </div>
       <div className="form-group my-3">
@@ -41,11 +40,10 @@ export default function LoginForm() {
         <input type="password"
                placeholder="Password*"
                className="form-control"
-               maxLength="20"
-               minLength="3"
-               required
-               value={password || ""}
-               onChange={(e) => setPassword((e.target.value))}
+               id="password"
+               name="password"
+               onChange={formik.handleChange}
+               value={formik.values.password}
         />
       </div>
       <button type="submit" className="btn btn-primary">Submit</button>

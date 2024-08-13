@@ -17,7 +17,7 @@ export default function CommentSection(props) {
     let result = await axios.post("http://localhost:5000/add-comment", {
       postID: props.imgDetails._id,
       userID: user._id,
-      username: user.name,
+      username: user.username,
       content: comment
     }, {
       headers: {"Content-Type": "application/json"}

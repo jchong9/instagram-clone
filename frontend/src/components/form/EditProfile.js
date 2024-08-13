@@ -10,7 +10,7 @@ export default function EditProfile() {
 
   async function updateUser() {
     const result = await axios.patch("http://localhost:5000/update-user", {
-      name: username ? username : user.name,
+      name: username ? username : user.username,
       bio: bio ? bio : user.bio
     }, {
       params: {id: user._id}
@@ -26,7 +26,7 @@ export default function EditProfile() {
         <div className="form-group">
           <label>New username: </label>
           <input type="text"
-                 placeholder={user.name}
+                 placeholder={user.username}
                  className="form-control"
                  maxLength="20"
                  minLength="4"

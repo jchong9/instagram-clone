@@ -11,11 +11,12 @@ export default function ImageForm(props) {
 
     const formData = new FormData();
     formData.append("image", image);
-    formData.append("username", user.name);
+    formData.append("username", user.username);
     formData.append("userID", user._id);
     formData.append("caption", caption);
 
-    const result = await axios.post("http://localhost:5000/upload-image", formData, {
+    const result = await axios.post("http://localhost:5000/upload-image",
+      formData, {
       headers: {"Content-Type": "multipart/form-data"},
     });
 
