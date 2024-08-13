@@ -28,32 +28,36 @@ export default function RegisterForm() {
 
   return (
     <form onSubmit={registerUser}>
-      <input type="text"
-             placeholder="Username*"
-             className="mb-3"
-             maxLength="20"
-             minLength="4"
-             required
-             value={name || ""}
-             onChange={(e) => setName(e.target.value)}
-      />
-      <br/>
-      <input type="text"
-             placeholder="Email*"
-             className="mb-3"
-             required
-             value={email || ""}
-             onChange={(e) => setEmail(e.target.value)}
-      />
-      <br/>
-      <input type="password"
-             placeholder="Password*"
-             className="mb-3"
-             required
-             value={password || ""}
-             onChange={(e) => setPassword((e.target.value))}
-      />
-      <br/>
+      <div className="form-group">
+        <label>Enter a username: </label>
+        <input type="text"
+               placeholder="Username*"
+               className="form-control"
+               maxLength="20"
+               minLength="4"
+               required
+               value={name || ""}
+               onChange={(e) => setName(e.target.value)}/>
+      </div>
+      <div className="form-group my-3">
+        <label>Enter your email: </label>
+        <input type="text"
+               placeholder="Email*"
+               className="form-control"
+               required
+               value={email || ""}
+               onChange={(e) => setEmail(e.target.value)}/>
+      </div>
+      <div className="form-group my-3">
+        <label>Enter your password: </label>
+        <input type="password"
+               placeholder="Password*"
+               className="form-control"
+               required
+               value={password || ""}
+               onChange={(e) => setPassword((e.target.value))}
+        />
+      </div>
       <button type="submit" className="btn btn-primary">Submit</button>
     </form>
   );

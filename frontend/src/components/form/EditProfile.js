@@ -20,30 +20,30 @@ export default function EditProfile() {
   }
 
   return (
-    <div className="container-fluid text-center m-auto">
+    <div className="center container-fluid w-50">
       <form onSubmit={updateUser}>
         <h1>Edit your profile</h1>
-        <label>New username: </label>
-        <br/>
-        <input type="text"
-               value={username || ''}
-               placeholder={user.name}
-               maxLength="20"
-               minLength="4"
-               onChange={(e) => setUsername(e.target.value)}
-        />
-        <br/>
-        <label>Edit your description: </label>
-        <br/>
-        <textarea placeholder={user.bio ? user.bio : "Enter a description (optional)"}
-                  rows="5"
-                  cols="30"
-                  value={bio || ''}
-                  onChange={(e) => setBio(e.target.value)}
-        >
-          {user.bio}
-        </textarea>
-        <br/>
+        <div className="form-group">
+          <label>New username: </label>
+          <input type="text"
+                 placeholder={user.name}
+                 className="form-control"
+                 maxLength="20"
+                 minLength="4"
+                 value={username || ''}
+                 onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="form-group my-3">
+          <label>Edit your description: </label>
+          <textarea placeholder="Enter a description (optional)"
+                    className="form-control"
+                    rows="5"
+                    value={bio || ''}
+                    onChange={(e) => setBio(e.target.value)}>
+            {user.bio}
+          </textarea>
+        </div>
         <button type="submit" className="btn btn-primary">Save</button>
       </form>
     </div>

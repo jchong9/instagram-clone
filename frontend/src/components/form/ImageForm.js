@@ -28,20 +28,29 @@ export default function ImageForm(props) {
 
   return (
     <form onSubmit={uploadImage}>
-      <input type="file" accept="image/*" onChange={onInputChange}/>
-      <br/>
-      <input type="text"
-             placeholder="Enter a caption"
-             value={caption || ""}
-             onChange={e => setCaption(e.target.value)}
-      />
-      <br/>
+      <div className="form-group">
+        <label>Enter a file: </label>
+        <br/>
+        <input type="file"
+               accept="image/*"
+               className="form-control-file"
+               onChange={onInputChange}/>
+      </div>
+      <div className="form-group my-3">
+        <label>Caption: </label>
+        <textarea
+               placeholder="Enter a caption"
+               className="form-control"
+               value={caption || ""}
+               rows="3"
+               onChange={e => setCaption(e.target.value)}>
+        </textarea>
+      </div>
       <div>
-        <button className="btn btn-outline-primary"
-                onClick={props.onClose}>
+        <button type="submit" className="btn btn-primary me-2">Upload</button>
+        <button className="btn btn-outline-primary" onClick={props.onClose}>
           Close
         </button>
-        <button type="submit" className="btn btn-primary">Upload</button>
       </div>
     </form>
   );

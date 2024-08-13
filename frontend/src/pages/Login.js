@@ -13,7 +13,7 @@ export default function Login() {
   }, []);
 
   return (
-    <div className="container-fluid text-center m-auto">
+    <div className="center container-fluid w-50">
       <h1>Welcome back</h1>
       <h4>Login</h4>
       <LoginForm />

@@ -37,7 +37,7 @@ export default function CommentSection(props) {
   return (
     <>
       <div className="modal-backdrop"></div>
-      <div className="modal-container">
+      <div className="center modal-container">
         <div className="modal-header">
           <h1>Comments</h1>
           <svg xmlns="http://www.w3.org/2000/svg"
