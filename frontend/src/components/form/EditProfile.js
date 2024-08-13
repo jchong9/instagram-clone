@@ -41,8 +41,8 @@ export default function EditProfile() {
                   value={bio || ''}
                   onChange={(e) => setBio(e.target.value)}
         >
-        {user.bio}
-      </textarea>
+          {user.bio}
+        </textarea>
         <br/>
         <button type="submit" className="btn btn-primary">Save</button>
       </form>

@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       {user.following.length === 0 ? (
-        <h5>
+        <h5 className="center">
           Not following anyone? Try <Link to="/explore-feed">exploring</Link>
         </h5>
       ) : (
@@ -19,16 +19,16 @@ export default function Home() {
                        id={user._id}
                        search=""
                        following={user.following}/>
+          <div className="text-center">
+            <h1>Recommendations</h1>
+            <p className="text-primary">People you follow like these posts</p>
+          </div>
+          <DisplayPost requestURL="get-image-recommendation"
+                       id={user._id}
+                       search=""
+                       following={user.following}/>
         </>
       )}
-      <div className="text-center">
-        <h1>Recommendations</h1>
-        <p className="text-primary">People you follow like these posts</p>
-      </div>
-      <DisplayPost requestURL="get-image-recommendation"
-                   id={user._id}
-                   search=""
-                   following={user.following}/>
     </>
   );
 }
