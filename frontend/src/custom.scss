@@ -139,4 +139,13 @@ textarea {
   resize: none !important;
 }
 
+.input-error {
+  border: 1px red !important;
+}
+
+.error {
+  color: red !important;
+  font-size: 0.85rem;
+}
+
 @import '~bootstrap/scss/bootstrap.scss';

@@ -18,7 +18,6 @@ export default function Profile() {
       navigate("/");
     }
     setSeed(Math.random());
-    console.warn(userID);
   }, [userID]);
 
   async function getUser() {

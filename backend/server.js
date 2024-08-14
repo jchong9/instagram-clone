@@ -178,6 +178,42 @@ app.get('/get-comments', async (req, res) => {
   }
 });
 
+app.get("/get-username", async (req, res) => {
+  try {
+    const username = req.query.username;
+    let registeredUser = await User.findOne({
+      username
+    });
+    if (registeredUser) {
+      res.send(true);
+    }
+    else {
+      res.send(false);
+    }
+  }
+  catch(err) {
+    res.send(false);
+  }
+});
+
+app.get("/get-email", async (req, res) => {
+  try {
+    const email = req.query.email;
+    let registeredUser = await User.findOne({
+      email
+    });
+    if (registeredUser) {
+      res.send(true);
+    }
+    else {
+      res.send(false);
+    }
+  }
+  catch(err) {
+    res.send(false);
+  }
+});
+
 // PUT AND PATCH METHODS
 
 app.patch("/update-user", async (req, res) => {
