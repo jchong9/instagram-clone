@@ -8,7 +8,7 @@ export const loginSchema = yup.object().shape({
       const result = await axios.get("http://localhost:5000/get-username", {
         params: {username: value}
       });
-      return !result.data;
+      return result.data;
     }),
   password: yup.string()
     .required("Required"),

@@ -14,8 +14,8 @@ export default function Login() {
 
   return (
     <div className="center">
-      <h1>Welcome back</h1>
-      <h4>Login</h4>
+      <h1>Login</h1>
+      <h4>Continue your journey today</h4>
       <LoginForm />
       <span>Don't have an account? </span>
       <Link to="/signup">Sign up</Link>

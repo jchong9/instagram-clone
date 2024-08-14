@@ -21,10 +21,10 @@ export default function RegisterForm() {
   return (
     <Formik
       initialValues={{
-        username: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
       }}
       validationSchema={signupSchema}
       validateOnChange={false}
