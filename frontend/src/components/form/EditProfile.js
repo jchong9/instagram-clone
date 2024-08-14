@@ -1,55 +1,61 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {Form, Formik} from "formik";
+import CustomInput from "../ui/CustomInput";
+import CustomTextarea from "../ui/CustomTextarea";
+import {editProfileSchema} from "../../schemas/editProfileSchema";
 
 export default function EditProfile() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const [username, setUsername] = useState("");
-  const [bio, setBio] = useState("");
   const navigate = useNavigate();
 
-  async function updateUser() {
+  async function updateUser(values, actions) {
     const result = await axios.patch("http://localhost:5000/update-user", {
-      name: username ? username : user.username,
-      bio: bio ? bio : user.bio
+      username: values.username ? values.username : user.username,
+      bio: values.bio ? values.bio : user.bio
     }, {
       params: {id: user._id}
     });
     localStorage.setItem("user", JSON.stringify(result.data));
+    actions.resetForm();
     navigate("/profile", {state: {userID: user._id}});
   }
 
   return (
-    <div className="center container-fluid w-50">
-      <form onSubmit={updateUser}>
-        <h1>Edit your profile</h1>
-        <div className="form-group">
-          <label>New username: </label>
-          <input type="text"
-                 placeholder={user.username}
-                 className="form-control"
-                 maxLength="20"
-                 minLength="4"
-                 value={username || ''}
-                 onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="form-group my-3">
-          <label>Edit your description: </label>
-          <textarea placeholder="Enter a description (optional)"
-                    className="form-control"
-                    rows="5"
-                    value={bio || ''}
-                    onChange={(e) => setBio(e.target.value)}>
-            {user.bio}
-          </textarea>
-        </div>
-        <button type="submit" className="btn btn-primary me-2">Save</button>
-        <button className="btn btn-outline-light"
-                onClick={() => navigate("/profile", {state: {userID: user._id}})}>
-          Close
-        </button>
-      </form>
+    <div className="center">
+      <h1>Edit your profile</h1>
+      <Formik
+        initialValues={{
+          username: '',
+          bio: '',
+        }}
+        validationSchema={editProfileSchema}
+        validateOnChange={false}
+        onSubmit={updateUser}
+      >
+        {({isSubmitting}) => (
+          <Form>
+            <CustomInput
+              label="Username"
+              name="username"
+              type="text"
+              placeholder={user.username}
+            />
+            <CustomTextarea
+              label="Description"
+              name="bio"
+              placeholder="Enter a description (optional)"
+              rows={5}
+            />
+            <button disabled={isSubmitting} type="submit" className="btn btn-primary form-control w-50 my-2">Submit</button>
+            <button className="btn btn-outline-light form-control w-50"
+                    onClick={() => navigate("/profile", {state: {userID: user._id}})}>
+              Close
+            </button>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }
