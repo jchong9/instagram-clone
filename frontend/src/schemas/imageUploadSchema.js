@@ -1,5 +1,4 @@
 import * as yup from "yup";
-import axios from "axios";
 
 export const imageUploadSchema =  yup.object().shape({
   image: yup.mixed()

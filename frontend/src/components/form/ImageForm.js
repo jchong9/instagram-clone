@@ -30,7 +30,6 @@ export default function ImageForm(props) {
         caption: '',
       }}
       validationSchema={imageUploadSchema}
-      validateOnBlur={false}
       validateOnChange={false}
       onSubmit={uploadImage}
     >
