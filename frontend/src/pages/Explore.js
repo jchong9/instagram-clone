@@ -8,6 +8,7 @@ export default function Explore() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [seed1, setSeed1] = useState(1);
   const [seed2, setSeed2] = useState(1);
+  const [showUsers, setShowUsers] = useState(true);
   const user = JSON.parse(localStorage.getItem("user"));
 
   function searchPost(e) {
@@ -29,32 +30,34 @@ export default function Explore() {
                  value={searchInput || ""}
                  onChange={(e) => setSearchInput(e.target.value)}/>
         </form>
+        <span className={showUsers ? "active me-3" : "inactive me-3"}
+              onClick={() => setShowUsers(true)
+              }>
+          Related users
+        </span>
+        <span className={showUsers ? "inactive" : "active"}
+              onClick={() => setShowUsers(false)}
+        >
+          Related posts
+        </span>
       </div>
-      {formSubmitted && searchQuery ? (
-        <div>
-          <h6 className="text-center">Results for: {searchQuery}</h6>
-          <h2>Related users</h2>
+      <div>
+        <div className="text-center my-2">
+          <h6>Results for: {searchQuery}</h6>
+        </div>
+        {showUsers ? (
           <DisplayUserList usernameSearch={searchQuery}
                            key={seed1}
           />
-          <h2>Related posts</h2>
+        ) : (
           <DisplayPost requestURL="get-image-search"
                        id={user._id}
                        search={searchQuery}
                        following={user.following}
                        key={seed2}
           />
-        </div>
-      ) : (
-        <div>
-          <DisplayPost requestURL="get-image"
-                       id={user._id}
-                       search=""
-                       following={user.following}
-                       key={seed2}
-          />
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 }

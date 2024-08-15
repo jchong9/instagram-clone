@@ -60,17 +60,6 @@ app.post('/add-comment', async (req, res) => {
 
 //GET METHODS
 
-app.get("/get-image", async (req, res) => {
-  try {
-    Post.find({}).sort({
-      $natural: -1
-    }).limit(20).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
-
 app.get("/get-image-search", async (req, res) => {
   try {
     const searchQuery = req.query.search;
