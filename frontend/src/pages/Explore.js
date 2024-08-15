@@ -14,7 +14,7 @@ export default function Explore() {
     e.preventDefault();
     setSearchQuery(searchInput);
     setSeed1(Math.random());
-    setSeed2(10 * seed1);
+    setSeed2(seed1 + 1);
   }
 
   return (
