@@ -43,7 +43,7 @@ export default function Explore() {
       </div>
       <div>
         <div className="text-center my-2">
-          <h6>Results for: {searchQuery}</h6>
+          <h6>{searchQuery ? `Results for ${searchQuery}` : "Showing all posts"}</h6>
         </div>
         {showUsers ? (
           <DisplayUserList usernameSearch={searchQuery}
