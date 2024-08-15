@@ -5,7 +5,6 @@ import DisplayUserList from "../components/ui/DisplayUserList";
 export default function Explore() {
   const [searchInput, setSearchInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const [seed1, setSeed1] = useState(1);
   const [seed2, setSeed2] = useState(1);
   const [showUsers, setShowUsers] = useState(true);
@@ -13,7 +12,6 @@ export default function Explore() {
 
   function searchPost(e) {
     e.preventDefault();
-    setFormSubmitted(true);
     setSearchQuery(searchInput);
     setSeed1(Math.random());
     setSeed2(10 * seed1);
