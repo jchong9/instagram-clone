@@ -1,58 +1,66 @@
 import axios from "axios";
-import {useState} from "react";
+import {Form, Formik} from "formik";
+import CustomInput from "../ui/CustomInput";
+import {imageUploadSchema} from "../../schemas/imageUploadSchema";
+import CustomTextarea from "../ui/CustomTextarea";
 
 export default function ImageForm(props) {
-  const [image, setImage] = useState(null);
-  const [caption, setCaption] = useState("");
   const user = JSON.parse(localStorage.getItem("user"));
 
-  async function uploadImage(e) {
-    e.preventDefault();
-
+  async function uploadImage(values, actions) {
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("image", values.image);
+    formData.append("caption", values.caption);
     formData.append("username", user.username);
     formData.append("userID", user._id);
-    formData.append("caption", caption);
 
     const result = await axios.post("http://localhost:5000/upload-image",
       formData, {
       headers: {"Content-Type": "multipart/form-data"},
     });
 
+    actions.resetForm();
     props.onClose();
   }
 
-  function onInputChange(e) {
-    setImage(e.target.files[0]);
-  }
-
   return (
-    <form onSubmit={uploadImage}>
-      <div className="form-group">
-        <label>Enter a file: </label>
-        <br/>
-        <input type="file"
-               accept="image/*"
-               className="form-control-file"
-               onChange={onInputChange}/>
-      </div>
-      <div className="form-group my-3">
-        <label>Caption: </label>
-        <textarea
-               placeholder="Enter a caption"
-               className="form-control"
-               value={caption || ""}
-               rows="3"
-               onChange={e => setCaption(e.target.value)}>
-        </textarea>
-      </div>
-      <div>
-        <button type="submit" className="btn btn-primary me-2">Upload</button>
-        <button className="btn btn-outline-light" onClick={props.onClose}>
-          Close
-        </button>
-      </div>
-    </form>
+    <Formik
+      initialValues={{
+        image: '',
+        caption: '',
+      }}
+      validationSchema={imageUploadSchema}
+      validateOnBlur={false}
+      validateOnChange={false}
+      onSubmit={uploadImage}
+    >
+      {({isSubmitting, setFieldValue}) => (
+        <Form>
+          <CustomInput
+            label="Image"
+            name="image"
+            type="file"
+            accept="image/*"
+            value={undefined}
+            onChange={(e) => {setFieldValue("image", e.target.files[0])}}
+          />
+          <CustomTextarea
+            label="Caption"
+            name="caption"
+            type="text"
+            placeholder="Enter a caption (optional)"
+            rows={3}
+          />
+          <button disabled={isSubmitting}
+                  type="submit"
+                  className="btn btn-primary form-control my-2 w-50">
+            Submit
+          </button>
+          <button className="btn btn-outline-light form-control my-2 w-50" onClick={props.onClose}>
+            Close
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 }
