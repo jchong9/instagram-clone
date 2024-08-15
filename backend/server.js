@@ -76,8 +76,8 @@ app.get("/get-image-search", async (req, res) => {
     const searchQuery = req.query.search;
     Post.find({
       $or:[
-        {username: searchQuery},
-        {caption: searchQuery}
+        {username: new RegExp(searchQuery, 'i')},
+        {caption: new RegExp(searchQuery, 'i')}
       ]
     }).sort({
       $natural: -1
@@ -136,6 +136,18 @@ app.get('/get-user', async (req, res) => {
     const userID = req.query.id;
     User.findOne({
       _id: userID
+    }).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get('/get-all-users', async (req, res) => {
+  try {
+    const username = req.query.username;
+    User.find({
+      username: new RegExp(username, 'i')
     }).then(data => res.send(data));
   }
   catch(err) {
