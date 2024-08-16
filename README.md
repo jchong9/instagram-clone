@@ -50,10 +50,12 @@ next to the database name.
 
 For the frontend:
 ```
+(While in the frontend directory)
 npm start
 ```
 For the backend:
 ```
+(While in the backend directory)
 nodemon
 OR
 node server
