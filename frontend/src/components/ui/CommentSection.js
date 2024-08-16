@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 export default function CommentSection(props) {
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
+  const [submittedComment, setSubmittedComment] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
@@ -25,6 +26,10 @@ export default function CommentSection(props) {
 
     setComment("");
     getComments();
+    setSubmittedComment(true);
+    setTimeout(() => {
+      setSubmittedComment(false);
+    }, 3000);
   }
 
   async function getComments() {
@@ -72,6 +77,7 @@ export default function CommentSection(props) {
                    className="form-control"
                    value={comment || ""}
                    onChange={(e) => setComment(e.target.value)}
+                   disabled={submittedComment}
             />
           </form>
         </div>
