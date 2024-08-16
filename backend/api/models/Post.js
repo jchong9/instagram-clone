@@ -5,7 +5,8 @@ const postSchema = new mongoose.Schema({
   username: String,
   imageURL: String,
   caption: String,
-  likedBy: [mongoose.Schema.Types.ObjectId]
+  likedBy: [mongoose.Schema.Types.ObjectId],
+  createdOn: String,
 });
 
 module.exports = mongoose.model("posts", postSchema);

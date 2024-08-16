@@ -111,9 +111,13 @@ export default function DisplayPost(requestProps) {
               </div>
             </div>
             <div className="card-footer">
-              <p className="card-text">
+              <div className="card-text">
                 @{data.username}: {data.caption}
-              </p>
+                <br/>
+                <small className="date-txt">
+                  {data.createdOn}
+                </small>
+              </div>
               <small onClick={() => displayComments(data)}>
                 Show all comments...
               </small>

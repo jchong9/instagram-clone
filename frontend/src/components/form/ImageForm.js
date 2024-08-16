@@ -13,6 +13,7 @@ export default function ImageForm(props) {
     formData.append("caption", values.caption);
     formData.append("username", user.username);
     formData.append("userID", user._id);
+    formData.append("createdOn", new Date().toLocaleDateString());
 
     await axios.post("http://localhost:5000/upload-image",
       formData, {

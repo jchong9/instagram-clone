@@ -156,8 +156,8 @@ textarea {
   font-weight: bold !important;
 }
 
-.inactive {
-  color: rgba(167, 191, 226, 0.6) !important;
+.inactive, .date-txt {
+  color: rgba(167, 191, 226, 0.44) !important;
 }
 
 @import '~bootstrap/scss/bootstrap.scss';

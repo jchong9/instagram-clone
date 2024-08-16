@@ -19,7 +19,8 @@ export default function CommentSection(props) {
       postID: props.imgDetails._id,
       userID: user._id,
       username: user.username,
-      content: comment
+      content: comment,
+      createdOn: new Date().toLocaleDateString(),
     }, {
       headers: {"Content-Type": "application/json"}
     });
@@ -61,8 +62,9 @@ export default function CommentSection(props) {
                 <div key={data._id}>
                   <h6>
                     <Link to="/profile" state={{userID: data.userID}}>
-                      @{data.username}:
+                      @{data.username}
                     </Link>
+                    &nbsp;• {data.createdOn}
                   </h6>
                   <p>
                     {data.content}
