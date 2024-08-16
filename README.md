@@ -60,3 +60,7 @@ nodemon
 OR
 node server
 ```
+
+## Future TODO
+- Add profile pictures for users
+- Add a direct messaging feature between users
