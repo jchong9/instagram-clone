@@ -14,7 +14,7 @@ export default function ImageForm(props) {
     formData.append("username", user.username);
     formData.append("userID", user._id);
 
-    const result = await axios.post("http://localhost:5000/upload-image",
+    await axios.post("http://localhost:5000/upload-image",
       formData, {
       headers: {"Content-Type": "multipart/form-data"},
     });

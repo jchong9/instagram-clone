@@ -15,7 +15,7 @@ export default function CommentSection(props) {
   async function uploadComment(e) {
     e.preventDefault();
 
-    let result = await axios.post("http://localhost:5000/add-comment", {
+    await axios.post("http://localhost:5000/add-comment", {
       postID: props.imgDetails._id,
       userID: user._id,
       username: user.username,
