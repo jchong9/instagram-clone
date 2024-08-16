@@ -24,6 +24,7 @@ git clone https://github.com/jchong9/instagram-clone.git
 ```
 
 2. Install the necessary dependencies for the frontend and backend
+
 For the frontend: 
 ```
 (From the project root directory)
