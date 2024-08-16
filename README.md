@@ -23,6 +23,9 @@ NOTE: You will need [npm](https://docs.npmjs.com/downloading-and-installing-node
 git clone https://github.com/jchong9/instagram-clone.git
 ```
 
+
+
+
 2. Install the necessary dependencies for the frontend and backend
 
 For the frontend: 
@@ -38,6 +41,9 @@ cd backend
 npm i
 ```
 
+
+
+
 3. Edit the .env file in /backend to your MongoDB database string,
 i.e
 ```
@@ -46,7 +52,9 @@ DATABASE_URL = mongodb://localhost:27017/
 NOTE: You can find this connection string on the [MongoDB Compass](https://www.mongodb.com/products/tools/compass) by connecting with your database and clicking the 3 dots
 next to the database name.
 
-3. Run both the frontend and backend
+
+
+4. Run both the frontend and backend
 
 For the frontend:
 ```
