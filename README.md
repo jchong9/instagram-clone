@@ -2,6 +2,8 @@
 A simple Instagram clone made using a MERN stack. Users can interact with other users by following other users; uploading and liking posts; and commenting. The app features
 a homepage that displays recommended posts and the posts of the user's following, an explore page where the user can find other users and a profile page where the user can edit their profile.
 
+Here is a [simple demo](https://github.com/user-attachments/assets/e09d00c9-d185-456b-8272-118cdd1c050a)
+
 ## Technologies
 - React
 - Node
