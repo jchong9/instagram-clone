@@ -49,7 +49,7 @@ npm i
 3. Edit the .env file in /backend to your MongoDB database string,
 i.e
 ```
-DATABASE_URL = mongodb://localhost:27017/
+DATABASE_URL = mongodb://localhost:27017/social-app
 ```
 NOTE: You can find this connection string on the [MongoDB Compass](https://www.mongodb.com/products/tools/compass) by connecting with your database and clicking the 3 dots
 next to the database name.
