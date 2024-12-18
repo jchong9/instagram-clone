@@ -40,123 +40,123 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-app.post("/upload-image", upload.single("image"),  async (req, res) => {
-  if (req.file != null) {
-    req.body.imageURL = req.file.filename;
-    req.body.likedBy = [];
-    let post = new Post(req.body);
-    let result = await post.save();
-    result = result.toObject();
-    res.send(result);
-  }
-});
-
-app.post('/add-comment', async (req, res) => {
-  let comment = new Comment(req.body);
-  let result = await comment.save();
-  result = result.toObject();
-  res.send(result);
-});
+// app.post("/upload-image", upload.single("image"),  async (req, res) => {
+//   if (req.file != null) {
+//     req.body.imageURL = req.file.filename;
+//     req.body.likedBy = [];
+//     let post = new Post(req.body);
+//     let result = await post.save();
+//     result = result.toObject();
+//     res.send(result);
+//   }
+// });
+//
+// app.post('/add-comment', async (req, res) => {
+//   let comment = new Comment(req.body);
+//   let result = await comment.save();
+//   result = result.toObject();
+//   res.send(result);
+// });
 
 //GET METHODS
 
-app.get("/get-image-search", async (req, res) => {
-  try {
-    const searchQuery = req.query.search;
-    Post.find({
-      $or:[
-        {username: new RegExp(searchQuery, 'i')},
-        {caption: new RegExp(searchQuery, 'i')}
-      ]
-    }).sort({
-      $natural: -1
-    }).limit(20).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
+// app.get("/get-image-search", async (req, res) => {
+//   try {
+//     const searchQuery = req.query.search;
+//     Post.find({
+//       $or:[
+//         {username: new RegExp(searchQuery, 'i')},
+//         {caption: new RegExp(searchQuery, 'i')}
+//       ]
+//     }).sort({
+//       $natural: -1
+//     }).limit(20).then(data => res.send(data));
+//   }
+//   catch(err) {
+//     res.json({status: "error"});
+//   }
+// });
+//
+// app.get("/get-image-user", async (req, res) => {
+//   try {
+//     const userID = req.query.id;
+//     Post.find({
+//       userID: userID
+//     }).sort({
+//       $natural: -1
+//     }).limit(20).then(data => res.send(data));
+//   }
+//   catch(err) {
+//     res.json({status: "error"});
+//   }
+// });
+//
+// app.get("/get-image-following", async (req, res) => {
+//   try {
+//     const loggedUser = req.query.id;
+//     const followingList = req.query.following;
+//     Post.find({
+//       userID: {$in: [...followingList, loggedUser]}
+//     }).sort({
+//       $natural: -1
+//     }).limit(20).then(data => res.send(data));
+//   }
+//   catch(err) {
+//     res.json({status: "error"});
+//   }
+// });
 
-app.get("/get-image-user", async (req, res) => {
-  try {
-    const userID = req.query.id;
-    Post.find({
-      userID: userID
-    }).sort({
-      $natural: -1
-    }).limit(20).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
+// app.get("/get-image-recommendation", async (req, res) => {
+//   try {
+//     const followingList = req.query.following;
+//     Post.find({
+//       likedBy: {$in: followingList}
+//     }).sort({
+//       $natural: -1
+//     }).limit(20).then(data => res.send(data));
+//   }
+//   catch(err) {
+//     res.json({status: "error"});
+//   }
+// });
 
-app.get("/get-image-following", async (req, res) => {
-  try {
-    const loggedUser = req.query.id;
-    const followingList = req.query.following;
-    Post.find({
-      userID: {$in: [...followingList, loggedUser]}
-    }).sort({
-      $natural: -1
-    }).limit(20).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
-
-app.get("/get-image-recommendation", async (req, res) => {
-  try {
-    const followingList = req.query.following;
-    Post.find({
-      likedBy: {$in: followingList}
-    }).sort({
-      $natural: -1
-    }).limit(20).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
-
-app.get('/get-user', async (req, res) => {
-  try {
-    const userID = req.query.id;
-    User.findOne({
-      _id: userID
-    }).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
-
-app.get('/get-all-users', async (req, res) => {
-  try {
-    const username = req.query.username;
-    User.find({
-      username: new RegExp(username, 'i')
-    }).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
-
-app.get('/get-comments', async (req, res) => {
-  try {
-    const postID = req.query.id;
-    Comment.find({
-      postID
-    }).sort({
-      $natural: -1
-    }).limit(20).then(data => res.send(data));
-  }
-  catch(err) {
-    res.json({status: "error"});
-  }
-});
+// app.get('/get-user', async (req, res) => {
+//   try {
+//     const userID = req.query.id;
+//     User.findOne({
+//       _id: userID
+//     }).then(data => res.send(data));
+//   }
+//   catch(err) {
+//     res.json({status: "error"});
+//   }
+// });
+//
+// app.get('/get-all-users', async (req, res) => {
+//   try {
+//     const username = req.query.username;
+//     User.find({
+//       username: new RegExp(username, 'i')
+//     }).then(data => res.send(data));
+//   }
+//   catch(err) {
+//     res.json({status: "error"});
+//   }
+// });
+//
+// app.get('/get-comments', async (req, res) => {
+//   try {
+//     const postID = req.query.id;
+//     Comment.find({
+//       postID
+//     }).sort({
+//       $natural: -1
+//     }).limit(20).then(data => res.send(data));
+//   }
+//   catch(err) {
+//     res.json({status: "error"});
+//   }
+// });
 
 app.get("/get-username", async (req, res) => {
   try {
@@ -196,20 +196,20 @@ app.get("/get-email", async (req, res) => {
 
 // PUT AND PATCH METHODS
 
-app.patch("/update-user", async (req, res) => {
-  try {
-    const userID = req.query.id;
-    const user = await User.findByIdAndUpdate({
-      _id: userID
-    }, req.body, {
-      new: true
-    });
-    res.send(user);
-  }
-  catch (err) {
-    res.status(500).json({error: "something went wrong"});
-  }
-});
+// app.patch("/update-user", async (req, res) => {
+//   try {
+//     const userID = req.query.id;
+//     const user = await User.findByIdAndUpdate({
+//       _id: userID
+//     }, req.body, {
+//       new: true
+//     });
+//     res.send(user);
+//   }
+//   catch (err) {
+//     res.status(500).json({error: "something went wrong"});
+//   }
+// });
 
 app.patch("/add-follow", async (req, res) => {
   try {
@@ -284,5 +284,142 @@ app.patch("/remove-like", async (req, res) => {
     res.status(500).json({error: "something went wrong"});
   }
 });
+
+//UPDATED API REQUESTS
+app.get('/search/users/:query?', async (req, res) => {
+  try {
+    const username = req.params.query;
+    User.find({
+      username: new RegExp(username, 'i')
+    }).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get('/users/:id', async (req,res) => {
+  try {
+    const userID = req.params.id;
+    User.findOne({
+      _id: userID
+    }).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.patch('/users/:id', async (req,res) => {
+  try {
+    const userID = req.params.id;
+    const user = await User.findByIdAndUpdate({
+      _id: userID
+    }, req.body, {
+      new: true
+    });
+    res.send(user);
+  }
+  catch (err) {
+    res.status(500).json({error: "something went wrong"});
+  }
+});
+
+app.post('/posts', upload.single('image'), async (req, res) => {
+  if (req.file != null) {
+    req.body.imageURL = req.file.filename;
+    req.body.likedBy = [];
+    let post = new Post(req.body);
+    let result = await post.save();
+    result = result.toObject();
+    res.send(result);
+  }
+});
+
+app.get('/posts', async (req, res) => {
+
+});
+
+app.get('/users/:id/posts', async (req, res) => {
+  try {
+    const userID = req.params.id;
+    Post.find({
+      userID: userID
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get('/users/:id/following/posts', async (req, res) => {
+  try {
+    const loggedUser = req.params.id;
+    const followingList = req.query.following;
+    Post.find({
+      userID: {$in: [...followingList, loggedUser]}
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get('/users/:id/recommendations/posts', async (req, res) => {
+  try {
+    const followingList = req.query.following;
+    Post.find({
+      likedBy: {$in: followingList}
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
+app.get('/search/posts/:query?', async (req, res) => {
+  try {
+    const searchQuery = req.params.query;
+    Post.find({
+      $or:[
+        {username: new RegExp(searchQuery, 'i')},
+        {caption: new RegExp(searchQuery, 'i')}
+      ]
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "Could not get posts based on the query"});
+  }
+});
+
+app.post('/comments', async (req, res) => {
+  let comment = new Comment(req.body);
+  let result = await comment.save();
+  result = result.toObject();
+  res.send(result);
+});
+
+app.get('/posts/:id/comments', async (req, res) => {
+  try {
+    const postID = req.params.id;
+    Comment.find({
+      postID
+    }).sort({
+      $natural: -1
+    }).limit(20).then(data => res.send(data));
+  }
+  catch(err) {
+    res.json({status: "error"});
+  }
+});
+
 
 app.listen(5000);

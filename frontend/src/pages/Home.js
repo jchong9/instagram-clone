@@ -15,7 +15,7 @@ export default function Home() {
           <div className="text-center">
             <h1>Your Personal Feed</h1>
           </div>
-          <DisplayPost requestURL="get-image-following"
+          <DisplayPost requestURL={"/users/" + user._id + "/following/posts"}
                        id={user._id}
                        search=""
                        following={user.following}/>
@@ -23,7 +23,7 @@ export default function Home() {
             <h1>Recommendations</h1>
             <p className="text-primary">People you follow like these posts</p>
           </div>
-          <DisplayPost requestURL="get-image-recommendation"
+          <DisplayPost requestURL={"/users/" + user._id + "/recommendations/posts"}
                        id={user._id}
                        search=""
                        following={user.following}/>

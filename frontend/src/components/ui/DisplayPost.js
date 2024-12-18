@@ -11,14 +11,12 @@ export default function DisplayPost(requestProps) {
   const [currPost, setCurrPost] = useState({});
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoadingMsg("");
-      getPosts();
-    }, 3000);
-  });
+    setLoadingMsg("");
+    getPosts();
+  }, []);
 
   async function getPosts() {
-    const result = await axios.get(`http://localhost:5000/${requestProps.requestURL}`, {
+    const result = await axios.get(`http://localhost:5000${requestProps.requestURL}`, {
       params: {
         id: requestProps.id,
         search: requestProps.search,

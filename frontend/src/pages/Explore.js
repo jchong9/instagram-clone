@@ -48,7 +48,7 @@ export default function Explore() {
                            key={seed1}
           />
         ) : (
-          <DisplayPost requestURL="get-image-search"
+          <DisplayPost requestURL={"/search/posts/" + searchQuery}
                        id={user._id}
                        search={searchQuery}
                        following={user.following}

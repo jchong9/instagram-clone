@@ -21,9 +21,7 @@ export default function Profile() {
   }, [userID]);
 
   async function getUser() {
-    const result = await axios.get("http://localhost:5000/get-user", {
-      params: {id: userID}
-    });
+    const result = await axios.get(`http://localhost:5000/users/${userID}`);
     setUser(result.data);
   }
 
@@ -74,8 +72,8 @@ export default function Profile() {
         )}
         <p className="m-2">{user.bio}</p>
       </div>
-      <DisplayPost requestURL="get-image-user"
-                   id={user._id}
+      <DisplayPost requestURL={"/users/" + userID + "/posts"}
+                   id={userID}
                    search=""
                    following={user.following}
                    key={seed} />

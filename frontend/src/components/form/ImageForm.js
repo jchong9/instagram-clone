@@ -15,7 +15,7 @@ export default function ImageForm(props) {
     formData.append("userID", user._id);
     formData.append("createdOn", new Date().toLocaleDateString());
 
-    await axios.post("http://localhost:5000/upload-image",
+    await axios.post("http://localhost:5000/posts",
       formData, {
       headers: {"Content-Type": "multipart/form-data"},
     });

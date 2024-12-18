@@ -14,7 +14,7 @@ export default function DisplayUserList(props) {
   }, []);
 
   async function getUsers() {
-    const result = await axios.get("http://localhost:5000/get-all-users", {
+    const result = await axios.get(`http://localhost:5000/search/users/${props.usernameSearch}`, {
       params: {
         username: props.usernameSearch
       }
