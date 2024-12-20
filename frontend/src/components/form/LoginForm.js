@@ -22,6 +22,7 @@ export default function LoginForm() {
       }}
       validationSchema={loginSchema}
       validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={loginUser}
     >
       {({isSubmitting}) => (

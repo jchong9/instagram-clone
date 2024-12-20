@@ -28,6 +28,7 @@ export default function RegisterForm() {
       }}
       validationSchema={signupSchema}
       validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={signupUser}
     >
       {({isSubmitting}) => (
