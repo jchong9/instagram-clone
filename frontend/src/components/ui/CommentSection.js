@@ -15,7 +15,7 @@ export default function CommentSection(props) {
   async function uploadComment(e) {
     e.preventDefault();
 
-    await axios.post("http://localhost:5000/add-comment", {
+    await axios.post("http://localhost:5000/comments", {
       postID: props.imgDetails._id,
       userID: user._id,
       username: user.username,
@@ -34,9 +34,7 @@ export default function CommentSection(props) {
   }
 
   async function getComments() {
-    const result = await axios.get("http://localhost:5000/get-comments", {
-      params: {id: props.imgDetails._id}
-    });
+    const result = await axios.get(`http://localhost:5000/posts/${props.imgDetails._id}/comments`);
     setAllComments(result.data);
   }
 
