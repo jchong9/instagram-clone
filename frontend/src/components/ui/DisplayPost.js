@@ -9,6 +9,7 @@ export default function DisplayPost(requestProps) {
   let userID = JSON.parse(localStorage.getItem("user"))._id;
   const [showComments, setShowComments] = useState(false);
   const [currPost, setCurrPost] = useState({});
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     setLoadingMsg("");
@@ -25,21 +26,38 @@ export default function DisplayPost(requestProps) {
   }
 
   async function likePost(imageID, index) {
+    if (isDisabled)
+      return;
+
     const result = await axios.patch("http://localhost:5000/add-like", {
       userID, imageID
     });
     const updatedPosts = [...allPosts];
     updatedPosts.splice(index, 1, result.data);
     setAllPosts(updatedPosts);
+
+    setIsDisabled(true);
+
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, 2000);
   }
 
   async function unlikePost(imageID, index) {
+    if (isDisabled)
+      return;
+
     const result = await axios.patch("http://localhost:5000/remove-like", {
       userID, imageID
     });
     const updatedPosts = [...allPosts];
     updatedPosts.splice(index, 1, result.data);
     setAllPosts(updatedPosts);
+
+    setIsDisabled(true);
+    setTimeout(() => {
+      setIsDisabled(false);
+    }, 2000);
   }
 
   function closeComments() {
