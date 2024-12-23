@@ -6,7 +6,7 @@ const postSchema = new mongoose.Schema({
   imageURL: String,
   caption: String,
   likedBy: [mongoose.Schema.Types.ObjectId],
-  createdOn: String,
+  createdAt: String,
 });
 
 module.exports = mongoose.model("posts", postSchema);

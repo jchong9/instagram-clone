@@ -5,7 +5,7 @@ const commentSchema = new mongoose.Schema({
   userID: mongoose.Schema.Types.ObjectId,
   username: String,
   content: String,
-  createdOn: String,
+  createdAt: String,
 });
 
 module.exports = mongoose.model("comments", commentSchema);
