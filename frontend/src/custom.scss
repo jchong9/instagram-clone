@@ -92,6 +92,24 @@ h1 {
   cursor: pointer;
 }
 
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 50% !important;
+  width: 65px !important;
+  height: 65px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.floating-btn svg {
+  width: 30px;
+  height: 30px;
+}
+
 .comment-section {
   height: 20rem !important;
   overflow-y: auto !important;
