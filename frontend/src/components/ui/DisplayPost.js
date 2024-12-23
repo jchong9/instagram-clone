@@ -73,11 +73,13 @@ export default function DisplayPost(requestProps) {
 
   function closeComments() {
     setShowComments(false);
+    document.body.style.overflow = "auto";
   }
 
   function displayComments(postObj) {
     setCurrPost(postObj);
     setShowComments(true);
+    document.body.style.overflow = "hidden";
   }
 
   return (

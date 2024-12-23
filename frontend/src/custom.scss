@@ -83,16 +83,27 @@ h1 {
 }
 
 .comment-section {
-  max-height: 20rem !important;
+  height: 20rem !important;
   overflow-y: auto !important;
   margin-bottom: 0.75rem;
 }
 
 .card {
-  width: 36% !important;
+  // defaylt width
+  width: 34% !important;
   color: $text !important;
   border: none !important;
   box-shadow: 4px 4px 15px 5px rgba(0,0,0,0.5) !important;
+
+  // small devices
+  @media (max-width: 576px) {
+    width: 60% !important;
+  }
+
+  // medium devices
+  @media (max-width: 768px) {
+    width: 70% !important;
+  }
 }
 
 .card-header {
