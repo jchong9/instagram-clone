@@ -34,7 +34,7 @@ export default function DisplayUserList(props) {
   return (
     <div className="d-flex flex-column align-items-center">
       {!allUsers || allUsers.length === 0 ?
-        <div className="m-2">
+        <div className="center-relative loading-msg">
           <h5>{loadingMsg}</h5>
         </div>
         : allUsers.map((data) => {

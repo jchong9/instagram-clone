@@ -88,7 +88,7 @@ export default function DisplayPost(requestProps) {
         <CommentSection onClose={closeComments} imgDetails={currPost} />
       )}
       {!allPosts || allPosts.length === 0 ?
-        <div className="m-2">
+        <div className="center-relative loading-msg">
           <h5>{loadingMsg}</h5>
         </div>
         : allPosts.filter((data) => {
@@ -141,7 +141,7 @@ export default function DisplayPost(requestProps) {
                 @{data.username}: {data.caption}
                 <br/>
                 <small className="date-txt">
-                  {data.createdOn}
+                  {data.createdAt}
                 </small>
               </div>
               <small onClick={() => displayComments(data)}>

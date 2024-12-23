@@ -17,7 +17,7 @@ export default function SharePost() {
       {showModal && (
         <>
           <div className="modal-backdrop"></div>
-          <div className="center modal-container">
+          <div className="center-fixed modal-container">
             <div className="modal-header">
               <h4>Start sharing posts today</h4>
               <svg xmlns="http://www.w3.org/2000/svg"
