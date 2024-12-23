@@ -14,11 +14,13 @@ export default function SignUp() {
 
   return (
     <div className="center">
-      <h1>Create an account</h1>
-      <h4>Start sharing pictures today</h4>
-      <RegisterForm />
-      <span>Already have an account? </span>
-      <Link to="/login">Log in</Link>
+      <div className="registration-container">
+        <h1>Create an account</h1>
+        <h4>Start sharing pictures today</h4>
+        <RegisterForm/>
+        <span>Already have an account? </span>
+        <Link to="/login">Log in</Link>
+      </div>
     </div>
   );
 }
