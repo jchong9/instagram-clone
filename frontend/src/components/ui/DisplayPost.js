@@ -12,8 +12,19 @@ export default function DisplayPost(requestProps) {
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    setLoadingMsg("");
-    getPosts();
+    setTimeout(() => {
+      try {
+        getPosts();
+      }
+      finally {
+        if (!allPosts || allPosts.length === 0) {
+          setLoadingMsg("No posts here... 😔");
+        }
+        else {
+          setLoadingMsg("");
+        }
+      }
+    }, 2000);
   }, []);
 
   async function getPosts() {
@@ -74,10 +85,9 @@ export default function DisplayPost(requestProps) {
       {showComments && (
         <CommentSection onClose={closeComments} imgDetails={currPost} />
       )}
-      <h3 className="m-3">{loadingMsg}</h3>
       {!allPosts || allPosts.length === 0 ?
         <div className="m-2">
-          <h5>No posts here... 😔</h5>
+          <h5>{loadingMsg}</h5>
         </div>
         : allPosts.filter((data) => {
           try {

@@ -8,9 +8,18 @@ export default function DisplayUserList(props) {
 
   useEffect(() => {
     setTimeout(() => {
-      setLoadingMsg("");
-      getUsers();
-    }, 2000)
+      try {
+        getUsers();
+      }
+      finally {
+        if (!allUsers || allUsers.length === 0) {
+          setLoadingMsg("No matching users... 😔");
+        }
+        else {
+          setLoadingMsg("");
+        }
+      }
+    }, 2000);
   }, []);
 
   async function getUsers() {
@@ -24,10 +33,9 @@ export default function DisplayUserList(props) {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      <h3 className="m-3">{loadingMsg}</h3>
       {!allUsers || allUsers.length === 0 ?
         <div className="m-2">
-          <h5>No matching users... 😔</h5>
+          <h5>{loadingMsg}</h5>
         </div>
         : allUsers.map((data) => {
           return (
