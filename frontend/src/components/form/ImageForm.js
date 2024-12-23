@@ -32,6 +32,7 @@ export default function ImageForm(props) {
       }}
       validationSchema={imageUploadSchema}
       validateOnChange={false}
+      validateOnBlur={false}
       onSubmit={uploadImage}
     >
       {({isSubmitting, setFieldValue}) => (
