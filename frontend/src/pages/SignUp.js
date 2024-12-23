@@ -13,7 +13,7 @@ export default function SignUp() {
   }, []);
 
   return (
-    <div className="center">
+    <div className="center-relative">
       <div className="registration-container">
         <h1>Create an account</h1>
         <h4>Start sharing pictures today</h4>

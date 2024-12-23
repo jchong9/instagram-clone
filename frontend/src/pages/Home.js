@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       {user.following.length === 0 ? (
-        <h5 className="center">
+        <h5 className="center-relative">
           Not following anyone? Try <Link to="/explore-feed">exploring</Link>
         </h5>
       ) : (

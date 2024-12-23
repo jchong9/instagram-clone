@@ -20,7 +20,7 @@ export default function CommentSection(props) {
       userID: user._id,
       username: user.username,
       content: comment,
-      createdOn: new Date().toLocaleDateString(),
+      createdAt: new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date()),
     }, {
       headers: {"Content-Type": "application/json"}
     });
@@ -41,7 +41,7 @@ export default function CommentSection(props) {
   return (
     <>
       <div className="modal-backdrop"></div>
-      <div className="center modal-container">
+      <div className="center-fixed modal-container">
         <div className="modal-header">
           <h1>Comments</h1>
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@ export default function CommentSection(props) {
                     <Link to="/profile" state={{userID: data.userID}}>
                       @{data.username}
                     </Link>
-                    &nbsp;• {data.createdOn}
+                    &nbsp;• {data.createdAt}
                   </h6>
                   <p>
                     {data.content}

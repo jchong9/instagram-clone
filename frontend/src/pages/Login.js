@@ -13,7 +13,7 @@ export default function Login() {
   }, []);
 
   return (
-    <div className="center">
+    <div className="center-relative">
       <div className="registration-container">
         <h1>Login</h1>
         <h4>Continue your journey today</h4>
