@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useEffect, useRef, useState} from "react";
+import axios, {create} from "axios";
 import {Link} from "react-router-dom";
 
 export default function CommentSection(props) {
@@ -8,25 +8,64 @@ export default function CommentSection(props) {
   const [submittedComment, setSubmittedComment] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
+  const [nextCursor, setNextCursor] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [hasMoreComments, setHasMoreComments] = useState(true);
+  const hasFetchedComments = useRef(false);
+
   useEffect(() => {
-    getComments();
+    if (!hasFetchedComments.current) {
+      getComments();
+      hasFetchedComments.current = true;
+    }
   }, []);
 
   async function uploadComment(e) {
     e.preventDefault();
 
-    await axios.post("http://localhost:5000/comments", {
+    const createdTime = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date());
+    const newComment = {
+      _id: Date.now(),
       postID: props.imgDetails._id,
       userID: user._id,
       username: user.username,
       content: comment,
-      createdAt: new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date()),
-    }, {
-      headers: {"Content-Type": "application/json"}
-    });
+      createdAt: createdTime
+    }
 
+    setAllComments((prev) => [newComment, ...prev]);
+
+    // await axios.post("http://localhost:5000/comments", {
+    //   postID: props.imgDetails._id,
+    //   userID: user._id,
+    //   username: user.username,
+    //   content: comment,
+    //   createdAt: createdTime
+    // }, {
+    //   headers: {"Content-Type": "application/json"}
+    // });
+
+    try {
+      const result = await axios.post("http://localhost:5000/comments", {
+        postID: props.imgDetails._id,
+        userID: user._id,
+        username: user.username,
+        content: comment,
+        createdAt: createdTime
+      }, {
+        headers: {"Content-Type": "application/json"}
+      });
+      setAllComments((prev) =>
+        prev.map((comment) =>
+          comment._id === newComment._id ? { ...comment, _id: result.data._id } : comment
+        )
+      );
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      setAllComments((prev) => prev.filter((comment) => comment._id !== newComment._id));
+      alert('Failed to add comment. Please try again.');
+    }
     setComment("");
-    getComments();
     setSubmittedComment(true);
     setTimeout(() => {
       setSubmittedComment(false);
@@ -34,8 +73,28 @@ export default function CommentSection(props) {
   }
 
   async function getComments() {
-    const result = await axios.get(`http://localhost:5000/posts/${props.imgDetails._id}/comments`);
-    setAllComments(result.data);
+    if (loading || !hasMoreComments) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const result = await axios.get(`http://localhost:5000/posts/${props.imgDetails._id}/comments`, {
+        params: {
+          cursor: nextCursor,
+          limit: 6
+        },
+      });
+      setAllComments((prev) => [...prev, ...result.data.comments]);
+      setNextCursor(result.data.nextCursor);
+      setHasMoreComments(Boolean(result.data.nextCursor));
+    }
+    catch(err) {
+      console.error(err);
+    }
+    finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -70,6 +129,11 @@ export default function CommentSection(props) {
                 </div>
               );
             })}
+            {loading && <p>Loading...</p>}
+            {!loading && hasMoreComments && (
+              <button onClick={getComments}>Load More</button>
+            )}
+            {!hasMoreComments && <p>No more comments.</p>}
           </div>
           <form onSubmit={uploadComment}>
             <input type="text"

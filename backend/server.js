@@ -281,14 +281,34 @@ app.post('/comments', async (req, res) => {
 app.get('/posts/:id/comments', async (req, res) => {
   try {
     const postID = req.params.id;
-    Comment.find({
-      postID
-    }).sort({
-      $natural: -1
-    }).limit(20).then(data => res.send(data));
+    const cursor = req.query.cursor;
+    const limit = req.query.limit;
+
+    const query = cursor
+      ? {_id: {$lt: new Types.ObjectId(cursor)}, postID: postID}
+      : {postID: postID};
+    const comments = await Comment.find(query)
+      .sort({_id: -1})
+      .limit(Number(limit) + 1); // fetch an extra comment to see if there are more
+
+    const hasMoreComments = comments.length > limit;
+    if (hasMoreComments) {
+      comments.pop();
+    }
+
+    res.json({
+      comments,
+      nextCursor: hasMoreComments ? comments[comments.length - 1]._id : null,
+    });
+    // Comment.find({
+    //   postID
+    // }).sort({
+    //   $natural: -1
+    // }).limit(20).then(data => res.send(data));
   }
   catch(err) {
-    res.json({status: "error"});
+    console.error("Error fetching comments: " + err);
+    res.json({status: "Server failed to fetch comments"});
   }
 });
 
