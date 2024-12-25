@@ -43,7 +43,9 @@ export default function ImageForm(props) {
             type="file"
             accept="image/*"
             value={undefined}
-            onChange={(e) => {setFieldValue("image", e.target.files[0])}}
+            onChange={(e) => {
+              setFieldValue("image", e.target.files[0])
+            }}
           />
           <CustomTextarea
             label="Caption"
@@ -52,14 +54,16 @@ export default function ImageForm(props) {
             placeholder="Enter a caption (optional)"
             rows={3}
           />
-          <button disabled={isSubmitting}
-                  type="submit"
-                  className="btn btn-primary form-control my-2 w-50">
-            Submit
-          </button>
-          <button className="btn btn-outline-light form-control my-2 w-50" onClick={props.onClose}>
-            Close
-          </button>
+          <div className="d-flex justify-content-end align-items-center my-3">
+            <button className="btn btn-outline-light mx-2" onClick={props.onClose}>
+              Close
+            </button>
+            <button disabled={isSubmitting}
+                    type="submit"
+                    className="btn btn-primary">
+              Submit
+            </button>
+          </div>
         </Form>
       )}
     </Formik>
