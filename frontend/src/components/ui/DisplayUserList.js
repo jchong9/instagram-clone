@@ -41,7 +41,7 @@ export default function DisplayUserList(props) {
       setTotalPages(data.totalPages);
     }
     catch(err) {
-      console.error("Error getting posts: " + err);
+      console.error("Error getting users: " + err);
     }
     finally {
       setLoading(false);
