@@ -156,9 +156,24 @@ app.patch("/remove-like", async (req, res) => {
 app.get('/search/users/:query?', async (req, res) => {
   try {
     const username = req.params.query;
-    User.find({
+    const page = req.query.page;
+    const limit = req.query.limit;
+    const totalUsers = await User.countDocuments();
+    const totalPages = Math.ceil(totalUsers / limit);
+    const offset = (page - 1) * limit;
+
+    const users = await User.find({
       username: new RegExp(username, 'i')
-    }).then(data => res.send(data));
+    }).skip(offset).limit(limit);
+
+    res.json({
+      users,
+      totalPages,
+    });
+
+    // User.find({
+    //   username: new RegExp(username, 'i')
+    // }).then(data => res.send(data));
   }
   catch(err) {
     res.json({status: "error"});

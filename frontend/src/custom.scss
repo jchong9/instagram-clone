@@ -57,7 +57,7 @@ h1 {
   position: fixed !important;
   height: 100%;
   width: 100% !important;
-  z-index: 1 !important;
+  z-index: 3 !important;
 }
 
 .modal-container {
@@ -66,7 +66,7 @@ h1 {
   width: 45%;
   max-height: 100% !important;
   border-radius: 10px;
-  z-index: 2 !important;
+  z-index: 4 !important;
   overflow: hidden !important;
 
   // small devices
@@ -108,6 +108,15 @@ h1 {
 .floating-btn svg {
   width: 30px;
   height: 30px;
+}
+
+.pagination {
+  --bs-pagination-bg: #272a27 !important;
+  --bs-pagination-disabled-bg: #232523 !important;
+  --bs-pagination-hover-bg: #232523 !important;
+  --bs-pagination-disabled-color: #882026FF !important;
+  --bs-pagination-active-color: #232523 !important;
+  --bs-pagination-focus-bg: #2c312c !important;
 }
 
 .comment-section {

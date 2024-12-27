@@ -10,6 +10,8 @@
 
 # production
 /frontend/build
+/frontend/package-lock.json
+/backend/package-lock.json
 
 # misc
 /frontend.DS_Store
@@ -17,6 +19,7 @@
 /frontend.env.development.local
 /frontend.env.test.local
 /frontend.env.production.local
+/backend.env
 
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
