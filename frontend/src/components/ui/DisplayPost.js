@@ -10,41 +10,59 @@ export default function DisplayPost(requestProps) {
   const [showComments, setShowComments] = useState(false);
   const [currPost, setCurrPost] = useState({});
   const [isDisabled, setIsDisabled] = useState(false);
+  const [currPage, setCurrPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      try {
-        getPosts();
+    try {
+      getPosts();
+    }
+    finally {
+      if (!allPosts || allPosts.length === 0) {
+        setLoadingMsg("No posts here... 😔");
       }
-      finally {
-        if (!allPosts || allPosts.length === 0) {
-          setLoadingMsg("No posts here... 😔");
-        }
-        else {
-          setLoadingMsg("");
-        }
+      else {
+        setLoadingMsg("");
       }
-    }, 2000);
-  }, []);
+    }
+  }, [currPage]);
 
   async function getPosts() {
-    const result = await axios.get(`http://localhost:5000${requestProps.requestURL}`, {
-      params: {
-        following: requestProps.following
+    try {
+      if (loading) {
+        return;
       }
-    });
-    setAllPosts(result.data);
+
+      setLoading(true);
+      const { data } = await axios.get(`http://localhost:5000${requestProps.requestURL}`, {
+        params: {
+          following: requestProps.following,
+          page: currPage,
+          limit: 1,
+        }
+      });
+      setAllPosts(data.posts);
+      setTotalPages(data.totalPages);
+    }
+    catch(err) {
+      console.error("Error getting posts: " + err);
+    }
+    finally {
+      setLoading(false);
+    }
   }
 
   async function likePost(imageID, index) {
-    if (isDisabled)
+    if (isDisabled) {
       return;
+    }
 
-    const result = await axios.patch("http://localhost:5000/add-like", {
+    const { data } = await axios.patch("http://localhost:5000/add-like", {
       userID, imageID
     });
     const updatedPosts = [...allPosts];
-    updatedPosts.splice(index, 1, result.data);
+    updatedPosts.splice(index, 1, data);
     setAllPosts(updatedPosts);
 
     setIsDisabled(true);
@@ -58,11 +76,11 @@ export default function DisplayPost(requestProps) {
     if (isDisabled)
       return;
 
-    const result = await axios.patch("http://localhost:5000/remove-like", {
+    const { data } = await axios.patch("http://localhost:5000/remove-like", {
       userID, imageID
     });
     const updatedPosts = [...allPosts];
-    updatedPosts.splice(index, 1, result.data);
+    updatedPosts.splice(index, 1, data);
     setAllPosts(updatedPosts);
 
     setIsDisabled(true);
@@ -80,6 +98,10 @@ export default function DisplayPost(requestProps) {
     setCurrPost(postObj);
     setShowComments(true);
     document.body.style.overflow = "hidden";
+  }
+
+  function handlePageChange(page) {
+    setCurrPage(page);
   }
 
   return (
@@ -150,7 +172,38 @@ export default function DisplayPost(requestProps) {
             </div>
           </div>
         );
-        })}
+      })}
+      {allPosts && allPosts.length !== 0 && (
+        <div className="page-navigator d-flex justify-content-between mb-4">
+          <ul className="pagination">
+            <li className={currPage === 1 ? "page-item disabled" : "page-item"}>
+              <button className="page-link"
+                      onClick={() => handlePageChange(currPage - 1)}
+                      disabled={currPage === 1}>
+                <span aria-hidden="true">&laquo;</span>
+                <span className="sr-only">Previous</span>
+              </button>
+            </li>
+            {[...Array(totalPages)].map((item, index) => (
+              <li className={currPage === index + 1 ? "page-item active" : "page-item"} key={index}>
+                <a className="page-link"
+                   href="#"
+                   onClick={() => handlePageChange(index + 1)}>
+                  {index + 1}
+                </a>
+              </li>
+            ))}
+            <li className={currPage === totalPages ? "page-item disabled" : "page-item"}>
+              <button className="page-link"
+                      onClick={() => handlePageChange(currPage + 1)}
+                      disabled={currPage === totalPages}>
+                <span className="sr-only">Next</span>
+                <span aria-hidden="true">&raquo;</span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
