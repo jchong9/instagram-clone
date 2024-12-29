@@ -1,5 +1,5 @@
-import {useEffect, useRef, useState} from "react";
-import axios, {create} from "axios";
+import {useCallback, useEffect, useRef, useState} from "react";
+import axios from "axios";
 import {Link} from "react-router-dom";
 
 export default function CommentSection(props) {
@@ -7,11 +7,11 @@ export default function CommentSection(props) {
   const [allComments, setAllComments] = useState([]);
   const [submittedComment, setSubmittedComment] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
-
   const [nextCursor, setNextCursor] = useState(null);
   const [loading, setLoading] = useState(false);
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const hasFetchedComments = useRef(false);
+  const observerRef = useRef(null);
 
   useEffect(() => {
     if (!hasFetchedComments.current) {
@@ -34,16 +34,6 @@ export default function CommentSection(props) {
     }
 
     setAllComments((prev) => [newComment, ...prev]);
-
-    // await axios.post("http://localhost:5000/comments", {
-    //   postID: props.imgDetails._id,
-    //   userID: user._id,
-    //   username: user.username,
-    //   content: comment,
-    //   createdAt: createdTime
-    // }, {
-    //   headers: {"Content-Type": "application/json"}
-    // });
 
     try {
       const result = await axios.post("http://localhost:5000/comments", {
@@ -93,9 +83,36 @@ export default function CommentSection(props) {
       console.error(err);
     }
     finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
     }
   }
+
+  const handleObserver = useCallback((entries) => {
+    const target = entries[0];
+    if (target.isIntersecting && hasMoreComments && !loading) {
+      getComments();
+    }
+  }, [hasMoreComments, loading]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    });
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => {
+      if (observerRef.current) {
+        observer.unobserve(observerRef.current);
+      }
+    };
+  }, [handleObserver]);
 
   return (
     <>
@@ -129,11 +146,10 @@ export default function CommentSection(props) {
                 </div>
               );
             })}
-            {loading && <p>Loading...</p>}
-            {!loading && hasMoreComments && (
-              <button onClick={getComments}>Load More</button>
-            )}
-            {!hasMoreComments && <p>No more comments.</p>}
+            <div className="center-relative" ref={observerRef}>
+              {loading && <p>Loading...</p>}
+            </div>
+            {!hasMoreComments && !loading && <p>No more comments.</p>}
           </div>
           <form onSubmit={uploadComment}>
             <input type="text"
