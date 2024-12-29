@@ -1,20 +1,22 @@
 import DisplayPost from "../components/ui/DisplayPost";
 import {Link} from "react-router-dom";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function Home() {
   const [showPersonalFeed, setShowPersonalFeed] = useState(true);
   const [seed, setSeed] = useState(0);
   const user = JSON.parse(localStorage.getItem("user"));
 
+  useEffect(() => {
+    setSeed(Math.random());
+  }, [showPersonalFeed]);
+
   function displayPersonalFeed() {
     setShowPersonalFeed(true);
-    setSeed(Math.random() * 1000);
   }
 
   function displayRecommendations() {
     setShowPersonalFeed(false);
-    setSeed(Math.random() * 1000);
   }
 
   return (
@@ -31,29 +33,23 @@ export default function Home() {
       </div>
       {showPersonalFeed ? (
         <>
-          {user.following.length === 0 ? (
-            <h5 className="center-relative">
-              Not following anyone? Try <Link to="/explore-feed">exploring</Link>
-            </h5>
-          ) : (
-            <>
-              <div className="text-center">
-                <h1>Your Personal Feed</h1>
-              </div>
-              <DisplayPost requestURL={"/users/" + user._id + "/following/posts"}
-                           id={user._id}
-                           search=""
-                           following={user.following}
-                           key={seed}/>
-            </>
-          )}
+          <div className="text-center">
+            <h1>Your Personal Feed</h1>
+          </div>
+          <DisplayPost requestURL={"/users/" + user._id + "/following/posts"}
+                       id={user._id}
+                       search=""
+                       following={user.following}
+                       key={seed}/>
         </>
       ) : (
         <>
           {user.following.length === 0 ? (
-            <h5 className="center-relative">
-              Not following anyone? Try <Link to="/explore-feed">exploring</Link>
-            </h5>
+            <div className="loading-msg center-relative">
+              <h5>
+                Not following anyone? Try <Link to="/explore-feed">exploring</Link>
+              </h5>
+            </div>
           ) : (
             <>
               <div className="text-center">
