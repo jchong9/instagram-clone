@@ -26,16 +26,16 @@ function getPagination(totalPages, currPage) {
   return pageNumbers;
 }
 
-export default function Pagination(pageProps) {
-  const pages = getPagination(pageProps.totalPages, pageProps.currPage);
+export default function Pagination({ totalPages, currPage, handlePageChange }) {
+  const pages = getPagination(totalPages, currPage);
 
   return (
     <div className="page-navigator d-flex justify-content-between mb-4">
       <ul className="pagination">
-        <li className={pageProps.currPage === 1 ? "page-item disabled" : "page-item"}>
+        <li className={currPage === 1 ? "page-item disabled" : "page-item"}>
           <button className="page-link"
-                  onClick={() => pageProps.handlePageChange(pageProps.currPage - 1)}
-                  disabled={pageProps.currPage === 1}>
+                  onClick={() => handlePageChange(currPage - 1)}
+                  disabled={currPage === 1}>
             <span aria-hidden="true">&laquo;</span>
             <span className="sr-only">Previous</span>
           </button>
@@ -43,7 +43,7 @@ export default function Pagination(pageProps) {
         {pages.map((page, index) => (
           <li
             className={
-              page === pageProps.currPage
+              page === currPage
                 ? "page-item active"
                 : page === '...'
                   ? "page-item disabled"
@@ -56,17 +56,17 @@ export default function Pagination(pageProps) {
             ) : (
               <button
                 className="page-link"
-                onClick={() => pageProps.handlePageChange(page)}
+                onClick={() => handlePageChange(page)}
               >
                 {page}
               </button>
             )}
           </li>
         ))}
-        <li className={pageProps.currPage === pageProps.totalPages ? "page-item disabled" : "page-item"}>
+        <li className={currPage === totalPages ? "page-item disabled" : "page-item"}>
           <button className="page-link"
-                  onClick={() => pageProps.handlePageChange(pageProps.currPage + 1)}
-                  disabled={pageProps.currPage === pageProps.totalPages}>
+                  onClick={() => handlePageChange(currPage + 1)}
+                  disabled={currPage === totalPages}>
             <span className="sr-only">Next</span>
             <span aria-hidden="true">&raquo;</span>
           </button>

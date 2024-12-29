@@ -75,7 +75,7 @@ export default function Profile() {
       <DisplayPost requestURL={"/users/" + userID + "/posts"}
                    id={userID}
                    search=""
-                   following={user.following}
+                   followingList={user.following}
                    key={seed} />
     </>
   );

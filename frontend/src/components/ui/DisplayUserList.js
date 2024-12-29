@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import axios from "axios";
 import Pagination from "./Pagination";
 
-export default function DisplayUserList(props) {
+export default function DisplayUserList({ searchQuery }) {
   const [allUsers, setAllUsers] = useState([]);
   const [loadingMsg, setLoadingMsg] = useState("Loading users... 😅");
   const [currPage, setCurrPage] = useState(1);
@@ -31,9 +31,9 @@ export default function DisplayUserList(props) {
       }
 
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:5000/search/users/${props.usernameSearch}`, {
+      const { data } = await axios.get(`http://localhost:5000/search/users/${searchQuery}`, {
         params: {
-          username: props.usernameSearch,
+          username: searchQuery,
           page: currPage,
           limit: 1
         }

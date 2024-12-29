@@ -7,15 +7,15 @@ export const signupSchema = yup.object().shape({
     .max(30, "Username must not exceed 30 characters!")
     .required("Required")
     .test("username", "Username already in use",  async (value) => {
-      const usernameExists = await axios.get(`http://localhost:5000/users/${value}`);
-      return !usernameExists.data; // If username does exist, we want to return false to trigger the error
+      const { data } = await axios.get(`http://localhost:5000/users/${value}`);
+      return !data; // If username does exist, we want to return false to trigger the error
     }),
   email: yup.string()
     .email("Invalid email")
     .required("Required!")
     .test("email", "Email already in use", async (value) => {
-      const emailExists = await axios.get(`http://localhost:5000/users/${value}`);
-      return !emailExists.data;
+      const { data } = await axios.get(`http://localhost:5000/users/${value}`);
+      return !data;
     }),
   password: yup.string()
     .min(6, "Password must be at least 6 characters long!")

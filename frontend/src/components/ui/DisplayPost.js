@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import CommentSection from "./CommentSection";
 import Pagination from "./Pagination";
 
-export default function DisplayPost(requestProps) {
+export default function DisplayPost({ requestURL, followingList }) {
   const [allPosts, setAllPosts] = useState([]);
   const [loadingMsg, setLoadingMsg] = useState("Loading posts... 😅");
   let userID = JSON.parse(localStorage.getItem("user"))._id;
@@ -36,9 +36,9 @@ export default function DisplayPost(requestProps) {
       }
 
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:5000${requestProps.requestURL}`, {
+      const { data } = await axios.get(`http://localhost:5000${requestURL}`, {
         params: {
-          following: requestProps.following,
+          following: followingList,
           page: currPage,
           limit: 1,
         }

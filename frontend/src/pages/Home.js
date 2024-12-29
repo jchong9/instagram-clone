@@ -39,7 +39,7 @@ export default function Home() {
           <DisplayPost requestURL={"/users/" + user._id + "/following/posts"}
                        id={user._id}
                        search=""
-                       following={user.following}
+                       followingList={user.following}
                        key={seed}/>
         </>
       ) : (
@@ -59,7 +59,7 @@ export default function Home() {
               <DisplayPost requestURL={"/users/" + user._id + "/recommendations/posts"}
                            id={user._id}
                            search=""
-                           following={user.following}
+                           followingList={user.following}
                            key={seed}/>
             </>
           )}

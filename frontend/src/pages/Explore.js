@@ -44,14 +44,14 @@ export default function Explore() {
           <h6>{searchQuery ? `Results for ${searchQuery}` : "Showing all content"}</h6>
         </div>
         {showUsers ? (
-          <DisplayUserList usernameSearch={searchQuery}
+          <DisplayUserList searchQuery={searchQuery}
                            key={seed1}
           />
         ) : (
           <DisplayPost requestURL={"/search/posts/" + searchQuery}
                        id={user._id}
                        search={searchQuery}
-                       following={user.following}
+                       followingList={user.following}
                        key={seed2}
           />
         )}

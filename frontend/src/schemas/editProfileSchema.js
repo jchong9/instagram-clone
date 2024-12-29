@@ -4,10 +4,10 @@ import axios from "axios";
 export const editProfileSchema = yup.object().shape({
   username: yup.string()
     .test("username", "Username is already taken",  async (value) => {
-      const result = await axios.get("http://localhost:5000/get-username", {
+      const { data } = await axios.get("http://localhost:5000/get-username", {
         params: {username: value}
       });
-      return !result.data;
+      return !data;
     }),
   bio: yup.string(),
 });

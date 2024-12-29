@@ -2,7 +2,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
 
-export default function CommentSection(props) {
+export default function CommentSection({ imgDetails, onClose }) {
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const [submittedComment, setSubmittedComment] = useState(false);
@@ -26,7 +26,7 @@ export default function CommentSection(props) {
     const createdTime = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date());
     const newComment = {
       _id: Date.now(),
-      postID: props.imgDetails._id,
+      postID: imgDetails._id,
       userID: user._id,
       username: user.username,
       content: comment,
@@ -37,7 +37,7 @@ export default function CommentSection(props) {
 
     try {
       const result = await axios.post("http://localhost:5000/comments", {
-        postID: props.imgDetails._id,
+        postID: imgDetails._id,
         userID: user._id,
         username: user.username,
         content: comment,
@@ -69,7 +69,7 @@ export default function CommentSection(props) {
 
     setLoading(true);
     try {
-      const result = await axios.get(`http://localhost:5000/posts/${props.imgDetails._id}/comments`, {
+      const result = await axios.get(`http://localhost:5000/posts/${imgDetails._id}/comments`, {
         params: {
           cursor: nextCursor,
           limit: 6
@@ -122,7 +122,7 @@ export default function CommentSection(props) {
           <h1>Comments</h1>
           <svg xmlns="http://www.w3.org/2000/svg"
                viewBox="0 0 384 512"
-               onClick={props.onClose}>
+               onClick={onClose}>
             <path
               d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/>
           </svg>
