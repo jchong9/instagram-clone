@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import Pagination from "./Pagination";
 
 export default function DisplayUserList(props) {
   const [allUsers, setAllUsers] = useState([]);
@@ -34,7 +35,7 @@ export default function DisplayUserList(props) {
         params: {
           username: props.usernameSearch,
           page: currPage,
-          limit: 4
+          limit: 1
         }
       });
       setAllUsers(data.users);
@@ -74,35 +75,10 @@ export default function DisplayUserList(props) {
         })
       }
       {allUsers && allUsers.length !== 0 && (
-        <div className="page-navigator d-flex justify-content-between mb-4">
-          <ul className="pagination">
-            <li className={currPage === 1 ? "page-item disabled" : "page-item"}>
-              <button className="page-link"
-                      onClick={() => handlePageChange(currPage - 1)}
-                      disabled={currPage === 1}>
-                <span aria-hidden="true">&laquo;</span>
-                <span className="sr-only">Previous</span>
-              </button>
-            </li>
-            {[...Array(totalPages)].map((item, index) => (
-              <li className={currPage === index + 1 ? "page-item active" : "page-item"} key={index}>
-                <a className="page-link"
-                   href="#"
-                   onClick={() => handlePageChange(index + 1)}>
-                  {index + 1}
-                </a>
-              </li>
-            ))}
-            <li className={currPage === totalPages ? "page-item disabled" : "page-item"}>
-              <button className="page-link"
-                      onClick={() => handlePageChange(currPage + 1)}
-                      disabled={currPage === totalPages}>
-                <span className="sr-only">Next</span>
-                <span aria-hidden="true">&raquo;</span>
-              </button>
-            </li>
-          </ul>
-        </div>
+        <Pagination
+          totalPages={totalPages}
+          currPage={currPage}
+          handlePageChange={(page) => handlePageChange(page)} />
       )}
     </div>
   );
