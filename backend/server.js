@@ -26,7 +26,6 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', async (req, res) => {
   let user = await User.findOne(req.body).select("-password");
-  console.log(user);
   res.send(user);
 });
 
@@ -233,7 +232,9 @@ app.get('/users/:id/posts', async (req, res) => {
 
     const posts = await Post.find({
       userID
-    }).sort({$natural: -1}).skip(offset).limit(limit);
+    }).sort({$natural: -1})
+      .skip(offset)
+      .limit(limit);
 
     res.json({
       posts,
@@ -243,24 +244,12 @@ app.get('/users/:id/posts', async (req, res) => {
   catch(err) {
     res.json({status: "Cannot find posts based on userID"});
   }
-
-  // try {
-  //   const userID = req.params.id;
-  //   Post.find({
-  //     userID: userID
-  //   }).sort({
-  //     $natural: -1
-  //   }).limit(20).then(data => res.send(data));
-  // }
-  // catch(err) {
-  //   res.json({status: "error"});
-  // }
 });
 
 app.get('/users/:id/following/posts', async (req, res) => {
   try {
     const userID = req.params.id;
-    const followingList = req.query.following;
+    const followingList = req.query.following ? req.query.following : [];
     const page = req.query.page;
     const limit = req.query.limit;
     const totalPosts = await Post.countDocuments({userID: {$in: [...followingList, userID]}});
@@ -268,8 +257,8 @@ app.get('/users/:id/following/posts', async (req, res) => {
     const offset = (page - 1) * limit;
 
     const posts = await Post.find({
-      userID: {$in: [...followingList, userID]}
-    }).sort({$natural: -1})
+      userID: { $in: [...followingList, userID] }
+    }).sort({ $natural: -1 })
       .skip(offset)
       .limit(limit);
 
@@ -281,18 +270,6 @@ app.get('/users/:id/following/posts', async (req, res) => {
   catch(err) {
     res.json({status: "Cannot find posts based on following list"});
   }
-  // try {
-  //   const loggedUser = req.params.id;
-  //   const followingList = req.query.following;
-  //   Post.find({
-  //     userID: {$in: [...followingList, loggedUser]}
-  //   }).sort({
-  //     $natural: -1
-  //   }).limit(20).then(data => res.send(data));
-  // }
-  // catch(err) {
-  //   res.json({status: "error"});
-  // }
 });
 
 app.get('/users/:id/recommendations/posts', async (req, res) => {
@@ -317,17 +294,6 @@ app.get('/users/:id/recommendations/posts', async (req, res) => {
   catch(err) {
     res.json({status: "Cannot find posts based on recommendations"});
   }
-  // try {
-  //   const followingList = req.query.following;
-  //   Post.find({
-  //     likedBy: {$in: followingList}
-  //   }).sort({
-  //     $natural: -1
-  //   }).limit(20).then(data => res.send(data));
-  // }
-  // catch(err) {
-  //   res.json({status: "error"});
-  // }
 });
 
 app.get('/search/posts/:query?', async (req, res) => {
@@ -349,7 +315,9 @@ app.get('/search/posts/:query?', async (req, res) => {
         {username: new RegExp(searchQuery, 'i')},
         {caption: new RegExp(searchQuery, 'i')}
       ],
-    }).sort({$natural: -1}).skip(offset).limit(limit);
+    }).sort({ $natural: -1 })
+      .skip(offset
+      ).limit(limit);
 
     res.json({
       posts,
@@ -359,20 +327,6 @@ app.get('/search/posts/:query?', async (req, res) => {
   catch(err) {
     res.json({status: "Cannot find posts based on search query"});
   }
-  // try {
-  //   const searchQuery = req.params.query;
-  //   Post.find({
-  //     $or:[
-  //       {username: new RegExp(searchQuery, 'i')},
-  //       {caption: new RegExp(searchQuery, 'i')}
-  //     ]
-  //   }).sort({
-  //     $natural: -1
-  //   }).limit(20).then(data => res.send(data));
-  // }
-  // catch(err) {
-  //   res.json({status: "Could not get posts based on the query"});
-  // }
 });
 
 app.post('/comments', async (req, res) => {
