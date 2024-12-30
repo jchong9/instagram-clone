@@ -11,13 +11,11 @@ export default function EditProfile() {
   const apiURL = process.env.REACT_APP_API_URL;
 
   async function updateUser(values, actions) {
-    const result = await axios.patch(`${apiURL}/update-user`, {
+    const { data } = await axios.patch(`${apiURL}/users/${user._id}`, {
       username: values.username ? values.username : user.username,
       bio: values.bio ? values.bio : user.bio
-    }, {
-      params: {id: user._id}
     });
-    localStorage.setItem("user", JSON.stringify(result.data));
+    localStorage.setItem("user", JSON.stringify(data));
     actions.resetForm();
     navigate("/profile", {state: {userID: user._id}});
   }

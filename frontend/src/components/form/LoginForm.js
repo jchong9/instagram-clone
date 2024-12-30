@@ -6,7 +6,7 @@ import {loginSchema} from "../../schemas/loginSchema";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const apiURL = process.env.REACT_APP_API;
+  const apiURL = process.env.REACT_APP_API_URL;
 
   async function loginUser(values, actions) {
     const result = await axios.post(`${apiURL}/login`, values);
