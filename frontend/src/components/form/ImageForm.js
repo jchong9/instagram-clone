@@ -6,6 +6,7 @@ import CustomTextarea from "../ui/CustomTextarea";
 
 export default function ImageForm(props) {
   const user = JSON.parse(localStorage.getItem("user"));
+  const apiURL = process.env.REACT_APP_API_URL;
 
   async function uploadImage(values, actions) {
     const formData = new FormData();
@@ -15,7 +16,7 @@ export default function ImageForm(props) {
     formData.append("userID", user._id);
     formData.append("createdAt", new Date().toLocaleDateString());
 
-    await axios.post("http://localhost:5000/posts",
+    await axios.post(`${apiURL}/posts`,
       formData, {
       headers: {"Content-Type": "multipart/form-data"},
     });

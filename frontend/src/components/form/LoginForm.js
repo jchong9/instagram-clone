@@ -6,9 +6,10 @@ import {loginSchema} from "../../schemas/loginSchema";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const apiURL = process.env.REACT_APP_API;
 
   async function loginUser(values, actions) {
-    const result = await axios.post("http://localhost:5000/login", values);
+    const result = await axios.post(`${apiURL}/login`, values);
     localStorage.setItem("user", JSON.stringify(result.data));
     actions.resetForm();
     navigate('/');

@@ -9,6 +9,7 @@ export default function DisplayUserList({ searchQuery }) {
   const [currPage, setCurrPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
+  const apiURL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     try {
@@ -31,7 +32,7 @@ export default function DisplayUserList({ searchQuery }) {
       }
 
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:5000/search/users/${searchQuery}`, {
+      const { data } = await axios.get(`${apiURL}/search/users/${searchQuery}`, {
         params: {
           username: searchQuery,
           page: currPage,
@@ -47,10 +48,6 @@ export default function DisplayUserList({ searchQuery }) {
     finally {
       setLoading(false);
     }
-  }
-
-  function handlePageChange(page) {
-    setCurrPage(page);
   }
 
   return (
@@ -78,7 +75,7 @@ export default function DisplayUserList({ searchQuery }) {
         <Pagination
           totalPages={totalPages}
           currPage={currPage}
-          handlePageChange={(page) => handlePageChange(page)} />
+          handlePageChange={(page) => setCurrPage(page)} />
       )}
     </div>
   );

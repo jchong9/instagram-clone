@@ -7,21 +7,23 @@ export const signupSchema = yup.object().shape({
     .max(30, "Username must not exceed 30 characters!")
     .required("Required")
     .test("username", "Username already in use",  async (value) => {
-      const { data } = await axios.get(`http://localhost:5000/users/${value}`);
+      const apiURL = process.env.REACT_APP_API_URL;
+      const { data } = await axios.get(`${apiURL}/users/${value}`);
       return !data; // If username does exist, we want to return false to trigger the error
     }),
   email: yup.string()
     .email("Invalid email")
     .required("Required!")
     .test("email", "Email already in use", async (value) => {
-      const { data } = await axios.get(`http://localhost:5000/users/${value}`);
+      const apiURL = process.env.REACT_APP_API_URL;
+      const { data } = await axios.get(`${apiURL}/users/${value}`);
       return !data;
     }),
   password: yup.string()
     .min(6, "Password must be at least 6 characters long!")
     .required("Required")
     .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/,
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
       "Must contain one uppercase, one lowercase, one number and one special character"
     ),
   confirmPassword: yup.string()

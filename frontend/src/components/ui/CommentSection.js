@@ -12,6 +12,7 @@ export default function CommentSection({ imgDetails, onClose }) {
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const hasFetchedComments = useRef(false);
   const observerRef = useRef(null);
+  const apiURL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     if (!hasFetchedComments.current) {
@@ -36,7 +37,7 @@ export default function CommentSection({ imgDetails, onClose }) {
     setAllComments((prev) => [newComment, ...prev]);
 
     try {
-      const result = await axios.post("http://localhost:5000/comments", {
+      const result = await axios.post(`${apiURL}/comments`, {
         postID: imgDetails._id,
         userID: user._id,
         username: user.username,
@@ -129,7 +130,7 @@ export default function CommentSection({ imgDetails, onClose }) {
         </div>
         <div className="modal-body">
           <div className="comment-section">
-            {!allComments || allComments.length === 0 ? (
+            {!loading && (!allComments || allComments.length === 0) ? (
               <h5>No comments here...</h5>
             ) : allComments.map((data) => {
               return (
@@ -149,7 +150,6 @@ export default function CommentSection({ imgDetails, onClose }) {
             <div className="center-relative" ref={observerRef}>
               {loading && <p>Loading...</p>}
             </div>
-            {!hasMoreComments && !loading && <p>No more comments.</p>}
           </div>
           <form onSubmit={uploadComment}>
             <input type="text"

@@ -14,6 +14,7 @@ export default function DisplayPost({ requestURL, followingList }) {
   const [currPage, setCurrPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
+  const apiURL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     try {
@@ -36,7 +37,7 @@ export default function DisplayPost({ requestURL, followingList }) {
       }
 
       setLoading(true);
-      const { data } = await axios.get(`http://localhost:5000${requestURL}`, {
+      const { data } = await axios.get(`${apiURL}${requestURL}`, {
         params: {
           following: followingList,
           page: currPage,
@@ -59,7 +60,7 @@ export default function DisplayPost({ requestURL, followingList }) {
       return;
     }
 
-    const { data } = await axios.patch("http://localhost:5000/add-like", {
+    const { data } = await axios.patch(`${apiURL}/add-like`, {
       userID, imageID
     });
     const updatedPosts = [...allPosts];
@@ -77,7 +78,7 @@ export default function DisplayPost({ requestURL, followingList }) {
     if (isDisabled)
       return;
 
-    const { data } = await axios.patch("http://localhost:5000/remove-like", {
+    const { data } = await axios.patch(`${apiURL}/remove-like`, {
       userID, imageID
     });
     const updatedPosts = [...allPosts];
@@ -99,10 +100,6 @@ export default function DisplayPost({ requestURL, followingList }) {
     setCurrPost(postObj);
     setShowComments(true);
     document.body.style.overflow = "hidden";
-  }
-
-  function handlePageChange(page) {
-    setCurrPage(page);
   }
 
   return (

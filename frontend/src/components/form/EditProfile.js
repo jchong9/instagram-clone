@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {Form, Formik} from "formik";
@@ -9,9 +8,10 @@ import {editProfileSchema} from "../../schemas/editProfileSchema";
 export default function EditProfile() {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const apiURL = process.env.REACT_APP_API_URL;
 
   async function updateUser(values, actions) {
-    const result = await axios.patch("http://localhost:5000/update-user", {
+    const result = await axios.patch(`${apiURL}/update-user`, {
       username: values.username ? values.username : user.username,
       bio: values.bio ? values.bio : user.bio
     }, {

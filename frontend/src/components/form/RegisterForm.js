@@ -6,13 +6,14 @@ import CustomInput from "../ui/CustomInput";
 
 export default function RegisterForm() {
   const navigate = useNavigate();
+  const apiURL = process.env.REACT_APP_API_URL;
 
   async function signupUser(values, actions) {
     delete values.confirmPassword;
     values.bio = "";
     values.following = [];
     values.followers = [];
-    const result = await axios.post("http://localhost:5000/register", values);
+    const result = await axios.post(`${apiURL}/register`, values);
     localStorage.setItem("user", JSON.stringify(result.data));
     actions.resetForm();
     navigate('/');

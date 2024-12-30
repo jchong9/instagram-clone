@@ -5,7 +5,8 @@ export const loginSchema = yup.object().shape({
   username: yup.string()
     .required("Required")
     .test("username", "Username does not exist",  async (value) => {
-      const { data } = await axios.get(`http://localhost:5000/users/${value}`);
+      const apiURL = process.env.REACT_APP_API_URL
+      const { data } = await axios.get(`${apiURL}/users/${value}`);
       return data;
     }),
   password: yup.string()
