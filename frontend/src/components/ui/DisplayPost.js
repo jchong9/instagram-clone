@@ -41,7 +41,7 @@ export default function DisplayPost({ requestURL, followingList }) {
         params: {
           following: followingList,
           page: currPage,
-          limit: 1,
+          limit: 3,
         }
       });
       setAllPosts(data.posts);

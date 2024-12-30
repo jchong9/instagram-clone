@@ -36,7 +36,7 @@ export default function DisplayUserList({ searchQuery }) {
         params: {
           username: searchQuery,
           page: currPage,
-          limit: 1
+          limit: 3
         }
       });
       setAllUsers(data.users);

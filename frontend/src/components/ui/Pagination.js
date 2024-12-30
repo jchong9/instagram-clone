@@ -1,6 +1,6 @@
 function getPagination(totalPages, currPage) {
   const pageNumbers = [];
-  const siblingCount = 1; // Number of pages to show on either side of the current page
+  const siblingCount = 2; // Number of pages to show on either side of the current page
   const totalDisplayedPages = siblingCount * 2 + 5; // Including first, last, current, and 2 possible ellipses
 
   // Show all pages if total is within the limit
