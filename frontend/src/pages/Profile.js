@@ -51,6 +51,7 @@ export default function Profile() {
           <h6 className="col">Following: {user.following.length}</h6>
           <h6 className="col">Followers: {user.followers.length}</h6>
         </div>
+        <p className="m-2">{user.bio}</p>
         {loggedUser._id === userID ? (
           <Link to="/edit-profile">
             <button className="btn btn-outline-primary m-2">
@@ -70,7 +71,6 @@ export default function Profile() {
             )}
           </div>
         )}
-        <p className="m-2">{user.bio}</p>
       </div>
       <DisplayPost requestURL={"/users/" + userID + "/posts"}
                    id={userID}

@@ -23,39 +23,47 @@ export default function EditProfile() {
   }
 
   return (
-    <div className="center">
-      <h1>Edit your profile</h1>
-      <Formik
-        initialValues={{
-          username: '',
-          bio: '',
-        }}
-        validationSchema={editProfileSchema}
-        validateOnChange={false}
-        onSubmit={updateUser}
-      >
-        {({isSubmitting}) => (
-          <Form>
-            <CustomInput
-              label="Username"
-              name="username"
-              type="text"
-              placeholder={user.username}
-            />
-            <CustomTextarea
-              label="Description"
-              name="bio"
-              placeholder="Enter a description (optional)"
-              rows={5}
-            />
-            <button disabled={isSubmitting} type="submit" className="btn btn-primary form-control w-50 my-2">Submit</button>
-            <button className="btn btn-outline-light form-control w-50"
-                    onClick={() => navigate("/profile", {state: {userID: user._id}})}>
-              Close
-            </button>
-          </Form>
-        )}
-      </Formik>
+    <div className="center-relative">
+      <div className="w-50">
+        <h1>Edit your profile</h1>
+        <Formik
+          initialValues={{
+            username: '',
+            bio: '',
+          }}
+          validationSchema={editProfileSchema}
+          validateOnChange={false}
+          onSubmit={updateUser}
+        >
+          {({isSubmitting}) => (
+            <Form>
+              <CustomInput
+                label="Username"
+                name="username"
+                type="text"
+                placeholder={user.username}
+              />
+              <CustomTextarea
+                label="Description"
+                name="bio"
+                placeholder="Enter a description (optional)"
+                rows={5}
+              />
+              <div className="d-flex justify-content-end align-items-center my-3">
+                <button className="btn btn-outline-light mx-2"
+                        onClick={() => navigate("/profile", {state: {userID: user._id}})}>
+                  Close
+                </button>
+                <button className="btn btn-primary"
+                        disabled={isSubmitting}
+                        type="submit">
+                  Submit
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 }
