@@ -10,6 +10,7 @@ export default function Profile() {
   const loggedUser = JSON.parse(localStorage.getItem("user"));
   const [seed, setSeed] = useState(1);
   const navigate = useNavigate();
+  const apiURL = process.env.REACT_APP_API_URL;
 
 
   useEffect(() => {
@@ -21,12 +22,12 @@ export default function Profile() {
   }, [userID]);
 
   async function getUser() {
-    const result = await axios.get(`http://localhost:5000/users/${userID}`);
+    const result = await axios.get(`${apiURL}/users/${userID}`);
     setUser(result.data);
   }
 
   async function followUser() {
-    const result = await axios.patch("http://localhost:5000/add-follow", {
+    const result = await axios.patch(`${apiURL}/add-follow`, {
       follower: loggedUser._id,
       followee: userID
     });
@@ -35,7 +36,7 @@ export default function Profile() {
   }
 
   async function unfollowUser() {
-    const result = await axios.patch("http://localhost:5000/remove-follow", {
+    const result = await axios.patch(`${apiURL}/remove-follow`, {
       follower: loggedUser._id,
       followee: userID
     });
@@ -54,18 +55,18 @@ export default function Profile() {
         <p className="m-2">{user.bio}</p>
         {loggedUser._id === userID ? (
           <Link to="/edit-profile">
-            <button className="btn btn-outline-primary m-2">
+            <button className="btn btn-outline-primary m-3">
               Edit profile
             </button>
           </Link>
         ) : (
           <div>
             {loggedUser.following.includes(userID) ? (
-              <button className="btn btn-secondary" onClick={unfollowUser}>
+              <button className="btn btn-secondary m-3" onClick={unfollowUser}>
                 Unfollow
               </button>
             ) : (
-              <button className="btn btn-primary" onClick={followUser}>
+              <button className="btn btn-primary m-3" onClick={followUser}>
                 Follow
               </button>
             )}
