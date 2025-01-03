@@ -18,7 +18,7 @@ function App() {
           <Route element={<PrivateComponent />}>
             <Route path="/" element={ <Home /> } />
             <Route path="/explore-feed" element={ <Explore /> } />
-            <Route path="/profile" element={ <Profile /> } />
+            <Route path="/profile/:id" element={ <Profile /> } />
             <Route path="/edit-profile" element={ <EditProfile /> } />
           </Route>
           <Route path="/signup" element={ <SignUp /> } />

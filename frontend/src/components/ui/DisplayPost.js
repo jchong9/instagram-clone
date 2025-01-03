@@ -122,7 +122,7 @@ export default function DisplayPost({ requestURL, followingList }) {
         return (
           <div key={data._id} className="card mb-5">
             <div className="card-header">
-              <Link to="/profile" state={{userID: data.userID}}>
+              <Link to={`/profile/${data.userID}`}>
                 <h5>@{data.username}</h5>
               </Link>
             </div>

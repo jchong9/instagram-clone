@@ -45,10 +45,7 @@ export default function Navbar() {
               </ul>
               <ul className="navbar-nav ms-auto">
                 <li className="nav-item">
-                  <Link to="/profile"
-                        state={{userID: auth._id}}
-                        className="nav-link"
-                  >
+                  <Link to={`/profile/${auth._id}`} className="nav-link">
                     Profile
                   </Link>
                 </li>

@@ -17,7 +17,7 @@ export default function EditProfile() {
     });
     localStorage.setItem("user", JSON.stringify(data));
     actions.resetForm();
-    navigate("/profile", {state: {userID: user._id}});
+    navigate(`/profile/${user._id}`);
   }
 
   return (
@@ -49,7 +49,7 @@ export default function EditProfile() {
               />
               <div className="d-flex justify-content-end align-items-center my-3">
                 <button className="btn btn-outline-light mx-2"
-                        onClick={() => navigate("/profile", {state: {userID: user._id}})}>
+                        onClick={() => navigate(`/profile/${user._id}`)}>
                   Close
                 </button>
                 <button className="btn btn-primary"

@@ -60,7 +60,7 @@ export default function DisplayUserList({ searchQuery }) {
           return (
             <div key={data._id} className="card mb-5">
               <div className="card-header">
-                <Link to="/profile" state={{userID: data._id}}>
+                <Link to={`/profile/${data._id}`}>
                   <h5>@{data.username}</h5>
                 </Link>
               </div>

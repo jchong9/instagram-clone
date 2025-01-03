@@ -136,7 +136,7 @@ export default function CommentSection({ imgDetails, onClose }) {
               return (
                 <div key={data._id}>
                   <h6>
-                    <Link to="/profile" state={{userID: data.userID}}>
+                    <Link to={`/profile/${data.userID}`}>
                       @{data.username}
                     </Link>
                     &nbsp;• {data.createdAt}
