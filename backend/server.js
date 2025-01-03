@@ -218,7 +218,16 @@ app.post('/posts', upload.single('image'), async (req, res) => {
 });
 
 app.get('/posts', async (req, res) => {
+  try {
+    const posts = await Post.find().sort({$natural: -1});
 
+    res.json({
+      posts
+    });
+  }
+  catch(err) {
+    res.json({status: "Cannot find all posts"});
+  }
 });
 
 app.get('/users/:id/posts', async (req, res) => {
