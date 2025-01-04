@@ -1,4 +1,4 @@
-import DisplayPost from "../components/ui/DisplayPost";
+import PostList from "../components/ui/PostList";
 import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 
@@ -36,11 +36,11 @@ export default function Home() {
           <div className="text-center">
             <h1>Your Personal Feed</h1>
           </div>
-          <DisplayPost requestURL={"/users/" + user._id + "/following/posts"}
-                       id={user._id}
-                       search=""
-                       followingList={user.following}
-                       key={seed}/>
+          <PostList requestURL={"/users/" + user._id + "/following/posts"}
+                    id={user._id}
+                    search=""
+                    followingList={user.following}
+                    key={seed}/>
         </>
       ) : (
         <>
@@ -56,11 +56,11 @@ export default function Home() {
                 <h1>Recommendations</h1>
                 <p className="text-primary">People you follow like these posts</p>
               </div>
-              <DisplayPost requestURL={"/users/" + user._id + "/recommendations/posts"}
-                           id={user._id}
-                           search=""
-                           followingList={user.following}
-                           key={seed}/>
+              <PostList requestURL={"/users/" + user._id + "/recommendations/posts"}
+                        id={user._id}
+                        search=""
+                        followingList={user.following}
+                        key={seed}/>
             </>
           )}
         </>

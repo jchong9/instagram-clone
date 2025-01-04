@@ -1,7 +1,7 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import DisplayPost from "../components/ui/DisplayPost";
+import PostList from "../components/ui/PostList";
 import {API} from "../utils/constants";
 
 export default function Profile() {
@@ -85,11 +85,11 @@ export default function Profile() {
               </div>
             )}
           </div>
-          <DisplayPost requestURL={`/users/${id}/posts`}
-                       id={id}
-                       search=""
-                       followingList={user.following}
-                       key={seed}/>
+          <PostList requestURL={`/users/${id}/posts`}
+                    id={id}
+                    search=""
+                    followingList={user.following}
+                    key={seed}/>
         </>
       ) : (
         <div className="center-relative">

@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 import axios from "axios";
 import Pagination from "./Pagination";
 import {API} from "../../utils/constants";
+import UserCard from "./UserCard";
 
-export default function DisplayUserList({ searchQuery }) {
+export default function UserCardList({ searchQuery }) {
   const [allUsers, setAllUsers] = useState([]);
   const [loadingMsg, setLoadingMsg] = useState("Loading users... 😅");
   const [currPage, setCurrPage] = useState(1);
@@ -59,16 +59,8 @@ export default function DisplayUserList({ searchQuery }) {
         </div>
         : allUsers.map((data) => {
           return (
-            <div key={data._id} className="card mb-5">
-              <div className="card-header">
-                <Link to={`/profile/${data._id}`}>
-                  <h5>@{data.username}</h5>
-                </Link>
-              </div>
-              <div className="card-footer">
-                <p>{data.bio ? data.bio : "No bio yet"}</p>
-              </div>
-            </div>
+            <UserCard user={data}
+                      key={data._id} />
           );
         })
       }

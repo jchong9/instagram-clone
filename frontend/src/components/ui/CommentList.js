@@ -1,9 +1,9 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
-import {Link} from "react-router-dom";
 import {API} from "../../utils/constants";
+import Comment from "./Comment";
 
-export default function CommentSection({ imgDetails, onClose }) {
+export default function CommentList({ imgDetails, onClose }) {
   const [comment, setComment] = useState('');
   const [allComments, setAllComments] = useState([]);
   const [submittedComment, setSubmittedComment] = useState(false);
@@ -135,17 +135,8 @@ export default function CommentSection({ imgDetails, onClose }) {
               <h5>No comments here...</h5>
             ) : allComments.map((data) => {
               return (
-                <div key={data._id}>
-                  <h6>
-                    <Link to={`/profile/${data.userID}`}>
-                      @{data.username}
-                    </Link>
-                    &nbsp;• {data.createdAt}
-                  </h6>
-                  <p>
-                    {data.content}
-                  </p>
-                </div>
+                <Comment comment={data}
+                         key={data._id} />
               );
             })}
             <div className="center-relative" ref={observerRef}>

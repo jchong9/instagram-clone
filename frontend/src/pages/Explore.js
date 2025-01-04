@@ -1,6 +1,6 @@
 import {useState} from "react";
-import DisplayPost from "../components/ui/DisplayPost";
-import DisplayUserList from "../components/ui/DisplayUserList";
+import PostList from "../components/ui/PostList";
+import UserCardList from "../components/ui/UserCardList";
 
 export default function Explore() {
   const [searchInput, setSearchInput] = useState('');
@@ -29,13 +29,11 @@ export default function Explore() {
                  onChange={(e) => setSearchInput(e.target.value)}/>
         </form>
         <span className={showUsers ? "active me-3" : "inactive me-3"}
-              onClick={() => setShowUsers(true)
-              }>
+              onClick={() => setShowUsers(true)}>
           Related users
         </span>
         <span className={showUsers ? "inactive" : "active"}
-              onClick={() => setShowUsers(false)}
-        >
+              onClick={() => setShowUsers(false)}>
           Related posts
         </span>
       </div>
@@ -44,15 +42,15 @@ export default function Explore() {
           <h6>{searchQuery ? `Results for ${searchQuery}` : "Showing all content"}</h6>
         </div>
         {showUsers ? (
-          <DisplayUserList searchQuery={searchQuery}
-                           key={seed1}
+          <UserCardList searchQuery={searchQuery}
+                        key={seed1}
           />
         ) : (
-          <DisplayPost requestURL={"/search/posts/" + searchQuery}
-                       id={user._id}
-                       search={searchQuery}
-                       followingList={user.following}
-                       key={seed2}
+          <PostList requestURL={"/search/posts/" + searchQuery}
+                    id={user._id}
+                    search={searchQuery}
+                    followingList={user.following}
+                    key={seed2}
           />
         )}
       </div>
