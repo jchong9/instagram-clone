@@ -3,11 +3,16 @@ import SharePost from "./SharePost";
 
 export default function PrivateComponent() {
   const auth = localStorage.getItem("user");
-  return auth ?
+  return (
     <>
-      <Outlet />
-      <SharePost />
+      {auth ? (
+        <>
+          <Outlet />
+          <SharePost />
+        </>
+      ) : (
+        <Navigate to={'/signup'} />
+      )}
     </>
-    :
-    <Navigate to="/signup" />;
+  );
 }
