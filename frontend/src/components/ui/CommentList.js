@@ -2,6 +2,7 @@ import {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {API} from "../../utils/constants";
 import Comment from "./Comment";
+import {useInfiniteScroll} from "../../hooks/useInfiniteScroll";
 
 export default function CommentList({ imgDetails, onClose }) {
   const [comment, setComment] = useState('');
@@ -12,7 +13,7 @@ export default function CommentList({ imgDetails, onClose }) {
   const [loading, setLoading] = useState(false);
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const hasFetchedComments = useRef(false);
-  const observerRef = useRef(null);
+  // const observerRef = useRef(null);
   const apiURL = API.baseURL;
 
   useEffect(() => {
@@ -25,7 +26,11 @@ export default function CommentList({ imgDetails, onClose }) {
   async function uploadComment(e) {
     e.preventDefault();
 
-    const createdTime = new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' }).format(new Date());
+    const createdTime = new Intl.DateTimeFormat('en-GB', {
+      dateStyle: 'short',
+      timeStyle: 'medium'
+    }).format(new Date());
+
     const newComment = {
       _id: Date.now(),
       postID: imgDetails._id,
@@ -91,30 +96,32 @@ export default function CommentList({ imgDetails, onClose }) {
     }
   }
 
-  const handleObserver = useCallback((entries) => {
-    const target = entries[0];
-    if (target.isIntersecting && hasMoreComments && !loading) {
-      getComments();
-    }
-  }, [hasMoreComments, loading]);
+  const observerRef = useInfiniteScroll(getComments, hasMoreComments, loading);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1.0,
-    });
-
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
-    }
-
-    return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
-      }
-    };
-  }, [handleObserver]);
+  // const handleObserver = useCallback((entries) => {
+  //   const target = entries[0];
+  //   if (target.isIntersecting && hasMoreComments && !loading) {
+  //     getComments();
+  //   }
+  // }, [hasMoreComments, loading]);
+  //
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(handleObserver, {
+  //     root: null,
+  //     rootMargin: '0px',
+  //     threshold: 1.0,
+  //   });
+  //
+  //   if (observerRef.current) {
+  //     observer.observe(observerRef.current);
+  //   }
+  //
+  //   return () => {
+  //     if (observerRef.current) {
+  //       observer.unobserve(observerRef.current);
+  //     }
+  //   };
+  // }, [handleObserver]);
 
   return (
     <>
