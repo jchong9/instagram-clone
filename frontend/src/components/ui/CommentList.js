@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {API} from "../../utils/constants";
 import Comment from "./Comment";
@@ -13,7 +13,6 @@ export default function CommentList({ imgDetails, onClose }) {
   const [loading, setLoading] = useState(false);
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const hasFetchedComments = useRef(false);
-  // const observerRef = useRef(null);
   const apiURL = API.baseURL;
 
   useEffect(() => {
@@ -97,31 +96,6 @@ export default function CommentList({ imgDetails, onClose }) {
   }
 
   const observerRef = useInfiniteScroll(getComments, hasMoreComments, loading);
-
-  // const handleObserver = useCallback((entries) => {
-  //   const target = entries[0];
-  //   if (target.isIntersecting && hasMoreComments && !loading) {
-  //     getComments();
-  //   }
-  // }, [hasMoreComments, loading]);
-  //
-  // useEffect(() => {
-  //   const observer = new IntersectionObserver(handleObserver, {
-  //     root: null,
-  //     rootMargin: '0px',
-  //     threshold: 1.0,
-  //   });
-  //
-  //   if (observerRef.current) {
-  //     observer.observe(observerRef.current);
-  //   }
-  //
-  //   return () => {
-  //     if (observerRef.current) {
-  //       observer.unobserve(observerRef.current);
-  //     }
-  //   };
-  // }, [handleObserver]);
 
   return (
     <>
