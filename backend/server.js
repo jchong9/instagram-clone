@@ -41,43 +41,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage: storage});
 
-
-// app.get("/get-username", async (req, res) => {
-//   try {
-//     const username = req.query.username;
-//     let registeredUser = await User.findOne({
-//       username
-//     });
-//     if (registeredUser) {
-//       res.send(true);
-//     }
-//     else {
-//       res.send(false);
-//     }
-//   }
-//   catch(err) {
-//     res.send(false);
-//   }
-// });
-//
-// app.get("/get-email", async (req, res) => {
-//   try {
-//     const email = req.query.email;
-//     let registeredUser = await User.findOne({
-//       email
-//     });
-//     if (registeredUser) {
-//       res.send(true);
-//     }
-//     else {
-//       res.send(false);
-//     }
-//   }
-//   catch(err) {
-//     res.send(false);
-//   }
-// });
-
 app.patch("/add-follow", async (req, res) => {
   try {
     const followerID = req.body.follower;
