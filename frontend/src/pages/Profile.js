@@ -2,13 +2,14 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import DisplayPost from "../components/ui/DisplayPost";
+import {API} from "../utils/constants";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
   const loggedUser = JSON.parse(localStorage.getItem("user"));
   const [seed, setSeed] = useState(1);
   const navigate = useNavigate();
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
 

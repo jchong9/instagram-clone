@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import Pagination from "./Pagination";
+import {API} from "../../utils/constants";
 
 export default function DisplayUserList({ searchQuery }) {
   const [allUsers, setAllUsers] = useState([]);
@@ -9,7 +10,7 @@ export default function DisplayUserList({ searchQuery }) {
   const [currPage, setCurrPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
 
   useEffect(() => {
     try {
@@ -36,7 +37,7 @@ export default function DisplayUserList({ searchQuery }) {
         params: {
           username: searchQuery,
           page: currPage,
-          limit: 3
+          limit: API.userDisplayLimit,
         }
       });
       setAllUsers(data.users);

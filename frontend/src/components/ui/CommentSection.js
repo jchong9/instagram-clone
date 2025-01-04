@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {Link} from "react-router-dom";
+import {API} from "../../utils/constants";
 
 export default function CommentSection({ imgDetails, onClose }) {
   const [comment, setComment] = useState('');
@@ -12,7 +13,7 @@ export default function CommentSection({ imgDetails, onClose }) {
   const [hasMoreComments, setHasMoreComments] = useState(true);
   const hasFetchedComments = useRef(false);
   const observerRef = useRef(null);
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
 
   useEffect(() => {
     if (!hasFetchedComments.current) {
@@ -73,7 +74,7 @@ export default function CommentSection({ imgDetails, onClose }) {
       const result = await axios.get(`http://localhost:5000/posts/${imgDetails._id}/comments`, {
         params: {
           cursor: nextCursor,
-          limit: 6
+          limit: API.commentDisplayLimit
         },
       });
       setAllComments((prev) => [...prev, ...result.data.comments]);

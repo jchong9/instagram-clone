@@ -3,10 +3,11 @@ import {Form, Formik} from "formik";
 import axios from "axios";
 import CustomInput from "../ui/CustomInput";
 import {loginSchema} from "../../schemas/loginSchema";
+import {API} from "../../utils/constants";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
 
   async function loginUser(values, actions) {
     const result = await axios.post(`${apiURL}/login`, values);

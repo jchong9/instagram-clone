@@ -3,6 +3,7 @@ import axios from "axios";
 import {Link} from "react-router-dom";
 import CommentSection from "./CommentSection";
 import Pagination from "./Pagination";
+import {API} from "../../utils/constants";
 
 export default function DisplayPost({ requestURL, followingList }) {
   const [allPosts, setAllPosts] = useState([]);
@@ -14,7 +15,7 @@ export default function DisplayPost({ requestURL, followingList }) {
   const [currPage, setCurrPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
 
   useEffect(() => {
     try {
@@ -41,7 +42,7 @@ export default function DisplayPost({ requestURL, followingList }) {
         params: {
           following: followingList,
           page: currPage,
-          limit: 3,
+          limit: API.postDisplayLimit,
         }
       });
       setAllPosts(data.posts);

@@ -3,10 +3,11 @@ import {Form, Formik} from "formik";
 import axios from "axios";
 import {signupSchema} from "../../schemas/signupSchema";
 import CustomInput from "../ui/CustomInput";
+import {API} from "../../utils/constants";
 
 export default function RegisterForm() {
   const navigate = useNavigate();
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
 
   async function signupUser(values, actions) {
     delete values.confirmPassword;

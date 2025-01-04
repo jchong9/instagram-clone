@@ -3,10 +3,11 @@ import {Form, Formik} from "formik";
 import CustomInput from "../ui/CustomInput";
 import {imageUploadSchema} from "../../schemas/imageUploadSchema";
 import CustomTextarea from "../ui/CustomTextarea";
+import {API} from "../../utils/constants";
 
 export default function ImageForm(props) {
   const user = JSON.parse(localStorage.getItem("user"));
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
 
   async function uploadImage(values, actions) {
     const formData = new FormData();

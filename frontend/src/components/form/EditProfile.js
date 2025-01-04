@@ -4,11 +4,12 @@ import {Form, Formik} from "formik";
 import CustomInput from "../ui/CustomInput";
 import CustomTextarea from "../ui/CustomTextarea";
 import {editProfileSchema} from "../../schemas/editProfileSchema";
+import {API} from "../../utils/constants";
 
 export default function EditProfile() {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
-  const apiURL = process.env.REACT_APP_API_URL;
+  const apiURL = API.baseURL;
 
   async function updateUser(values, actions) {
     const { data } = await axios.patch(`${apiURL}/users/${user._id}`, {
