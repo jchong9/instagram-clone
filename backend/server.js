@@ -246,7 +246,6 @@ app.get('/users/:id/following/posts', async (req, res) => {
 
 app.get('/users/:id/recommendations/posts', async (req, res) => {
   try {
-    const userID = req.params.id;
     const followingList = req.query.following;
     const page = req.query.page;
     const limit = req.query.limit;
