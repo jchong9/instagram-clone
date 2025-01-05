@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 import axios from "axios";
+import {API} from "../utils/constants";
 
 export const signupSchema = yup.object().shape({
   username: yup.string()
@@ -7,7 +8,7 @@ export const signupSchema = yup.object().shape({
     .max(30, "Username must not exceed 30 characters!")
     .required("Required")
     .test("username", "Username already in use",  async (value) => {
-      const apiURL = process.env.REACT_APP_API_URL;
+      const apiURL = API.baseURL;
       const { data } = await axios.get(`${apiURL}/users/${value}`);
       return !data; // If username does exist, we want to return false to trigger the error
     }),
@@ -15,7 +16,7 @@ export const signupSchema = yup.object().shape({
     .email("Invalid email")
     .required("Required!")
     .test("email", "Email already in use", async (value) => {
-      const apiURL = process.env.REACT_APP_API_URL;
+      const apiURL = API.baseURL;
       const { data } = await axios.get(`${apiURL}/users/${value}`);
       return !data;
     }),
