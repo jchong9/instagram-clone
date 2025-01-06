@@ -3,99 +3,124 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import PostList from "../components/ui/PostList";
 import {API} from "../utils/constants";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+
+const apiURL = API.baseURL;
+
+async function getUser({ queryKey }){
+  const [, id] = queryKey;
+  const { data } = await axios.get(`${apiURL}/users/${id}`);
+  if (!data) {
+    throw new Error("User not found");
+  }
+  return data;
+}
+
+async function addFollow({ followerID, followeeID }) {
+  const { data } = await axios.patch(`${apiURL}/add-follow`, {
+    follower: followerID,
+    followee: followeeID
+  });
+  return data;
+}
+
+async function removeFollow({ followerID, followeeID }) {
+  const { data } = await axios.patch(`${apiURL}/remove-follow`, {
+    follower: followerID,
+    followee: followeeID
+  });
+  return data;
+}
+
 
 export default function Profile() {
-  const [user, setUser] = useState(null);
   const loggedUser = JSON.parse(localStorage.getItem("user"));
   const [seed, setSeed] = useState(1);
-  const navigate = useNavigate();
-  const apiURL = API.baseURL;
-  const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const queryClient = useQueryClient();
+  const { data: user, isLoading, isError, error } = useQuery({
+    queryKey: ["user", id],
+    queryFn: getUser,
+  });
 
-  async function getUser() {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(`${apiURL}/users/${id}`);
-      if (!data) {
-        navigate("/");
-      }
-      setUser(data);
-    }
-    catch(err) {
-      navigate("/");
-    }
-    finally {
-      setLoading(false);
-    }
-  }
+  const followMutation = useMutation({
+    mutationFn: addFollow,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["user", id] });
+      localStorage.setItem("user", JSON.stringify(data.follower));
+    },
+  });
+
+  const unfollowMutation = useMutation({
+    mutationFn: removeFollow,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["user", id] });
+      localStorage.setItem("user", JSON.stringify(data.follower));
+    },
+  });
+
+  const handleFollow = () => {
+    followMutation.mutate({ followerID: loggedUser._id, followeeID: id });
+  };
+
+  const handleUnfollow = () => {
+    unfollowMutation.mutate({ followerID: loggedUser._id, followeeID: id });
+  };
 
   useEffect(() => {
-    document.body.style.overflow = "auto";
-    getUser();
     setSeed(Math.random());
   }, [id]);
 
-  async function followUser() {
-    const { data } = await axios.patch(`${apiURL}/add-follow`, {
-      follower: loggedUser._id,
-      followee: id
-    });
-    setUser(data.followee);
-    localStorage.setItem("user", JSON.stringify(data.follower));
+  if (isLoading) {
+    return (
+      <div className="center-relative loading-msg">
+        <h5>Loading profile...</h5>
+      </div>
+    );
   }
 
-  async function unfollowUser() {
-    const { data } = await axios.patch(`${apiURL}/remove-follow`, {
-      follower: loggedUser._id,
-      followee: id
-    });
-    setUser(data.followee);
-    localStorage.setItem("user", JSON.stringify(data.follower));
+  if (isError) {
+    return (
+      <div className="center-relative loading-msg">
+        <h5>Profile does not exist 😢</h5>
+      </div>
+    );
   }
 
   return (
     <>
-      {!loading ? (
-        <>
-          <div className="container-fluid w-50 text-center">
-            <h1>{user.username}</h1>
-            <div className="row text-center mb-3">
-              <h6 className="col">Following: {user.following.length}</h6>
-              <h6 className="col">Followers: {user.followers.length}</h6>
-            </div>
-            <p className="m-2">{user.bio}</p>
-            {loggedUser._id === id ? (
-              <Link to="/edit-profile">
-                <button className="btn btn-outline-primary m-3">
-                  Edit profile
-                </button>
-              </Link>
+      <div className="container-fluid w-50 text-center">
+        <h1>{user.username}</h1>
+        <div className="row text-center mb-3">
+          <h6 className="col">Following: {user.following.length}</h6>
+          <h6 className="col">Followers: {user.followers.length}</h6>
+        </div>
+        <p className="m-2">{user.bio}</p>
+        {loggedUser._id === id ? (
+          <Link to="/edit-profile">
+            <button className="btn btn-outline-primary m-3">
+              Edit profile
+            </button>
+          </Link>
+        ) : (
+          <div>
+            {loggedUser.following.includes(id) ? (
+              <button className="btn btn-secondary m-3" onClick={handleUnfollow}>
+                Unfollow
+              </button>
             ) : (
-              <div>
-                {loggedUser.following.includes(id) ? (
-                  <button className="btn btn-secondary m-3" onClick={unfollowUser}>
-                    Unfollow
-                  </button>
-                ) : (
-                  <button className="btn btn-primary m-3" onClick={followUser}>
-                    Follow
-                  </button>
-                )}
-              </div>
+              <button className="btn btn-primary m-3" onClick={handleFollow}>
+                Follow
+              </button>
             )}
           </div>
-          <PostList requestURL={`/users/${id}/posts`}
-                    id={id}
-                    search=""
-                    followingList={user.following}
-                    key={seed}/>
-        </>
-      ) : (
-        <div className="center-relative">
-          <h5 className="loading-msg">Loading profile...</h5>
-        </div>
-      )}
+        )}
+      </div>
+      <PostList requestURL={`/users/${id}/posts`}
+                id={id}
+                search=""
+                followingList={user.following}
+                key={seed}/>
     </>
   );
 }
