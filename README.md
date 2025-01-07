@@ -46,7 +46,7 @@ npm i
 
 
 
-3. Edit the .env file in /backend to your MongoDB database string,
+3. Create a .env file in ```/backend``` that links the backend to your MongoDB database string,
 i.e
 ```
 DATABASE_URL = mongodb://localhost:27017/(your collection)
@@ -72,6 +72,4 @@ node server
 ```
 
 ## Future TODO
-- Add profile pictures for users
-- Add a direct messaging feature between users
-- Create stronger password validation
+- Implement React-Query to fetch and display posts, user cards, and comments
