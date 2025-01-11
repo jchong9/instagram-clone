@@ -68,6 +68,7 @@ export default function Profile() {
   };
 
   useEffect(() => {
+    document.body.style.overflow = "auto";
     setSeed(Math.random());
   }, [id]);
 
