@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import PostList from "../components/ui/PostList";
@@ -7,8 +7,7 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 
 const apiURL = API.baseURL;
 
-async function getUser({ queryKey }){
-  const [, id] = queryKey;
+async function getUser(id){
   const { data } = await axios.get(`${apiURL}/users/${id}`);
   if (!data) {
     throw new Error("User not found");
@@ -38,9 +37,10 @@ export default function Profile() {
   const [seed, setSeed] = useState(1);
   const { id } = useParams();
   const queryClient = useQueryClient();
+
   const { data: user, isLoading, isError, error } = useQuery({
     queryKey: ["user", id],
-    queryFn: getUser,
+    queryFn: () => getUser(id),
   });
 
   const followMutation = useMutation({
@@ -74,7 +74,7 @@ export default function Profile() {
   if (isLoading) {
     return (
       <div className="center-relative loading-msg">
-        <h5>Loading profile...</h5>
+        <h5>Loading profile... 😅</h5>
       </div>
     );
   }
