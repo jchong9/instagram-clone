@@ -3,72 +3,65 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import {API} from "../../utils/constants";
 import UserCard from "./UserCard";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
+
+const apiURL = API.baseURL;
+
+async function getUsers(search, page) {
+  const { data } = await axios.get(`${apiURL}/search/users/${search}`, {
+    params: {
+      username: search,
+      page: page,
+      limit: API.userDisplayLimit,
+    }
+  });
+  return data;
+}
 
 export default function UserCardList({ searchQuery }) {
-  const [allUsers, setAllUsers] = useState([]);
-  const [loadingMsg, setLoadingMsg] = useState("Loading users... 😅");
   const [currPage, setCurrPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const apiURL = API.baseURL;
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    try {
-      getUsers();
-    }
-    finally {
-      if (!allUsers || allUsers.length === 0) {
-        setLoadingMsg("No matching users... 😔");
-      }
-      else {
-        setLoadingMsg("");
-      }
-    }
-  }, [currPage]);
+  const { data: userCards, isLoading, isError } = useQuery({
+    queryKey: ["userCards", currPage],
+    queryFn: () => getUsers(searchQuery, currPage),
+  });
 
-  async function getUsers() {
-    try {
-      if (loading) {
-        return;
-      }
+  if (isLoading) {
+    return (
+      <div className="center-relative loading-msg">
+        <h5>Loading users... 😅</h5>
+      </div>
+    );
+  }
 
-      setLoading(true);
-      const { data } = await axios.get(`${apiURL}/search/users/${searchQuery}`, {
-        params: {
-          username: searchQuery,
-          page: currPage,
-          limit: API.userDisplayLimit,
-        }
-      });
-      setAllUsers(data.users);
-      setTotalPages(data.totalPages);
-    }
-    catch(err) {
-      console.error("Error getting users: " + err);
-    }
-    finally {
-      setLoading(false);
-    }
+  if (isError) {
+    return (
+      <div className="center-relative loading-msg">
+        <h5>Could not find users 😢</h5>
+      </div>
+    );
   }
 
   return (
     <div className="d-flex flex-column align-items-center">
-      {!allUsers || allUsers.length === 0 || loading ?
+      {userCards.users.length === 0 ? (
         <div className="center-relative loading-msg">
-          <h5>{loadingMsg ? loadingMsg : "Loading users..."}</h5>
+          <h5>No results for {searchQuery} 😢</h5>
         </div>
-        : allUsers.map((data) => {
-          return (
-            <UserCard user={data}
-                      key={data._id} />
-          );
-        })
-      }
-      {allUsers && allUsers.length !== 0 && (
-        <Pagination
-          totalPages={totalPages}
-          currPage={currPage}
-          handlePageChange={(page) => setCurrPage(page)} />
+      ) : (
+        <>
+          {userCards.users.map((user) => {
+            return (
+              <UserCard user={user}
+                        key={user._id} />
+            );
+          })}
+          <Pagination
+            totalPages={userCards.totalPages ? userCards.totalPages : 0}
+            currPage={currPage}
+            handlePageChange={(page) => setCurrPage(page)} />
+        </>
       )}
     </div>
   );
