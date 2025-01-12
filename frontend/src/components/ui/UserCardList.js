@@ -1,9 +1,9 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import Pagination from "./Pagination";
 import {API} from "../../utils/constants";
 import UserCard from "./UserCard";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 
 const apiURL = API.baseURL;
 
@@ -20,7 +20,6 @@ async function getUsers(search, page) {
 
 export default function UserCardList({ searchQuery }) {
   const [currPage, setCurrPage] = useState(1);
-  const queryClient = useQueryClient();
 
   const { data: userCards, isLoading, isError } = useQuery({
     queryKey: ["userCards", currPage],
@@ -45,7 +44,7 @@ export default function UserCardList({ searchQuery }) {
 
   return (
     <div className="d-flex flex-column align-items-center">
-      {userCards.users.length === 0 ? (
+      {!userCards.users || userCards.users.length === 0 ? (
         <div className="center-relative loading-msg">
           <h5>No results for {searchQuery} 😢</h5>
         </div>
