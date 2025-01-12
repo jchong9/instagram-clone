@@ -15,6 +15,7 @@ export default function CommentList({ imgDetails, onClose }) {
   const hasFetchedComments = useRef(false);
   const apiURL = API.baseURL;
 
+  // TODO: ADD REACT-QUERY TO COMMENTS
   useEffect(() => {
     if (!hasFetchedComments.current) {
       getComments();
