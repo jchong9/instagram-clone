@@ -59,13 +59,13 @@ export default function Profile() {
     },
   });
 
-  const handleFollow = () => {
+  function handleFollow() {
     followMutation.mutate({ followerID: loggedUser._id, followeeID: id });
-  };
+  }
 
-  const handleUnfollow = () => {
+  function handleUnfollow() {
     unfollowMutation.mutate({ followerID: loggedUser._id, followeeID: id });
-  };
+  }
 
   useEffect(() => {
     document.body.style.overflow = "auto";
