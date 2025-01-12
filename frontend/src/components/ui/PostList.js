@@ -4,92 +4,98 @@ import CommentList from "./CommentList";
 import Pagination from "./Pagination";
 import {API} from "../../utils/constants";
 import Post from "./Post";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+
+const apiURL = API.baseURL;
+
+async function getPosts(requestURL, followingList, page) {
+  const { data } = await axios.get(`${apiURL}${requestURL}`, {
+    params: {
+      following: followingList,
+      page: page,
+      limit: API.postDisplayLimit,
+    }
+  });
+  return data;
+}
+
+async function likePost({ userID, imageID }) {
+  const { data } = await axios.patch(`${apiURL}/add-like`, {
+    userID,
+    imageID,
+  });
+  return data;
+}
+
+async function unlikePost({ userID, imageID }) {
+  const { data } = await axios.patch(`${apiURL}/remove-like`, {
+    userID,
+    imageID,
+  });
+  return data;
+}
 
 export default function PostList({ requestURL, followingList }) {
-  const [allPosts, setAllPosts] = useState([]);
-  const [loadingMsg, setLoadingMsg] = useState("Loading posts... 😅");
   const userID = JSON.parse(localStorage.getItem("user"))._id;
   const [showComments, setShowComments] = useState(false);
   const [currPost, setCurrPost] = useState({});
-  const [isDisabled, setIsDisabled] = useState(false);
   const [currPage, setCurrPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const apiURL = API.baseURL;
 
-  useEffect(() => {
-    try {
-      getPosts();
-    }
-    finally {
-      if (!allPosts || allPosts.length === 0) {
-        setLoadingMsg("No posts here... 😔");
-      }
-      else {
-        setLoadingMsg("");
-      }
-    }
-  }, [currPage]);
+  const queryClient = useQueryClient();
 
-  async function getPosts() {
-    try {
-      if (loading) {
-        return;
-      }
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["posts", currPage],
+    queryFn: () => getPosts(requestURL, followingList, currPage),
+  });
 
-      setLoading(true);
-      const { data } = await axios.get(`${apiURL}${requestURL}`, {
-        params: {
-          following: followingList,
-          page: currPage,
-          limit: API.postDisplayLimit,
-        }
+  const likeMutation = useMutation({
+    mutationFn: likePost,
+    onMutate: async ({ userID, index}) => {
+      await queryClient.cancelQueries(["posts", currPage]);
+      const previousData = queryClient.getQueryData(["posts", currPage]);
+      queryClient.setQueryData(["posts", currPage], (oldData) => {
+        const updatedPosts = [...oldData.posts];
+        updatedPosts[index].likedBy.push(userID);
+        return { ...oldData, posts: updatedPosts };
       });
-      setAllPosts(data.posts);
-      setTotalPages(data.totalPages);
-    }
-    catch(err) {
-      console.error("Error getting posts: " + err);
-    }
-    finally {
-      setLoading(false);
-    }
+      return { previousData };
+    },
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(["posts", currPage], context.previousData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["posts", currPage]);
+    },
+  });
+
+  const unlikeMutation = useMutation({
+    mutationFn: unlikePost,
+    onMutate: async ({ userID, index }) => {
+      await queryClient.cancelQueries(["posts", currPage]);
+      const previousData = queryClient.getQueryData(["posts", currPage]);
+      queryClient.setQueryData(["posts", currPage], (oldData) => {
+        const updatedPosts = [...oldData.posts];
+        updatedPosts[index].likedBy = updatedPosts[index].likedBy.filter((id) => {
+          return id !== userID;
+        });
+        return { ...oldData, posts: updatedPosts };
+      });
+      return { previousData };
+    },
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(["posts", currPage], context.previousData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["posts", currPage]);
+    },
+  });
+
+  function handleLike(imageID, index) {
+    likeMutation.mutate({ userID, imageID, index });
   }
 
-  async function likePost(imageID, index) {
-    if (isDisabled) {
-      return;
-    }
-
-    const { data } = await axios.patch(`${apiURL}/add-like`, {
-      userID, imageID
-    });
-    const updatedPosts = [...allPosts];
-    updatedPosts.splice(index, 1, data);
-    setAllPosts(updatedPosts);
-
-    setIsDisabled(true);
-
-    setTimeout(() => {
-      setIsDisabled(false);
-    }, 2000);
-  }
-
-  async function unlikePost(imageID, index) {
-    if (isDisabled)
-      return;
-
-    const { data } = await axios.patch(`${apiURL}/remove-like`, {
-      userID, imageID
-    });
-    const updatedPosts = [...allPosts];
-    updatedPosts.splice(index, 1, data);
-    setAllPosts(updatedPosts);
-
-    setIsDisabled(true);
-    setTimeout(() => {
-      setIsDisabled(false);
-    }, 2000);
+  function handleUnlike(imageID, index) {
+    unlikeMutation.mutate({ userID, imageID, index });
   }
 
   function closeComments() {
@@ -103,37 +109,55 @@ export default function PostList({ requestURL, followingList }) {
     document.body.style.overflow = "hidden";
   }
 
+  if (isLoading) {
+    return (
+      <div className="center-relative loading-msg">
+        <h5>Loading posts... 😅</h5>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="center-relative loading-msg">
+        <h5>Could not find posts 😢</h5>
+      </div>
+    );
+  }
+
   return (
     <div className="d-flex flex-column align-items-center">
       {showComments && (
         <CommentList onClose={closeComments} imgDetails={currPost} />
       )}
-      {!allPosts || allPosts.length === 0 ?
+      {!data.posts || data.posts.length === 0 ? (
         <div className="center-relative loading-msg">
-          <h5>{loadingMsg}</h5>
+          <h5>No posts here... 😢</h5>
         </div>
-        : allPosts.filter((data) => {
-          try {
-            return require(`../../images/userContent/${data.imageURL}`);
-          }
-          catch(err) {
-            return null;
-          }
-        }).map((data, index) => {
-        return (
-          <Post post={data}
-                index={index}
-                displayComments={() => displayComments(data)}
-                likePost={() => likePost(data._id, index)}
-                unlikePost={() => unlikePost(data._id, index)}
-                key={data._id} />
-        );
-      })}
-      {allPosts && allPosts.length !== 0 && (
-        <Pagination
-          totalPages={totalPages}
-          currPage={currPage}
-          handlePageChange={(page) => setCurrPage(page)} />
+      ) : (
+        <>
+          {data.posts.filter((post) => {
+            try {
+              return require(`../../images/userContent/${post.imageURL}`);
+            }
+            catch (err) {
+              return null;
+            }
+          }).map((post, index) => {
+            return (
+              <Post post={post}
+                  index={index}
+                  displayComments={() => displayComments(post)}
+                  likePost={() => handleLike(post._id, index)}
+                  unlikePost={() => handleUnlike(post._id, index)}
+                  key={post._id} />
+            );
+          })}
+          <Pagination
+            totalPages={data.totalPages}
+            currPage={currPage}
+            handlePageChange={(page) => setCurrPage(page)} />
+        </>
       )}
     </div>
   );

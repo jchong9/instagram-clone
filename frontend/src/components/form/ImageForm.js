@@ -4,12 +4,30 @@ import CustomInput from "../ui/CustomInput";
 import {imageUploadSchema} from "../../schemas/imageUploadSchema";
 import CustomTextarea from "../ui/CustomTextarea";
 import {API} from "../../utils/constants";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
-export default function ImageForm(props) {
+const apiURL = API.baseURL;
+
+async function uploadPost(newPost) {
+  const { data } = await axios.post(`${apiURL}/posts`, newPost, {
+    headers: {"Content-Type": "multipart/form-data"},
+  });
+  return data;
+}
+
+export default function ImageForm({ onClose }) {
   const user = JSON.parse(localStorage.getItem("user"));
-  const apiURL = API.baseURL;
 
-  async function uploadImage(values, actions) {
+  const queryClient = useQueryClient();
+
+  const uploadPostMutation = useMutation({
+    mutationFn: uploadPost,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
+  function handleUpload(values, { resetForm }) {
     const formData = new FormData();
     formData.append("image", values.image);
     formData.append("caption", values.caption);
@@ -17,13 +35,12 @@ export default function ImageForm(props) {
     formData.append("userID", user._id);
     formData.append("createdAt", new Date().toLocaleDateString());
 
-    await axios.post(`${apiURL}/posts`,
-      formData, {
-      headers: {"Content-Type": "multipart/form-data"},
-    });
-
-    actions.resetForm();
-    props.onClose();
+    uploadPostMutation.mutate(formData, {
+      onSuccess: () => {
+        resetForm();
+        onClose();
+      }
+    })
   }
 
   return (
@@ -35,7 +52,7 @@ export default function ImageForm(props) {
       validationSchema={imageUploadSchema}
       validateOnChange={false}
       validateOnBlur={false}
-      onSubmit={uploadImage}
+      onSubmit={handleUpload}
     >
       {({isSubmitting, setFieldValue}) => (
         <Form>
@@ -57,7 +74,7 @@ export default function ImageForm(props) {
             rows={3}
           />
           <div className="d-flex justify-content-end align-items-center my-3">
-            <button className="btn btn-outline-light mx-2" onClick={props.onClose}>
+            <button className="btn btn-outline-light mx-2" onClick={onClose}>
               Close
             </button>
             <button disabled={isSubmitting}
