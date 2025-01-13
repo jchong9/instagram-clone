@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import CommentList from "./CommentList";
 import Pagination from "./Pagination";
@@ -43,7 +43,7 @@ export default function PostList({ requestURL, followingList }) {
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError } = useQuery({
+  const { data: postData, isLoading, isError } = useQuery({
     queryKey: ["posts", currPage],
     queryFn: () => getPosts(requestURL, followingList, currPage),
   });
@@ -130,13 +130,13 @@ export default function PostList({ requestURL, followingList }) {
       {showComments && (
         <CommentList onClose={closeComments} imgDetails={currPost} />
       )}
-      {!data.posts || data.posts.length === 0 ? (
+      {!postData.posts || postData.posts.length === 0 ? (
         <div className="center-relative loading-msg">
           <h5>No posts here... 😢</h5>
         </div>
       ) : (
         <>
-          {data.posts.filter((post) => {
+          {postData.posts.filter((post) => {
             try {
               return require(`../../images/userContent/${post.imageURL}`);
             }
@@ -154,7 +154,7 @@ export default function PostList({ requestURL, followingList }) {
             );
           })}
           <Pagination
-            totalPages={data.totalPages}
+            totalPages={postData.totalPages}
             currPage={currPage}
             handlePageChange={(page) => setCurrPage(page)} />
         </>
