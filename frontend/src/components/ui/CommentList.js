@@ -1,102 +1,105 @@
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import {API} from "../../utils/constants";
 import Comment from "./Comment";
 import {useInfiniteScroll} from "../../hooks/useInfiniteScroll";
+import {useInfiniteQuery, useMutation, useQueryClient} from "@tanstack/react-query";
+
+const apiURL = API.baseURL;
+
+async function getComments(postID, cursor) {
+  const { data } = await axios.get(`http://localhost:5000/posts/${postID}/comments`, {
+    params: {
+      cursor,
+      limit: API.commentDisplayLimit
+    },
+  });
+  return data;
+}
+
+async function uploadComment(comment) {
+  const { data } = await axios.post(`${apiURL}/comments`, comment, {
+    headers: {"Content-Type": "application/json"}
+  });
+  return data;
+}
 
 export default function CommentList({ imgDetails, onClose }) {
   const [comment, setComment] = useState('');
-  const [allComments, setAllComments] = useState([]);
-  const [submittedComment, setSubmittedComment] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
-  const [nextCursor, setNextCursor] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [hasMoreComments, setHasMoreComments] = useState(true);
-  const hasFetchedComments = useRef(false);
-  const apiURL = API.baseURL;
 
-  // TODO: ADD REACT-QUERY TO COMMENTS
-  useEffect(() => {
-    if (!hasFetchedComments.current) {
-      getComments();
-      hasFetchedComments.current = true;
-    }
-  }, []);
+  const queryClient = useQueryClient();
 
-  async function uploadComment(e) {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isLoading,
+    isError
+  } = useInfiniteQuery({
+    queryKey: ["comments", imgDetails._id],
+    queryFn: ({ pageParam }) => getComments(imgDetails._id, pageParam),
+    initialPageParam: null,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  });
+
+  const commentMutation = useMutation({
+    mutationFn: uploadComment,
+    onMutate: async (newCommentData) => {
+      await queryClient.cancelQueries(["comments", imgDetails._id]);
+      const previousData = queryClient.getQueryData(["comments", imgDetails._id]);
+      queryClient.setQueryData(["comments", imgDetails._id], (oldData) => {
+        const newComment = {
+          _id: Date.now(),
+          ...newCommentData,
+        };
+
+        const updatedPages = oldData.pages.map((page, index) => {
+          if (index === 0) {
+            return {
+              ...page,
+              comments: [newComment, ...page.comments],
+            };
+          }
+          return page;
+        });
+
+        return {
+          ...oldData,
+          pages: updatedPages,
+        };
+      });
+      return { previousData };
+    },
+    onError: (error, variables, context) => {
+      queryClient.setQueryData(["comments", imgDetails._id], context.previousData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(["comments", imgDetails._id]);
+    },
+  });
+
+  function handleSubmitComment(e) {
     e.preventDefault();
 
-    const createdTime = new Intl.DateTimeFormat('en-GB', {
+    const createdAt = new Intl.DateTimeFormat('en-GB', {
       dateStyle: 'short',
       timeStyle: 'medium'
     }).format(new Date());
-
-    const newComment = {
-      _id: Date.now(),
+    const submittedComment = {
       postID: imgDetails._id,
       userID: user._id,
       username: user.username,
       content: comment,
-      createdAt: createdTime
+      createdAt,
     }
 
-    setAllComments((prev) => [newComment, ...prev]);
-
-    try {
-      const result = await axios.post(`${apiURL}/comments`, {
-        postID: imgDetails._id,
-        userID: user._id,
-        username: user.username,
-        content: comment,
-        createdAt: createdTime
-      }, {
-        headers: {"Content-Type": "application/json"}
-      });
-      setAllComments((prev) =>
-        prev.map((comment) =>
-          comment._id === newComment._id ? { ...comment, _id: result.data._id } : comment
-        )
-      );
-    } catch (error) {
-      console.error('Error adding comment:', error);
-      setAllComments((prev) => prev.filter((comment) => comment._id !== newComment._id));
-      alert('Failed to add comment. Please try again.');
-    }
+    commentMutation.mutate(submittedComment);
     setComment("");
-    setSubmittedComment(true);
-    setTimeout(() => {
-      setSubmittedComment(false);
-    }, 3000);
   }
 
-  async function getComments() {
-    if (loading || !hasMoreComments) {
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const result = await axios.get(`http://localhost:5000/posts/${imgDetails._id}/comments`, {
-        params: {
-          cursor: nextCursor,
-          limit: API.commentDisplayLimit
-        },
-      });
-      setAllComments((prev) => [...prev, ...result.data.comments]);
-      setNextCursor(result.data.nextCursor);
-      setHasMoreComments(Boolean(result.data.nextCursor));
-    }
-    catch(err) {
-      console.error(err);
-    }
-    finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 2000);
-    }
-  }
-
-  const observerRef = useInfiniteScroll(getComments, hasMoreComments, loading);
+  const observerRef = useInfiniteScroll(fetchNextPage, hasNextPage, isLoading);
 
   return (
     <>
@@ -113,26 +116,27 @@ export default function CommentList({ imgDetails, onClose }) {
         </div>
         <div className="modal-body">
           <div className="comment-section">
-            {!loading && (!allComments || allComments.length === 0) ? (
-              <h5>No comments here...</h5>
-            ) : allComments.map((data) => {
-              return (
-                <Comment comment={data}
-                         key={data._id} />
-              );
-            })}
+            {isLoading && !isFetching && <p>Loading comments... 😅</p>}
+            {isError && <p>Error fetching comments 😢</p>}
+            {!isLoading && !isError && data.pages.map((page, index) =>
+              page.comments.length === 0 ? (
+                <p key={index}>No comments here 😢</p>
+              ) : (
+                page.comments.map((comment) => (
+                  <Comment comment={comment} key={comment._id} />
+                ))
+              )
+            )}
             <div className="center-relative" ref={observerRef}>
-              {loading && <p>Loading...</p>}
+              {isFetching && <p>Loading comments... 😅</p>}
             </div>
           </div>
-          <form onSubmit={uploadComment}>
+          <form onSubmit={handleSubmitComment}>
             <input type="text"
                    placeholder="Enter a comment..."
                    className="form-control"
                    value={comment || ""}
-                   onChange={(e) => setComment(e.target.value)}
-                   disabled={submittedComment}
-            />
+                   onChange={(e) => setComment(e.target.value)}/>
           </form>
         </div>
       </div>
