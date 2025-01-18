@@ -70,6 +70,3 @@ nodemon
 OR
 node server
 ```
-
-## Future TODO
-- Implement React-Query to fetch and display posts, user cards, and comments
